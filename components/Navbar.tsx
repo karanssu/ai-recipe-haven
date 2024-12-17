@@ -13,7 +13,11 @@ const Navbar = () => {
 
 			<div className="flex space-x-10 text-lg">
 				<Link href="/dashboard">Dashboard</Link>
-				<Link href="/admin">Admin</Link>
+				<Link href="/recipe">All Recipes</Link>
+				<Link href="/mealplan">Meal Plan</Link>
+				<Link href="/profile">Profile</Link>
+				<Link href="/signup">Sign up</Link>
+				<Link href="/login">Log in</Link>
 			</div>
 		</nav>
 	);
