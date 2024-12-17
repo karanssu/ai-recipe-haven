@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Recipe Haven
+
+AI Recipe Haven is an innovative recipe platform designed to make home cooking easier, more personalized, and community-driven. With AI-powered suggestions, robust dietary filters, and interactive features, it’s your ultimate companion for meal planning and discovering recipes that fit your preferences and lifestyle.
+
+## Features
+
+- **AI Cooking Assistant**: Get real-time cooking tips and personalized recipe suggestions using the [OpenAI API](https://platform.openai.com/overview).
+- **Diverse Recipes**: Access a vast collection of recipes across cuisines via the [Spoonacular API](https://spoonacular.com/food-api).
+- **Powerful Filters**: Search recipes by calories, cooking time, ingredients, allergens, and more.
+- **Community Interaction**: Share recipes, rate dishes, and leave comments to connect with other food enthusiasts.
+- **Meal Planning**: Plan weekly meals and generate shopping lists with ease.
+
+## Technologies Used
+
+- **Frontend**: [Next.js](https://nextjs.org) for server-side rendering and optimized performance.
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) for responsive and consistent UI design.
+- **Backend**: [Node.js](https://nodejs.org) runtime with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com) for scalable data storage.
+- **APIs**:
+  - [OpenAI](https://platform.openai.com/overview) for AI-powered chat and suggestions.
+  - [Spoonacular](https://spoonacular.com/food-api) to fetch recipes and nutritional data.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to run the project locally:
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) installed.
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone <repository-url>
+  cd <repository-folder>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create an .env file with the following keys:
 
-## Learn More
+- OPENAI_API_KEY for AI chat features.
+- SPOONACULAR_API_KEY for fetching recipe data.
 
-To learn more about Next.js, take a look at the following resources:
+### Run the Development Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start the server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+  npm run dev
+```
 
-## Deploy on Vercel
+visit http://localhost:3000 to see the app in action.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Contribution Guidelines
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We welcome feedback and contributions!
+Feel free to open an issue or submit a pull request to improve the project.
+
+### Future Plans
+
+- Mobile App Integration: A mobile version for better accessibility.
+- Recipe Video Tutorials: Add video guides for recipes.
+- Enhanced AI: Fine-tuned AI models for better personalization.
+
+Start cooking smarter with AI Recipe Haven—your one-stop recipe platform!
