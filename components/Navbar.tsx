@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const Navbar = () => {
 	return (
@@ -11,9 +10,14 @@ const Navbar = () => {
 				</Link>
 			</div>
 
-			<div className="flex space-x-10 text-lg">
+			<div className="flex space-x-5 text-sm">
+				<Link href="/admin">Admin Home</Link>
+				<Link href="/admin/dashboard">Admin Dashboard</Link>
+				<Link href="/admin/signup">Admin Signup</Link>
+				<Link href="/admin/login">Admin Login</Link>
 				<Link href="/dashboard">Dashboard</Link>
 				<Link href="/recipe">All Recipes</Link>
+				<Link href="/recipe/new">Create Recipes</Link>
 				<Link href="/mealplan">Meal Plan</Link>
 				<Link href="/profile">Profile</Link>
 				<Link href="/signup">Sign up</Link>
