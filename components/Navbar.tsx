@@ -4,10 +4,10 @@ import React from "react";
 
 const Navbar = () => {
 	return (
-		<nav className="bg-green px-16 py-2 text-black font-bold flex justify-between items-center">
+		<nav className="bg-green px-16 text-black font-bold flex justify-between items-center">
 			<div>
 				<Link href="/">
-					<Image src="/logo.png" alt="logo" width={60} height={60} />
+					<Image src="/logo.png" alt="logo" width={80} height={80} />
 				</Link>
 			</div>
 
