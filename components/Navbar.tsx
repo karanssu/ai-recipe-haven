@@ -10,11 +10,12 @@ const Navbar = () => {
 				</Link>
 			</div>
 
-			<div className="flex space-x-5 text-sm">
-				<Link href="/admin">Admin Home</Link>
-				<Link href="/admin/dashboard">Admin Dashboard</Link>
-				<Link href="/admin/signup">Admin Signup</Link>
-				<Link href="/admin/login">Admin Login</Link>
+			<div className="flex space-x-4 text-sm">
+				<Link href="/admin">Ad Home</Link>
+				<Link href="/admin/dashboard">Ad Dashboard</Link>
+				<Link href="/admin/signup">Ad Signup</Link>
+				<Link href="/admin/login">Ad Login</Link>
+				<Link href="/admin/logout">Ad Logout</Link>
 				<Link href="/dashboard">Dashboard</Link>
 				<Link href="/recipe">All Recipes</Link>
 				<Link href="/recipe/new">Create Recipes</Link>
@@ -22,6 +23,7 @@ const Navbar = () => {
 				<Link href="/profile">Profile</Link>
 				<Link href="/signup">Sign up</Link>
 				<Link href="/login">Log in</Link>
+				<Link href="/logout">Logout</Link>
 			</div>
 		</nav>
 	);
