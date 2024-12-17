@@ -14,7 +14,7 @@ AI Recipe Haven is an innovative recipe platform designed to make home cooking e
 
 - **Frontend**: [Next.js](https://nextjs.org) for server-side rendering and optimized performance.
 - **Styling**: [Tailwind CSS](https://tailwindcss.com) for responsive and consistent UI design.
-- **Backend**: [Node.js](https://nodejs.org) runtime with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com) for scalable data storage.
+- **Backend**: [Next.js](https://nextjs.org) runtime with [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com) for scalable data storage.
 - **APIs**:
   - [OpenAI](https://platform.openai.com/overview) for AI-powered chat and suggestions.
   - [Spoonacular](https://spoonacular.com/food-api) to fetch recipes and nutritional data.
@@ -32,8 +32,8 @@ Ensure you have [Node.js](https://nodejs.org/) installed.
 1. Clone the repository:
 
 ```bash
-  git clone <repository-url>
-  cd <repository-folder>
+  git clone https://github.com/karanssu/ai-recipe-haven.git
+  cd ai-recipe-haven
 ```
 
 2. Install dependencies:
