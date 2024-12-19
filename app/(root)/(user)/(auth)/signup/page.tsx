@@ -1,8 +1,15 @@
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import Form from "next/form";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const Page = () => {
+const Page = async () => {
+	const session = await auth();
+
+	if (session && session?.user) {
+		redirect("/dashboard");
+	}
+
 	return (
 		<div className="border-2 border-gray-200 p-5 rounded-lg w-[400px] ml-auto mr-auto mt-10">
 			<div className="text-4xl text-center font-semibold">Sign up</div>
