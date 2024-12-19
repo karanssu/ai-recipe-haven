@@ -1,5 +1,4 @@
 import Form from "next/form";
-import Link from "next/link";
 
 const Page = () => {
 	return (
