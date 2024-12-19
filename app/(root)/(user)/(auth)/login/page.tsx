@@ -1,4 +1,5 @@
 import Form from "next/form";
+import Link from "next/link";
 
 const Page = () => {
 	return (
@@ -49,6 +50,13 @@ const Page = () => {
 						Log in with Google
 					</button>
 				</Form>
+			</div>
+
+			<div className="text-center mt-5">
+				<span>Don&#39;t have an account?</span>
+				<Link className="ml-2 text-blue-500" href="/signup">
+					Sign up
+				</Link>
 			</div>
 		</div>
 	);
