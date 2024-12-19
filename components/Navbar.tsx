@@ -2,17 +2,6 @@ import { auth, signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
-// type User = {
-// 	_id: string;
-// 	name: string;
-// 	username: string;
-// 	email: string;
-// 	password: string;
-// 	googleId: string;
-// 	profileImage: string;
-// 	role: string;
-// };
-
 const Navbar = async () => {
 	const session = await auth();
 
