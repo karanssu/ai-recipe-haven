@@ -1,3 +1,4 @@
+import { signIn } from "@/auth";
 import Form from "next/form";
 import Link from "next/link";
 
@@ -58,7 +59,8 @@ const Page = () => {
 				<Form
 					action={async () => {
 						"use server";
-						console.log("Sign up with Google");
+
+						await signIn("google");
 					}}
 				>
 					<button
