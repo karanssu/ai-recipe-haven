@@ -1,7 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
 
+type User = {
+	_id: string;
+	name: string;
+	username: string;
+	email: string;
+	password: string;
+	googleId: string;
+	profileImage: string;
+	role: string;
+};
+
 const Navbar = () => {
+	const user: User = {
+		_id: "1",
+		name: "Test User",
+		username: "testuser",
+		email: "test@gmail.com",
+		password: "password",
+		googleId: "googleId",
+		profileImage: "profileImage",
+		role: "user",
+	};
+
+	console.log(user);
+
 	return (
 		<nav className="bg-Green px-16 text-black font-bold flex justify-between items-center">
 			<div>
