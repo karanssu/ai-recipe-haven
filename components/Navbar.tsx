@@ -11,6 +11,9 @@ const Navbar = () => {
 			</div>
 
 			<div className="flex space-x-4 text-sm">
+				<div className="">
+					<Link href="/profile">Hello, {"Test User"}</Link>
+				</div>
 				<Link href="/admin">Ad Home</Link>
 				<Link href="/admin/dashboard">Ad Dashboard</Link>
 				<Link href="/admin/signup">Ad Signup</Link>
