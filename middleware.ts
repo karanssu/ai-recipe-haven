@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
 
 	if (!session?.user) {
 		if (
-			request.nextUrl.pathname.match("/?") ||
+			request.nextUrl.pathname == "/" ||
 			request.nextUrl.pathname.startsWith("/login") ||
 			request.nextUrl.pathname.startsWith("/signup") ||
 			request.nextUrl.pathname.startsWith("/recipe") ||
