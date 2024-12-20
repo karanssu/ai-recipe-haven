@@ -22,6 +22,15 @@ export async function middleware(request: NextRequest) {
 
 			return NextResponse.redirect(new URL("/login", request.url));
 		}
+	} else {
+		if (
+			request.nextUrl.pathname.startsWith("/login") ||
+			request.nextUrl.pathname.startsWith("/signup")
+		) {
+			return NextResponse.redirect(new URL("/dashboard", request.url));
+		} else if (request.nextUrl.pathname.startsWith("/admin/login")) {
+			return NextResponse.redirect(new URL("/admin", request.url));
+		}
 	}
 }
 

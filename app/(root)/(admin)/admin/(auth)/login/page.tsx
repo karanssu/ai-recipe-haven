@@ -1,14 +1,6 @@
-import { auth } from "@/auth";
 import Form from "next/form";
-import { redirect } from "next/navigation";
 
 const Page = async () => {
-	const session = await auth();
-
-	if (session && session?.user) {
-		redirect("/admin");
-	}
-
 	return (
 		<div className="border-2 border-gray-200 p-5 rounded-lg w-[400px] ml-auto mr-auto mt-10">
 			<div className="text-4xl text-center font-semibold">Admin Login</div>
