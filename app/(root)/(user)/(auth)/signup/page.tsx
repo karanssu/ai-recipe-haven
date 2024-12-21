@@ -1,6 +1,7 @@
 import { signIn } from "@/auth";
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
+import { encodePassword } from "@/utils/password";
 import Form from "next/form";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -19,9 +20,15 @@ const Page = () => {
 						const username = formData.get("username") as string;
 						const email = formData.get("email") as string;
 						const password = formData.get("password") as string;
+						const hashPassword = encodePassword(password);
 
 						await connectMongoDB();
-						await User.create({ name, username, email, password });
+						await User.create({
+							name,
+							username,
+							email,
+							password: hashPassword,
+						});
 
 						redirect("/login");
 					}}
