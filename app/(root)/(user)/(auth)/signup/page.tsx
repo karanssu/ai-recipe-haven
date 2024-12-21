@@ -3,6 +3,7 @@ import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import Form from "next/form";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const Page = () => {
 	return (
@@ -22,8 +23,7 @@ const Page = () => {
 						await connectMongoDB();
 						await User.create({ name, username, email, password });
 
-						console.log("Singup form data:");
-						console.log(JSON.stringify({ name, username, email, password }));
+						redirect("/login");
 					}}
 				>
 					<input
