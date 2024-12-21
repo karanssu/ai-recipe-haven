@@ -14,6 +14,12 @@ const Page = async () => {
 						console.log("Sign up with email and password");
 					}}
 				>
+					<div
+						className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+						role="alert"
+					>
+						Invalid email or password.
+					</div>
 					<input
 						type="text"
 						name="usernameEmail"
