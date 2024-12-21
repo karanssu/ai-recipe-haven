@@ -1,4 +1,6 @@
 import { signIn } from "@/auth";
+import { connectMongoDB } from "@/lib/mongodb";
+import User from "@/models/user";
 import Form from "next/form";
 import Link from "next/link";
 
@@ -16,6 +18,9 @@ const Page = () => {
 						const username = formData.get("username") as string;
 						const email = formData.get("email") as string;
 						const password = formData.get("password") as string;
+
+						await connectMongoDB();
+						await User.create({ name, username, email, password });
 
 						console.log("Singup form data:");
 						console.log(JSON.stringify({ name, username, email, password }));
