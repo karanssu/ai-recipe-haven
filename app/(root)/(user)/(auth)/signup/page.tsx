@@ -9,9 +9,16 @@ const Page = () => {
 
 			<div className="mt-5">
 				<Form
-					action={async () => {
+					action={async (formData: FormData) => {
 						"use server";
-						console.log("Sign up with email and password");
+
+						const name = formData.get("name") as string;
+						const username = formData.get("username") as string;
+						const email = formData.get("email") as string;
+						const password = formData.get("password") as string;
+
+						console.log("Singup form data:");
+						console.log(JSON.stringify({ name, username, email, password }));
 					}}
 				>
 					<input
