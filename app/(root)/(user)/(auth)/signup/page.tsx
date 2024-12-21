@@ -23,6 +23,19 @@ const Page = () => {
 						const hashPassword = encodePassword(password);
 
 						await connectMongoDB();
+
+						const usernameEmailExists = await User.findOne({
+							$or: [{ username }, { email }],
+						}).select(["_id", "username", "email"]);
+
+						if (usernameEmailExists) {
+							if (usernameEmailExists.username === username)
+								console.log("Username already exists");
+							if (usernameEmailExists.email === email)
+								console.log("Email already exists");
+							return;
+						}
+
 						await User.create({
 							name,
 							username,
