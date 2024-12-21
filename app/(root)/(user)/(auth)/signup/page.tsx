@@ -16,11 +16,11 @@ const Page = () => {
 					action={async (formData: FormData) => {
 						"use server";
 
-						const name = formData.get("name") as string;
-						const username = formData.get("username") as string;
-						const email = formData.get("email") as string;
-						const password = formData.get("password") as string;
-						const hashPassword = encodePassword(password);
+						const name = formData.get("name")?.toString().trim();
+						const username = formData.get("username")?.toString().trim();
+						const email = formData.get("email")?.toString().trim();
+						const password = formData.get("password")?.toString().trim();
+						const hashPassword = encodePassword(password as string);
 
 						await connectMongoDB();
 
