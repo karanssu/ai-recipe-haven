@@ -19,6 +19,7 @@ const Navbar = async () => {
 						<div className="">
 							<Link href="/profile">Hello, {session?.user?.name}</Link>
 						</div>
+						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipes</Link>
 						<Link href="/mealplan">Meal Plan</Link>
 						<Link href="/profile">Profile</Link>
