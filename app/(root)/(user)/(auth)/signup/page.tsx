@@ -19,19 +19,19 @@ const Page = () => {
 						const name = formData.get("name")?.toString().trim();
 						const username = formData.get("username")?.toString().trim();
 						const email = formData.get("email")?.toString().trim();
-						const password = formData.get("password")?.toString().trim();
+						const password = formData.get("password")?.toString();
 						const hashPassword = encodePassword(password as string);
 
 						await connectMongoDB();
 
-						const usernameEmailExists = await User.findOne({
+						const usernameEmailExist = await User.findOne({
 							$or: [{ username }, { email }],
 						}).select(["_id", "username", "email"]);
 
-						if (usernameEmailExists) {
-							if (usernameEmailExists.username === username)
+						if (usernameEmailExist) {
+							if (usernameEmailExist.username === username)
 								console.log("Username already exists");
-							if (usernameEmailExists.email === email)
+							if (usernameEmailExist.email === email)
 								console.log("Email already exists");
 							return;
 						}

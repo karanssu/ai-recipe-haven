@@ -9,9 +9,10 @@ const Page = () => {
 
 			<div className="mt-5">
 				<Form
-					action={async () => {
+					action={async (formData: FormData) => {
 						"use server";
-						console.log("Sign up with email and password");
+
+						await signIn("credentials", formData);
 					}}
 				>
 					<div
