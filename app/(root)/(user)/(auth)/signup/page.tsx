@@ -1,10 +1,7 @@
 import { signIn } from "@/auth";
-import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/app/models/user";
-import { encodePassword } from "@/app/utils/password";
 import Form from "next/form";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import SignupForm from "@/app/ui/signup-form";
 
 const Page = () => {
 	return (
@@ -12,71 +9,7 @@ const Page = () => {
 			<div className="text-4xl text-center font-semibold">Sign up</div>
 
 			<div className="mt-5">
-				<Form
-					action={async (formData: FormData) => {
-						"use server";
-
-						const name = formData.get("name")?.toString().trim();
-						const username = formData.get("username")?.toString().trim();
-						const email = formData.get("email")?.toString().trim();
-						const password = formData.get("password")?.toString();
-						const hashPassword = encodePassword(password as string);
-
-						await connectMongoDB();
-
-						const usernameEmailExist = await User.findOne({
-							$or: [{ username }, { email }],
-						}).select(["_id", "username", "email"]);
-
-						if (usernameEmailExist) {
-							if (usernameEmailExist.username === username)
-								console.log("Username already exists");
-							if (usernameEmailExist.email === email)
-								console.log("Email already exists");
-							return;
-						}
-
-						await User.create({
-							name,
-							username,
-							email,
-							password: hashPassword,
-						});
-
-						redirect("/login");
-					}}
-				>
-					<input
-						type="text"
-						name="name"
-						placeholder="Full Name"
-						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
-					/>
-					<input
-						type="text"
-						name="username"
-						placeholder="Username"
-						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
-					/>
-					<input
-						type="email"
-						name="email"
-						placeholder="Email"
-						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
-					/>
-					<input
-						type="password"
-						name="password"
-						placeholder="Password"
-						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
-					/>
-					<button
-						type="submit"
-						className="bg-Green hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
-					>
-						Sign up
-					</button>
-				</Form>
+				<SignupForm />
 			</div>
 
 			<hr className="mt-5" />
