@@ -36,12 +36,6 @@ const Page = () => {
 						placeholder="Password"
 						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
 					/>
-					<input
-						type="password"
-						name="confirmPassword"
-						placeholder="Confirm Password"
-						className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
-					/>
 					<button
 						type="submit"
 						className="bg-Green hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5 mb-5"
