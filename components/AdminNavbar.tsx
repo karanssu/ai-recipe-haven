@@ -1,10 +1,11 @@
+import { verifySession } from "@/app/lib/dal";
 import { deleteSession } from "@/app/lib/session";
-import { auth, signOut } from "@/auth";
+import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 const AdminNavbar = async () => {
-	const session = await auth();
+	const session = await verifySession();
 
 	return (
 		<nav className="bg-Green px-16 text-black font-bold flex justify-between items-center">
@@ -15,10 +16,10 @@ const AdminNavbar = async () => {
 			</div>
 
 			<div className="flex space-x-4 text-sm">
-				{session && session?.user ? (
+				{session && session?.userId ? (
 					<>
 						<div className="">
-							<Link href="/admin">Hello, {session?.user?.name}</Link>
+							<Link href="/admin">Hello, {session?.userId as string}</Link>
 						</div>
 						<Link href="/admin">Admin Home</Link>
 						<Link href="/admin/dashboard">Admin Dashboard</Link>
