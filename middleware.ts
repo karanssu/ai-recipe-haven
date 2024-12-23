@@ -5,13 +5,13 @@ import { cookies } from "next/headers";
 const authRoutes = ["/login", "/signup", "/admin/login"];
 const adminRoutes = ["/admin", "/admin/dashboard"];
 const superAdminRoutes = ["/admin/signup"];
-const publicRoutes = ["/", "/recipe", ...authRoutes];
+// const publicRoutes = ["/", "/recipe", ...authRoutes];
 const protectedRoutes = ["/dashboard", "/profile", "/mealplan", "/recipe/new"];
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 	const isProtectedRoute = protectedRoutes.includes(path);
-	const isPublicRoute = publicRoutes.includes(path);
+	// const isPublicRoute = publicRoutes.includes(path);
 	const isAuthRoute = authRoutes.includes(path);
 	const isAdminRoute = adminRoutes.includes(path);
 	const isSuperAdminRoute = superAdminRoutes.includes(path);

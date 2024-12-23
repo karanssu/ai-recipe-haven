@@ -1,7 +1,7 @@
 import { signIn } from "@/auth";
 import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/models/user";
-import { encodePassword } from "@/utils/password";
+import User from "@/app/models/user";
+import { encodePassword } from "@/app/utils/password";
 import Form from "next/form";
 import Link from "next/link";
 import { redirect } from "next/navigation";

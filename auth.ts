@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { comparePassword, encodePassword } from "@/utils/password";
+import { comparePassword, encodePassword } from "@/app/utils/password";
 import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/models/user";
+import User from "@/app/models/user";
 import { createSession } from "./app/lib/session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
