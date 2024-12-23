@@ -3,17 +3,10 @@ import { decrypt } from "@/app/lib/session";
 import { cookies } from "next/headers";
 
 const authRoutes = ["/login", "/signup", "/admin/login"];
-const adminRoutes = ["/admin"];
+const adminRoutes = ["/admin", "/admin/dashboard"];
 const superAdminRoutes = ["/admin/signup"];
 const publicRoutes = ["/", "/recipe", ...authRoutes];
-const protectedRoutes = [
-	"/dashboard",
-	"/profile",
-	"/mealplan",
-	"/recipe/new",
-	...adminRoutes,
-	...superAdminRoutes,
-];
+const protectedRoutes = ["/dashboard", "/profile", "/mealplan", "/recipe/new"];
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
