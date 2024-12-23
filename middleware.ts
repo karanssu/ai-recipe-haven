@@ -1,35 +1,57 @@
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
-// import { auth } from "@/auth";
+import { NextRequest, NextResponse } from "next/server";
+import { decrypt } from "@/app/lib/session";
+import { cookies } from "next/headers";
+
+const authRoutes = ["/login", "/signup", "/admin/login"];
+const publicRoutes = [...authRoutes, "/recipe"];
+const protectedRoutes = ["/dashboard"];
+const adminRoutes = ["/admin"];
+const superAdminRoutes = ["/super-admin"];
 
 export async function middleware(request: NextRequest) {
-	// 	const session = await auth();
-	// 	if (!session?.user) {
-	// 		if (
-	// 			request.nextUrl.pathname == "/" ||
-	// 			request.nextUrl.pathname.startsWith("/login") ||
-	// 			request.nextUrl.pathname.startsWith("/signup") ||
-	// 			request.nextUrl.pathname.startsWith("/recipe") ||
-	// 			request.nextUrl.pathname.match("/dashboard$") ||
-	// 			request.nextUrl.pathname.startsWith("/admin/login")
-	// 		) {
-	// 			return NextResponse.next();
-	// 		} else {
-	// 			if (request.nextUrl.pathname.startsWith("/admin")) {
-	// 				return NextResponse.redirect(new URL("/admin/login", request.url));
-	// 			}
-	// 			return NextResponse.redirect(new URL("/login", request.url));
-	// 		}
-	// 	} else {
-	// 		if (
-	// 			request.nextUrl.pathname.startsWith("/login") ||
-	// 			request.nextUrl.pathname.startsWith("/signup")
-	// 		) {
-	// 			return NextResponse.redirect(new URL("/dashboard", request.url));
-	// 		} else if (request.nextUrl.pathname.startsWith("/admin/login")) {
-	// 			return NextResponse.redirect(new URL("/admin", request.url));
-	// 		}
-	// 	}
+	const path = request.nextUrl.pathname;
+	const isProtectedRoute = protectedRoutes.includes(path);
+	const isPublicRoute = publicRoutes.includes(path);
+	const isAuthRoute = authRoutes.includes(path);
+	const isAdminRoute = adminRoutes.includes(path);
+	const isSuperAdminRoute = superAdminRoutes.includes(path);
+
+	if (isPublicRoute) {
+		return NextResponse.next();
+	}
+
+	const cookie = (await cookies()).get("session")?.value;
+	const session = await decrypt(cookie);
+
+	// Redirect to /login if the user is not authenticated
+	if (!session?.userId) {
+		if (isProtectedRoute) {
+			return NextResponse.redirect(new URL("/login", request.nextUrl));
+		}
+		if (isAdminRoute || isSuperAdminRoute) {
+			return NextResponse.redirect(new URL("/admin/login", request.nextUrl));
+		}
+	}
+
+	// Redirect to /dashboard if the user is authenticated
+	if (session?.userId && isAuthRoute) {
+		if (session.role === "user") {
+			return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+		} else {
+			return NextResponse.redirect(new URL("/admin", request.nextUrl));
+		}
+	}
+
+	// Redirect to /dashboard if the user is authenticated and tries to access higher role routes
+	if (session?.userId) {
+		if (session.role === "user" && (isAdminRoute || isSuperAdminRoute)) {
+			return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+		} else if (session.role === "admin" && isSuperAdminRoute) {
+			return NextResponse.redirect(new URL("/admin", request.nextUrl));
+		}
+	}
+
+	return NextResponse.next();
 }
 
 export const config = {
