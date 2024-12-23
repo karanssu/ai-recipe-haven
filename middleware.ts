@@ -47,6 +47,13 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Redirect to / if the non superadmin user tries to access superadmin routes
+	if (session?.userId && isSuperAdminRoute) {
+		if (session.role !== "superadmin") {
+			return NextResponse.redirect(new URL("/", request.nextUrl));
+		}
+	}
+
 	return NextResponse.next();
 }
 
