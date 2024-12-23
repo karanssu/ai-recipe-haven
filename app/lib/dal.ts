@@ -12,5 +12,5 @@ export const verifySession = cache(async () => {
 		return null;
 	}
 
-	return { isAuth: true, userId: session.userId };
+	return { isAuth: true, userId: session?.userId };
 });

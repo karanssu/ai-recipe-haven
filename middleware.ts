@@ -16,10 +16,6 @@ export async function middleware(request: NextRequest) {
 	const isAdminRoute = adminRoutes.includes(path);
 	const isSuperAdminRoute = superAdminRoutes.includes(path);
 
-	if (isPublicRoute) {
-		return NextResponse.next();
-	}
-
 	const cookie = (await cookies()).get("session")?.value;
 	const session = await decrypt(cookie);
 

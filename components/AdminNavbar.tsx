@@ -1,3 +1,4 @@
+import { deleteSession } from "@/app/lib/session";
 import { auth, signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,6 +27,7 @@ const AdminNavbar = async () => {
 							action={async () => {
 								"use server";
 
+								deleteSession();
 								await signOut({ redirectTo: "/" });
 							}}
 						>

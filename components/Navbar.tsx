@@ -1,9 +1,11 @@
-import { auth, signOut } from "@/auth";
+import { verifySession } from "@/app/lib/dal";
+import { deleteSession } from "@/app/lib/session";
+import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = async () => {
-	const session = await auth();
+	const session = await verifySession();
 
 	return (
 		<nav className="bg-Green px-16 text-black font-bold flex justify-between items-center">
@@ -14,10 +16,10 @@ const Navbar = async () => {
 			</div>
 
 			<div className="flex space-x-4 text-sm">
-				{session && session?.user ? (
+				{session && session?.userId ? (
 					<>
 						<div className="">
-							<Link href="/profile">Hello, {session?.user?.name}</Link>
+							<Link href="/profile">Hello, {session?.userId as string}</Link>
 						</div>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipes</Link>
@@ -27,6 +29,7 @@ const Navbar = async () => {
 							action={async () => {
 								"use server";
 
+								deleteSession();
 								await signOut({ redirectTo: "/" });
 							}}
 						>
