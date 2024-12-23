@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { connectMongoDB } from "@/lib/mongodb";
+import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/models/user";
 import { encodePassword } from "@/utils/password";
 import Form from "next/form";
