@@ -1,45 +1,12 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
-import { comparePassword, encodePassword } from "@/app/utils/password";
+import { encodePassword } from "@/app/utils/password";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
 import { createSession } from "./app/lib/session";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-	providers: [
-		Google,
-		Credentials({
-			credentials: {
-				usernameEmail: {},
-				password: {},
-			},
-			authorize: async (credentials) => {
-				let user = null;
-
-				const usernameEmail = credentials.usernameEmail
-					?.toString()
-					.trim() as string;
-				const password = credentials.password as string;
-
-				const userExists = await getUserByUsernameOrEmailDB(usernameEmail);
-
-				const userAuthorized =
-					userExists && comparePassword(password, userExists.password);
-
-				if (userAuthorized) {
-					user = userExists;
-					user.id = user._id;
-					await createSession(user._id, user.role);
-					console.log("User authorized");
-				} else {
-					console.log("User not authorized");
-				}
-
-				return user;
-			},
-		}),
-	],
+	providers: [Google],
 	callbacks: {
 		async signIn({ account, profile }) {
 			if (account?.provider === "google") {

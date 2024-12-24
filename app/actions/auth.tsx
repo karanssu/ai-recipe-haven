@@ -1,5 +1,10 @@
-import { SignupFormSchema, FormState } from "@/app/lib/definitions";
+import {
+	SignupFormSchema,
+	FormState,
+	LoginFormState,
+} from "@/app/lib/definitions";
 import { redirect } from "next/navigation";
+import { createSession } from "../lib/session";
 
 export async function signup(state: FormState, formData: FormData) {
 	const validatedFields = SignupFormSchema.safeParse({
@@ -39,6 +44,32 @@ export async function signup(state: FormState, formData: FormData) {
 		const data = await user.json();
 		return {
 			errors: data.errors,
+		};
+	}
+}
+
+export async function login(state: LoginFormState, formData: FormData) {
+	const usernameEmail = formData.get("usernameEmail")?.toString().trim();
+	const password = formData.get("password")?.toString().trim();
+
+	const data = await fetch("/api/auth/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			usernameEmail,
+			password,
+		}),
+	});
+	const user = await data.json();
+
+	if (data.ok) {
+		await createSession(user._id, user.role);
+		redirect("/dashboard");
+	} else {
+		return {
+			error: user.error,
 		};
 	}
 }

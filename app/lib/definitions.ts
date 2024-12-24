@@ -33,6 +33,13 @@ export type FormState =
 	  }
 	| undefined;
 
+export type LoginFormState =
+	| {
+			error?: string;
+			message?: string;
+	  }
+	| undefined;
+
 export type SessionPayload = {
 	userId: string | number;
 	role: string;
