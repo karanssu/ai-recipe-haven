@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				if (userAuthorized) {
 					user = userExists;
 					user.id = user._id;
-					createSession(user._id, user.role);
+					await createSession(user._id, user.role);
 					console.log("User authorized");
 				} else {
 					console.log("User not authorized");
@@ -69,12 +69,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 					}
 				}
 
-				createSession(user._id, user.role);
+				await createSession(user._id, user.role);
 			}
 			return true;
 		},
 		async session({ session, user }) {
-			createSession(user.id, "user");
+			await createSession(user.id, "user");
 			session.user.id = user.id;
 			return session;
 		},

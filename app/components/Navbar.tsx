@@ -29,7 +29,7 @@ const Navbar = async () => {
 							action={async () => {
 								"use server";
 
-								deleteSession();
+								await deleteSession();
 								await signOut({ redirectTo: "/" });
 							}}
 						>

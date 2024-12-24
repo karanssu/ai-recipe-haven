@@ -28,7 +28,7 @@ const AdminNavbar = async () => {
 							action={async () => {
 								"use server";
 
-								deleteSession();
+								await deleteSession();
 								await signOut({ redirectTo: "/" });
 							}}
 						>

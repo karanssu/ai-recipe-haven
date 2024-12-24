@@ -55,7 +55,7 @@ export async function signup(state: FormState, formData: FormData) {
 		// 	};
 		// }
 
-		// createSession(user._id, "user");
+		// await createSession(user._id, "user");
 
 		redirect("/login");
 	} catch (error) {
