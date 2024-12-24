@@ -73,3 +73,29 @@ export async function login(state: LoginFormState, formData: FormData) {
 		};
 	}
 }
+
+export async function adminLogin(state: LoginFormState, formData: FormData) {
+	const usernameEmail = formData.get("usernameEmail")?.toString().trim();
+	const password = formData.get("password")?.toString().trim();
+
+	const data = await fetch("/api/admin/auth/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			usernameEmail,
+			password,
+		}),
+	});
+	const user = await data.json();
+
+	if (data.ok) {
+		await createSession(user._id, user.role);
+		redirect("/admin");
+	} else {
+		return {
+			error: user.error,
+		};
+	}
+}

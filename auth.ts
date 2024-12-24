@@ -51,8 +51,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 async function getUserByUsernameOrEmailDB(usernameEmail: string) {
 	await connectMongoDB();
 
-	const userExists = await User.findOne({
+	const user = await User.findOne({
 		$or: [{ username: usernameEmail }, { email: usernameEmail }],
 	});
-	return userExists;
+	return user;
 }

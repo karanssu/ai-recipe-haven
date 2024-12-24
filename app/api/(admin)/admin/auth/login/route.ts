@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 	} else {
 		return Response.json(
 			{
-				error: "Invalid credentials",
+				error: "Invalid admin credentials",
 			},
 			{ status: 401 }
 		);
@@ -35,8 +35,10 @@ export async function POST(req: Request) {
 async function getUserByUsernameOrEmailDB(usernameEmail: string) {
 	await connectMongoDB();
 
-	const userExists = await User.findOne({
+	const user = await User.findOne({
 		$or: [{ username: usernameEmail }, { email: usernameEmail }],
+		role: { $in: ["admin", "superadmin"] },
 	});
-	return userExists;
+
+	return user;
 }
