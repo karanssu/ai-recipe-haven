@@ -6,12 +6,6 @@ export async function POST(req: Request) {
 	const { name, username, email, password } = await req.json();
 	const hashedPassword = encodePassword(password as string);
 
-	console.log("name", name);
-	console.log("username", username);
-	console.log("email", email);
-	console.log("password", password);
-	console.log("password", password);
-
 	try {
 		await connectMongoDB();
 
