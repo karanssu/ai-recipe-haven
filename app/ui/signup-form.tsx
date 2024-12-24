@@ -8,9 +8,17 @@ export default function SignupForm() {
 
 	return (
 		<form action={action}>
+			{state?.errors?.error && (
+				<div
+					className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+					role="alert"
+				>
+					{state.errors.error}
+				</div>
+			)}
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-2"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
 					name="name"
 					type="text"
 					placeholder="Full Name"
@@ -56,7 +64,7 @@ export default function SignupForm() {
 				<div>
 					<p className="text-red-500 text-sm mt-1">Password must:</p>
 					<ul>
-						{state.errors.password.map((error) => (
+						{state.errors.password.map((error: string) => (
 							<li className="text-red-500 text-sm mt-1" key={error}>
 								- {error}
 							</li>
