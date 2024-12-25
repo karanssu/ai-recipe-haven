@@ -74,6 +74,48 @@ export async function login(state: LoginFormState, formData: FormData) {
 	}
 }
 
+export async function adminSignup(state: FormState, formData: FormData) {
+	const validatedFields = SignupFormSchema.safeParse({
+		name: formData.get("name"),
+		username: formData.get("username"),
+		email: formData.get("email"),
+		password: formData.get("password"),
+	});
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		};
+	}
+
+	const name = validatedFields.data.name.trim();
+	const username = validatedFields.data.username.trim();
+	const email = validatedFields.data.email.trim();
+	const password = validatedFields.data.password;
+
+	const user = await fetch("/api/admin/auth/signup", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			name,
+			username,
+			email,
+			password,
+		}),
+	});
+
+	if (user.ok) {
+		redirect("/admin");
+	} else {
+		const data = await user.json();
+		return {
+			errors: data.errors,
+		};
+	}
+}
+
 export async function adminLogin(state: LoginFormState, formData: FormData) {
 	const usernameEmail = formData.get("usernameEmail")?.toString().trim();
 	const password = formData.get("password")?.toString().trim();
