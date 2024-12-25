@@ -36,14 +36,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 					}
 				}
 
-				await createSession(user._id, user.role);
+				await createSession(
+					user._id,
+					user.name,
+					user.username,
+					user.email,
+					user.profileImage,
+					user.role
+				);
 			}
 			return true;
-		},
-		async session({ session, user }) {
-			await createSession(user.id, "user");
-			session.user.id = user.id;
-			return session;
 		},
 	},
 });

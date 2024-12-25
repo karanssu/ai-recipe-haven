@@ -28,6 +28,10 @@ export async function POST(req: Request) {
 		return Response.json(
 			{
 				_id: userExists._id,
+				name: userExists.name,
+				username: userExists.username,
+				email: userExists.email,
+				profileImage: userExists.profileImage,
 				role: userExists.role,
 			},
 			{ status: 200 }

@@ -65,7 +65,14 @@ export async function login(state: LoginFormState, formData: FormData) {
 	const user = await data.json();
 
 	if (data.ok) {
-		await createSession(user._id, user.role);
+		await createSession(
+			user._id,
+			user.name,
+			user.username,
+			user.email,
+			user.profileImage,
+			user.role
+		);
 		redirect("/dashboard");
 	} else {
 		return {
@@ -133,7 +140,14 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 	const user = await data.json();
 
 	if (data.ok) {
-		await createSession(user._id, user.role);
+		await createSession(
+			user._id,
+			user.name,
+			user.username,
+			user.email,
+			user.profileImage,
+			user.role
+		);
 		redirect("/admin");
 	} else {
 		return {
