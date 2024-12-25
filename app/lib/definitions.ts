@@ -48,3 +48,13 @@ export type SessionPayload = {
 	role: string;
 	expiresAt: Date;
 };
+
+export type User = {
+	_id: string | number;
+	name: string;
+	username: string;
+	email: string;
+	password?: string;
+	profileImage: string;
+	role: string;
+};
