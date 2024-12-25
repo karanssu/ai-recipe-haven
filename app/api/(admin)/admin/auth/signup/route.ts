@@ -3,6 +3,16 @@ import User from "@/app/models/user";
 import { encodePassword } from "@/app/utils/password";
 
 export async function POST(req: Request) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	const { name, username, email, password } = await req.json();
 	const hashedPassword = encodePassword(password as string);
 
