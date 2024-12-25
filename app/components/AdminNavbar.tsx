@@ -19,7 +19,7 @@ const AdminNavbar = async () => {
 				{session && session?.userId ? (
 					<>
 						<div className="">
-							<Link href="/admin">Hello, {session?.userId as string}</Link>
+							<Link href="/admin">Hello, {session?.name as string}</Link>
 						</div>
 						<Link href="/admin">Admin Home</Link>
 						<Link href="/admin/dashboard">Admin Dashboard</Link>

@@ -19,7 +19,7 @@ const Navbar = async () => {
 				{session && session?.userId ? (
 					<>
 						<div className="">
-							<Link href="/profile">Hello, {session?.userId as string}</Link>
+							<Link href="/profile">Hello, {session?.name as string}</Link>
 						</div>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipes</Link>
