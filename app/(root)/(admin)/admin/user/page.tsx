@@ -1,36 +1,61 @@
+import { verifySession } from "@/app/lib/dal";
+import { connectMongoDB } from "@/app/lib/mongodb";
+import User from "@/app/models/user";
 import UserTable from "@/app/ui/userTable";
+import { unstable_cache } from "next/cache";
 import React from "react";
 
-const Page = () => {
-	const users = [
-		{
-			_id: 1,
-			name: "John Doe",
-			username: "john_doe",
-			email: "jogndoe@mgail.com",
-			password: "password",
-			profileImage: "https://randomuserlink.com",
-			role: "user",
-		},
-		{
-			_id: 2,
-			name: "Maria",
-			username: "maria_123",
-			email: "maria@mgail.com",
-			password: "password",
-			profileImage: "https://randomuserlink.com",
-			role: "user",
-		},
-		{
-			_id: 3,
-			name: "Bruse Wayne",
-			username: "bruse_wayne",
-			email: "bruse@mgail.com",
-			password: "password",
-			profileImage: "https://randomuserlink.com",
-			role: "user",
-		},
-	];
+const getUsers = async () => {
+	"use server";
+
+	let users = [];
+	let role = "admin";
+	const session = await verifySession();
+	if (session?.role === "superadmin") {
+		role = "superadmin";
+	}
+
+	if (role === "admin") {
+		users = await getUsersForAdmin();
+	} else if (role === "superadmin") {
+		users = await getUsersForSuperAdmin();
+	}
+
+	return users;
+};
+
+const getUsersForAdmin = unstable_cache(
+	async () => {
+		"use server";
+
+		await connectMongoDB();
+
+		const users = await User.find({ role: "user" }).exec();
+
+		return users;
+	},
+	["usersForAdmin"],
+	{ revalidate: 10, tags: ["usersForAdmin"] }
+);
+
+const getUsersForSuperAdmin = unstable_cache(
+	async () => {
+		"use server";
+
+		await connectMongoDB();
+
+		const users = await User.find({
+			role: { $in: ["user", "admin"] },
+		}).exec();
+
+		return users;
+	},
+	["usersForSuperAdmin"],
+	{ revalidate: 10, tags: ["usersForSuperAdmin"] }
+);
+
+const Page = async () => {
+	const users = await getUsers();
 
 	return (
 		<>
