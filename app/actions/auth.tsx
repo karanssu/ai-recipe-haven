@@ -69,7 +69,6 @@ export async function login(state: LoginFormState, formData: FormData) {
 			user._id,
 			user.name,
 			user.username,
-			user.email,
 			user.profileImage,
 			user.role
 		);
@@ -144,7 +143,6 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 			user._id,
 			user.name,
 			user.username,
-			user.email,
 			user.profileImage,
 			user.role
 		);

@@ -17,7 +17,6 @@ export const verifySession = cache(async () => {
 		userId: session?.userId,
 		name: session?.name,
 		username: session?.username,
-		email: session?.email,
 		profileImage: session?.profileImage,
 		role: session?.role,
 	};

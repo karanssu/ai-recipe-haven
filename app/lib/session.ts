@@ -30,7 +30,6 @@ export async function createSession(
 	userId: string,
 	name: string,
 	username: string,
-	email: string,
 	profileImage: string,
 	role: string
 ) {
@@ -39,7 +38,6 @@ export async function createSession(
 		userId,
 		name,
 		username,
-		email,
 		profileImage,
 		role,
 		expiresAt,

@@ -44,7 +44,6 @@ export type SessionPayload = {
 	userId: string | number;
 	name: string;
 	username: string;
-	email: string;
 	profileImage: string;
 	role: string;
 	expiresAt: Date;
