@@ -23,6 +23,7 @@ const AdminNavbar = async () => {
 						</div>
 						<Link href="/admin">Admin Home</Link>
 						<Link href="/admin/dashboard">Admin Dashboard</Link>
+						<Link href="/admin/user">Manage Users</Link>
 						{session?.role === "superadmin" && (
 							<Link href="/admin/signup">Admin Signup</Link>
 						)}
