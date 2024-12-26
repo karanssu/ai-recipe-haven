@@ -155,11 +155,17 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 }
 
 export async function updateUser(state: FormState, formData: FormData) {
+	const DEFAULT_VALID_PASSWORD = "ValidPassword123!";
+	const passwordExist = formData.get("password")?.toString().trim() !== "";
+	const validationPassword = passwordExist
+		? formData.get("password")
+		: DEFAULT_VALID_PASSWORD;
+
 	const validatedFields = SignupFormSchema.safeParse({
 		name: formData.get("name"),
 		username: formData.get("username"),
 		email: formData.get("email"),
-		password: formData.get("password"),
+		password: validationPassword,
 	});
 
 	if (!validatedFields.success) {
@@ -174,18 +180,31 @@ export async function updateUser(state: FormState, formData: FormData) {
 	const password = validatedFields.data.password;
 	const profileImage = formData.get("profileImage")?.toString().trim();
 
-	const user = await fetch("/api/user", {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
+	let data = null;
+
+	if (passwordExist) {
+		data = JSON.stringify({
 			name,
 			username,
 			email,
 			password,
 			profileImage,
-		}),
+		});
+	} else {
+		data = JSON.stringify({
+			name,
+			username,
+			email,
+			profileImage,
+		});
+	}
+
+	const user = await fetch("/api/user", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: data,
 	});
 
 	if (user.ok) {

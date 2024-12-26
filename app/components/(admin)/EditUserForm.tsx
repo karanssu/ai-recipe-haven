@@ -2,8 +2,9 @@
 
 import { updateUser } from "@/app/actions/auth";
 import { useActionState } from "react";
+import { User } from "@/app/lib/definitions";
 
-export default function EditUserForm() {
+export default function EditUserForm({ user }: { user: User }) {
 	const [state, action, pending] = useActionState(updateUser, undefined);
 
 	return (
@@ -22,6 +23,7 @@ export default function EditUserForm() {
 					name="name"
 					type="text"
 					placeholder="Full Name"
+					defaultValue={user.name}
 				/>
 			</div>
 			{state?.errors?.name && (
@@ -34,6 +36,7 @@ export default function EditUserForm() {
 					name="username"
 					type="text"
 					placeholder="Username"
+					defaultValue={user.username}
 				/>
 			</div>
 			{state?.errors?.username && (
@@ -46,6 +49,7 @@ export default function EditUserForm() {
 					name="email"
 					type="email"
 					placeholder="Email"
+					defaultValue={user.email}
 				/>
 			</div>
 			{state?.errors?.email && (
@@ -72,6 +76,27 @@ export default function EditUserForm() {
 					</ul>
 				</div>
 			)}
+
+			<div>
+				<input
+					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					name="profileImage"
+					type="text"
+					placeholder="Profile Image URL"
+					defaultValue={user.profileImage}
+				/>
+			</div>
+
+			<div>
+				<input
+					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					name="role"
+					type="text"
+					defaultValue={user.role}
+					disabled={true}
+				/>
+			</div>
+
 			<button
 				className="bg-Green hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
 				disabled={pending}

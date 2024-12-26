@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import EditUserForm from "./EditUserForm";
+import { User } from "@/app/lib/definitions";
 
-export default function UserPopupModal() {
+export default function UserPopupModal({ user }: { user: User }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openModal = () => setIsOpen(true);
@@ -34,7 +35,7 @@ export default function UserPopupModal() {
 							&times;
 						</button>
 
-						<EditUserForm />
+						<EditUserForm user={user} />
 					</div>
 				</div>
 			)}
