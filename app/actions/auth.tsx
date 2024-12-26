@@ -153,3 +153,50 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 		};
 	}
 }
+
+export async function updateUser(state: FormState, formData: FormData) {
+	const validatedFields = SignupFormSchema.safeParse({
+		name: formData.get("name"),
+		username: formData.get("username"),
+		email: formData.get("email"),
+		password: formData.get("password"),
+	});
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		};
+	}
+
+	const name = validatedFields.data.name.trim();
+	const username = validatedFields.data.username.trim();
+	const email = validatedFields.data.email.trim();
+	const password = validatedFields.data.password;
+	const profileImage = formData.get("profileImage")?.toString().trim();
+
+	const user = await fetch("/api/user", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			name,
+			username,
+			email,
+			password,
+			profileImage,
+		}),
+	});
+
+	if (user.ok) {
+		return {
+			message: "User updated successfully",
+			ok: true,
+		};
+	} else {
+		const data = await user.json();
+		return {
+			errors: data.errors,
+		};
+	}
+}
