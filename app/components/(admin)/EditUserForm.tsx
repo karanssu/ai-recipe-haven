@@ -6,6 +6,9 @@ import { User } from "@/app/lib/definitions";
 
 export default function EditUserForm({ user }: { user: User }) {
 	const [state, action, pending] = useActionState(updateUser, undefined);
+	if (state?.user) {
+		user = { ...user, ...JSON.parse(state.user) };
+	}
 
 	return (
 		<form action={action}>
@@ -26,6 +29,7 @@ export default function EditUserForm({ user }: { user: User }) {
 					{state.errors.error}
 				</div>
 			)}
+			<input type="hidden" name="_id" value={user._id} />
 			<div className="flex justify-center items-center mt-5">
 				<label className="text text-gray-600 w-24 mr-5">Full Name</label>
 				<input

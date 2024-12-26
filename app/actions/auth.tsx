@@ -174,6 +174,7 @@ export async function updateUser(state: FormState, formData: FormData) {
 		};
 	}
 
+	const _id = formData.get("_id")?.toString().trim();
 	const name = validatedFields.data.name.trim();
 	const username = validatedFields.data.username.trim();
 	const email = validatedFields.data.email.trim();
@@ -184,6 +185,7 @@ export async function updateUser(state: FormState, formData: FormData) {
 
 	if (passwordExist) {
 		data = JSON.stringify({
+			_id,
 			name,
 			username,
 			email,
@@ -192,6 +194,7 @@ export async function updateUser(state: FormState, formData: FormData) {
 		});
 	} else {
 		data = JSON.stringify({
+			_id,
 			name,
 			username,
 			email,
@@ -209,6 +212,7 @@ export async function updateUser(state: FormState, formData: FormData) {
 
 	if (user.ok) {
 		return {
+			user: data,
 			message: "User updated successfully",
 			ok: true,
 		};
