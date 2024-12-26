@@ -1,6 +1,6 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
-import { encodePassword } from "@/app/utils/password";
+import { encodePassword } from "@/app/lib/password";
 
 export async function POST(req: Request) {
 	// only Frontend can access this route

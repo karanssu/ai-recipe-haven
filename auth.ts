@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { encodePassword } from "@/app/utils/password";
+import { encodePassword } from "@/app/lib/password";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
 import { createSession } from "./app/lib/session";
