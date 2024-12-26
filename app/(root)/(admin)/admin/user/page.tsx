@@ -4,6 +4,7 @@ import User from "@/app/models/user";
 import UserTable from "@/app/components/(admin)/UserTable";
 import { unstable_cache } from "next/cache";
 import React from "react";
+import UserPopupModal from "@/app/components/(admin)/UserPopupModal";
 
 const getUsers = async () => {
 	"use server";
@@ -63,6 +64,7 @@ const Page = async () => {
 				Manage Users
 			</div>
 			<div className="m-10">
+				<UserPopupModal />
 				<UserTable users={users} />
 			</div>
 		</>
