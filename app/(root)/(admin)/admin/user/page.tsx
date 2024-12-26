@@ -1,7 +1,7 @@
 import { verifySession } from "@/app/lib/dal";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
-import UserTable from "@/app/ui/userTable";
+import UserTable from "@/app/components/userTable";
 import { unstable_cache } from "next/cache";
 import React from "react";
 
