@@ -9,6 +9,7 @@ export default function EditUserForm({ user }: { user: User }) {
 
 	return (
 		<form action={action}>
+			<div className="text-3xl text-center font-semibold mb-8">Edit User</div>
 			{state?.ok && (
 				<div
 					className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
