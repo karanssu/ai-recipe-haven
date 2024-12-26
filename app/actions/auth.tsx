@@ -156,7 +156,7 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 
 export async function updateUser(state: FormState, formData: FormData) {
 	const DEFAULT_VALID_PASSWORD = "ValidPassword123!";
-	const passwordExist = formData.get("password")?.toString().trim() !== "";
+	const passwordExist = formData.get("password") !== "";
 	const validationPassword = passwordExist
 		? formData.get("password")
 		: DEFAULT_VALID_PASSWORD;

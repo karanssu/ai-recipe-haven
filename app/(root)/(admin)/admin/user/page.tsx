@@ -64,7 +64,7 @@ const Page = async () => {
 				Manage Users
 			</div>
 			<div className="m-10">
-				<UserPopupModal />
+				<UserPopupModal user={users[4]} />
 				<UserTable users={users} />
 			</div>
 		</>

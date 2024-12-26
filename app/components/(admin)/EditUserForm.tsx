@@ -9,6 +9,14 @@ export default function EditUserForm({ user }: { user: User }) {
 
 	return (
 		<form action={action}>
+			{state?.ok && (
+				<div
+					className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+					role="alert"
+				>
+					{state.message}
+				</div>
+			)}
 			{state?.errors?.error && (
 				<div
 					className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
@@ -17,9 +25,10 @@ export default function EditUserForm({ user }: { user: User }) {
 					{state.errors.error}
 				</div>
 			)}
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Full Name</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="name"
 					type="text"
 					placeholder="Full Name"
@@ -30,9 +39,10 @@ export default function EditUserForm({ user }: { user: User }) {
 				<p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
 			)}
 
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Username</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="username"
 					type="text"
 					placeholder="Username"
@@ -43,9 +53,10 @@ export default function EditUserForm({ user }: { user: User }) {
 				<p className="text-red-500 text-sm mt-1">{state.errors.username}</p>
 			)}
 
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Email</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="email"
 					type="email"
 					placeholder="Email"
@@ -56,9 +67,10 @@ export default function EditUserForm({ user }: { user: User }) {
 				<p className="text-red-500 text-sm mt-1">{state.errors.email}</p>
 			)}
 
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Password</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="password"
 					type="password"
 					placeholder="Password"
@@ -77,9 +89,10 @@ export default function EditUserForm({ user }: { user: User }) {
 				</div>
 			)}
 
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Profile Img URL</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="profileImage"
 					type="text"
 					placeholder="Profile Image URL"
@@ -87,9 +100,10 @@ export default function EditUserForm({ user }: { user: User }) {
 				/>
 			</div>
 
-			<div>
+			<div className="flex justify-center items-center mt-5">
+				<label className="text text-gray-600 w-24 mr-5">Role</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="border-2 border-gray-200 p-2 rounded-lg w-full"
 					name="role"
 					type="text"
 					defaultValue={user.role}
