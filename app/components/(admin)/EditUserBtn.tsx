@@ -4,16 +4,16 @@ import { useState } from "react";
 import EditUserForm from "./EditUserForm";
 import { User } from "@/app/lib/definitions";
 
-export default function UserPopupModal({ user }: { user: User }) {
+export default function EditUserBtn({ user }: { user: User }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openModal = () => setIsOpen(true);
 	const closeModal = () => setIsOpen(false);
 
 	return (
-		<div className="flex items-center justify-center h-screen">
+		<>
 			<button
-				className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+				className="ml-5 font-medium text-blue-600 hover:underline"
 				onClick={openModal}
 			>
 				Edit User
@@ -39,6 +39,6 @@ export default function UserPopupModal({ user }: { user: User }) {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
