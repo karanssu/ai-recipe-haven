@@ -1,4 +1,4 @@
-import AdminLoginForm from "@/app/components/admin-login-form";
+import AdminLoginForm from "@/app/components/(admin)/AdminLoginForm";
 
 const Page = () => {
 	return (

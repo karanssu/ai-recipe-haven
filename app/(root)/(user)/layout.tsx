@@ -1,4 +1,4 @@
-import Navbar from "@/app/components/Navbar";
+import Navbar from "@/app/components/(user)/Navbar";
 
 export default function Layout({
 	children,

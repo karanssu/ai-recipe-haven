@@ -1,4 +1,4 @@
-import { User } from "../lib/definitions";
+import { User } from "../../lib/definitions";
 
 export default function UserTable({ users }: { users: User[] }) {
 	return (

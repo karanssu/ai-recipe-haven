@@ -1,4 +1,4 @@
-import AdminSignupForm from "@/app/components/admin-signup-form";
+import AdminSignupForm from "@/app/components/(admin)/AdminSignupForm";
 
 const Page = () => {
 	return (
