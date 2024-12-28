@@ -156,6 +156,7 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 		redirect("/admin");
 	} else {
 		return {
+			user: { usernameEmail: usernameEmail, password: password },
 			error: user.error,
 		};
 	}
