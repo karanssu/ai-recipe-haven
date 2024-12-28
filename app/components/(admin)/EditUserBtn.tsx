@@ -16,7 +16,7 @@ export default function EditUserBtn({ user }: { user: User }) {
 				className="ml-5 font-medium text-blue-600 hover:underline"
 				onClick={openModal}
 			>
-				Edit User
+				Edit
 			</button>
 
 			{isOpen && (

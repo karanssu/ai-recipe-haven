@@ -1,4 +1,5 @@
 import { User } from "../../lib/definitions";
+import DeleteUserBtn from "./DeleteUserBtn";
 import EditUserBtn from "./EditUserBtn";
 
 export default function UserTable({ users }: { users: User[] }) {
@@ -37,12 +38,7 @@ export default function UserTable({ users }: { users: User[] }) {
 							<td className="px-6 py-4">{user.role}</td>
 							<td className="px-6 py-4">
 								<EditUserBtn user={user} />
-								<a
-									href="#"
-									className="ml-5 font-medium text-blue-600 hover:underline"
-								>
-									Delete
-								</a>
+								<DeleteUserBtn user={user} />
 							</td>
 						</tr>
 					))}
