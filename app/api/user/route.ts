@@ -72,7 +72,7 @@ export async function PUT(req: Request) {
 		console.error(error);
 		return Response.json(
 			{
-				errors: { error: "An error occurred while creating your account." },
+				errors: { error: "An error occurred while updating your account." },
 			},
 			{ status: 500 }
 		);
