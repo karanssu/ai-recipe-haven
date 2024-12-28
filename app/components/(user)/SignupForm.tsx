@@ -22,6 +22,7 @@ export default function SignupForm() {
 					name="name"
 					type="text"
 					placeholder="Full Name"
+					defaultValue={state?.user?.name || ""}
 				/>
 			</div>
 			{state?.errors?.name && (
@@ -34,6 +35,7 @@ export default function SignupForm() {
 					name="username"
 					type="text"
 					placeholder="Username"
+					defaultValue={state?.user?.username || ""}
 				/>
 			</div>
 			{state?.errors?.username && (
@@ -46,6 +48,7 @@ export default function SignupForm() {
 					name="email"
 					type="email"
 					placeholder="Email"
+					defaultValue={state?.user?.email || ""}
 				/>
 			</div>
 			{state?.errors?.email && (
