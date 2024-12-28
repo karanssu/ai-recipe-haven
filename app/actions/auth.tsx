@@ -163,6 +163,17 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 }
 
 export async function updateUser(state: FormState, formData: FormData) {
+	const _id = formData.get("_id")?.toString().trim();
+	const name = formData.get("name")?.toString().trim() as string;
+	const username = formData.get("username")?.toString().trim() as string;
+	const email = formData.get("email")?.toString().trim() as string;
+	const password = formData.get("password") as string;
+	const profileImage = formData
+		.get("profileImage")
+		?.toString()
+		.trim() as string;
+	const user = { name, username, email, password, profileImage };
+
 	const DEFAULT_VALID_PASSWORD = "ValidPassword123!";
 	const passwordExist = formData.get("password") !== "";
 	const validationPassword = passwordExist
@@ -178,16 +189,10 @@ export async function updateUser(state: FormState, formData: FormData) {
 
 	if (!validatedFields.success) {
 		return {
+			user: user,
 			errors: validatedFields.error.flatten().fieldErrors,
 		};
 	}
-
-	const _id = formData.get("_id")?.toString().trim();
-	const name = validatedFields.data.name.trim();
-	const username = validatedFields.data.username.trim();
-	const email = validatedFields.data.email.trim();
-	const password = validatedFields.data.password;
-	const profileImage = formData.get("profileImage")?.toString().trim();
 
 	let data = null;
 
@@ -210,7 +215,7 @@ export async function updateUser(state: FormState, formData: FormData) {
 		});
 	}
 
-	const user = await fetch("/api/user", {
+	const savedUser = await fetch("/api/user", {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -218,15 +223,16 @@ export async function updateUser(state: FormState, formData: FormData) {
 		body: data,
 	});
 
-	if (user.ok) {
+	if (savedUser.ok) {
 		return {
-			user: data,
+			user: user,
 			message: "User updated successfully",
 			ok: true,
 		};
 	} else {
-		const data = await user.json();
+		const data = await savedUser.json();
 		return {
+			user: user,
 			errors: data.errors,
 		};
 	}

@@ -7,7 +7,7 @@ import { User } from "@/app/lib/definitions";
 export default function EditUserForm({ user }: { user: User }) {
 	const [state, action, pending] = useActionState(updateUser, undefined);
 	if (state?.user) {
-		user = { ...user, ...JSON.parse(state.user) };
+		user = { ...user, ...state.user };
 	}
 
 	return (
