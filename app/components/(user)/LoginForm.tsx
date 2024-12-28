@@ -22,6 +22,7 @@ export default function LoginForm() {
 					name="usernameEmail"
 					type="text"
 					placeholder="Email or username"
+					defaultValue={state?.user?.usernameEmail || ""}
 				/>
 			</div>
 

@@ -78,6 +78,7 @@ export async function login(state: LoginFormState, formData: FormData) {
 		redirect("/dashboard");
 	} else {
 		return {
+			user: { usernameEmail: usernameEmail, password: password },
 			error: user.error,
 		};
 	}
