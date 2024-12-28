@@ -1,10 +1,9 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
-import { NextApiRequest } from "next";
 
-export async function DELETE(req: NextApiRequest) {
+export async function DELETE(req: Request) {
 	// only Frontend can access this route
-	const referer = req.headers.referer;
+	const referer = req.headers.get("referer");
 
 	if (
 		!referer ||
@@ -13,12 +12,12 @@ export async function DELETE(req: NextApiRequest) {
 		return Response.json({ error: "Unauthorized" }, { status: 403 });
 	}
 
-	const { id } = req.query;
+	const url = new URL(req.url);
+	const id = url.pathname.split("/").pop();
 
 	try {
 		await connectMongoDB();
 
-		// delete user by id
 		const user = await User.findByIdAndDelete(id);
 
 		return Response.json(
