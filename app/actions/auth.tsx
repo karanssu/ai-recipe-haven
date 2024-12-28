@@ -84,25 +84,27 @@ export async function login(state: LoginFormState, formData: FormData) {
 }
 
 export async function adminSignup(state: FormState, formData: FormData) {
+	const name = formData.get("name")?.toString().trim();
+	const username = formData.get("username")?.toString().trim();
+	const email = formData.get("email")?.toString().trim();
+	const password = formData.get("password");
+	const user = { name, username, email, password };
+
 	const validatedFields = SignupFormSchema.safeParse({
-		name: formData.get("name"),
-		username: formData.get("username"),
-		email: formData.get("email"),
-		password: formData.get("password"),
+		name: name,
+		username: username,
+		email: email,
+		password: password,
 	});
 
 	if (!validatedFields.success) {
 		return {
+			user: user,
 			errors: validatedFields.error.flatten().fieldErrors,
 		};
 	}
 
-	const name = validatedFields.data.name.trim();
-	const username = validatedFields.data.username.trim();
-	const email = validatedFields.data.email.trim();
-	const password = validatedFields.data.password;
-
-	const user = await fetch("/api/admin/auth/signup", {
+	const savedUser = await fetch("/api/admin/auth/signup", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -115,11 +117,12 @@ export async function adminSignup(state: FormState, formData: FormData) {
 		}),
 	});
 
-	if (user.ok) {
+	if (savedUser.ok) {
 		redirect("/admin");
 	} else {
-		const data = await user.json();
+		const data = await savedUser.json();
 		return {
+			user: user,
 			errors: data.errors,
 		};
 	}
