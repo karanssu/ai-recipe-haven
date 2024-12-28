@@ -4,20 +4,22 @@ import { useState } from "react";
 import { User } from "@/app/lib/definitions";
 
 export default function DeleteUserBtn({ user }: { user: User }) {
+	const [pending, setPending] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openModal = () => setIsOpen(true);
 	const closeModal = () => setIsOpen(false);
 
 	const handleDelete = async () => {
+		setPending(true);
 		const res = await fetch(`/api/user/${user._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		});
 		if (res.ok) {
 			closeModal();
-			location.reload();
 		}
+		setPending(false);
 	};
 
 	return (
@@ -56,7 +58,7 @@ export default function DeleteUserBtn({ user }: { user: User }) {
 								className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded text"
 								onClick={handleDelete}
 							>
-								Delete
+								{pending ? "Deleting..." : "Delete"}
 							</button>
 							<button
 								className="bg-gray-500 hover:bg-gray-700 text-white px-5 py-2 rounded text"
