@@ -47,11 +47,24 @@ export default function DeleteUserBtn({ user }: { user: User }) {
 							&times;
 						</button>
 
-						<div>Are you sure you want to delete this user? </div>
-						<div>Name: {user.name}</div>
-						<div>Username: {user.username}</div>
-						<div>Email: {user.email}</div>
-						<div>Role: {user.role}</div>
+						<div className="font-semibold text-xl mb-3">
+							Are you sure you want to delete this user?{" "}
+						</div>
+						<div>
+							<span className="font-semibold">Name:</span> {user.name}
+						</div>
+						<div>
+							<span className="font-semibold">Username: </span>
+							{user.username}
+						</div>
+						<div>
+							<span className="font-semibold">Email: </span>
+							{user.email}
+						</div>
+						<div>
+							<span className="font-semibold">Role: </span>
+							{user.role}
+						</div>
 
 						<div className="flex justify-end items-end mt-5 space-x-4">
 							<button
