@@ -4,10 +4,19 @@ import { updateUser } from "@/app/actions/auth";
 import { useActionState } from "react";
 import { User } from "@/app/lib/definitions";
 
-export default function EditUserForm({ user }: { user: User }) {
+export default function EditUserForm({
+	user,
+	revalidatePageAction,
+}: {
+	user: User;
+	revalidatePageAction: () => void;
+}) {
 	const [state, action, pending] = useActionState(updateUser, undefined);
 	if (state?.user) {
 		user = { ...user, ...state.user };
+	}
+	if (state?.ok) {
+		revalidatePageAction();
 	}
 
 	return (

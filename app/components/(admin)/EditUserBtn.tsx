@@ -4,11 +4,25 @@ import { useState } from "react";
 import EditUserForm from "./EditUserForm";
 import { User } from "@/app/lib/definitions";
 
-export default function EditUserBtn({ user }: { user: User }) {
+export default function EditUserBtn({
+	user,
+	revalidatePageAction,
+}: {
+	user: User;
+
+	revalidatePageAction: () => void;
+}) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openModal = () => setIsOpen(true);
 	const closeModal = () => setIsOpen(false);
+
+	const revalidateAction = () => {
+		"use client";
+
+		closeModal();
+		revalidatePageAction();
+	};
 
 	return (
 		<>
@@ -35,7 +49,7 @@ export default function EditUserBtn({ user }: { user: User }) {
 							&times;
 						</button>
 
-						<EditUserForm user={user} />
+						<EditUserForm user={user} revalidatePageAction={revalidateAction} />
 					</div>
 				</div>
 			)}

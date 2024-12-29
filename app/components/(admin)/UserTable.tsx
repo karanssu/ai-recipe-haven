@@ -2,7 +2,13 @@ import { User } from "../../lib/definitions";
 import DeleteUserBtn from "./DeleteUserBtn";
 import EditUserBtn from "./EditUserBtn";
 
-export default function UserTable({ users }: { users: User[] }) {
+export default function UserTable({
+	users,
+	revalidatePageAction,
+}: {
+	users: User[];
+	revalidatePageAction: () => void;
+}) {
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 			<table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -37,7 +43,10 @@ export default function UserTable({ users }: { users: User[] }) {
 							<td className="px-6 py-4">{user.email}</td>
 							<td className="px-6 py-4">{user.role}</td>
 							<td className="px-6 py-4">
-								<EditUserBtn user={user} />
+								<EditUserBtn
+									user={user}
+									revalidatePageAction={revalidatePageAction}
+								/>
 								<DeleteUserBtn user={user} />
 							</td>
 						</tr>

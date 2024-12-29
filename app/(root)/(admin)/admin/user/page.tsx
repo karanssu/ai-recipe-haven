@@ -2,7 +2,7 @@ import { verifySession } from "@/app/lib/dal";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import User from "@/app/models/user";
 import UserTable from "@/app/components/(admin)/UserTable";
-import { unstable_cache } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
 import React from "react";
 
 const getUsers = async () => {
@@ -57,13 +57,19 @@ const getUsersForSuperAdmin = unstable_cache(
 const Page = async () => {
 	const users = await getUsers();
 
+	const revalidatePageAction = async () => {
+		"use server";
+
+		revalidatePath("/admin/user");
+	};
+
 	return (
 		<>
 			<div className="text-4xl text-center mt-10 font-semibold">
 				Manage Users
 			</div>
 			<div className="m-10">
-				<UserTable users={users} />
+				<UserTable users={users} revalidatePageAction={revalidatePageAction} />
 			</div>
 		</>
 	);
