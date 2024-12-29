@@ -1,0 +1,526 @@
+[
+	{
+		"vegetarian": false,
+		"vegan": false,
+		"glutenFree": false,
+		"dairyFree": true,
+		"veryHealthy": true,
+		"cheap": false,
+		"veryPopular": false,
+		"sustainable": false,
+		"lowFodmap": false,
+		"weightWatcherSmartPoints": 12,
+		"gaps": "no",
+		"preparationMinutes": null,
+		"cookingMinutes": null,
+		"aggregateLikes": 46,
+		"healthScore": 79,
+		"creditsText": "finecooking.com",
+		"sourceName": "finecooking.com",
+		"pricePerServing": 515.4,
+		"extendedIngredients": [
+			{
+				"id": 2044,
+				"aisle": "Produce",
+				"image": "fresh-basil.jpg",
+				"consistency": "SOLID",
+				"name": "lightly basil leaves",
+				"nameClean": "fresh basil",
+				"original": "4 cups lightly packed fresh basil leaves",
+				"originalName": "lightly packed fresh basil leaves",
+				"amount": 4.0,
+				"unit": "cups",
+				"meta": ["fresh", "packed"],
+				"measures": {
+					"us": { "amount": 4.0, "unitShort": "cups", "unitLong": "cups" },
+					"metric": { "amount": 96.0, "unitShort": "g", "unitLong": "grams" }
+				}
+			},
+			{
+				"id": 11215,
+				"aisle": "Produce",
+				"image": "garlic.png",
+				"consistency": "SOLID",
+				"name": "garlic",
+				"nameClean": "garlic",
+				"original": "1 small clove garlic, finely chopped",
+				"originalName": "garlic, finely chopped",
+				"amount": 1.0,
+				"unit": "small clove",
+				"meta": ["finely chopped"],
+				"measures": {
+					"us": {
+						"amount": 1.0,
+						"unitShort": "small clove",
+						"unitLong": "small clove"
+					},
+					"metric": {
+						"amount": 1.0,
+						"unitShort": "small clove",
+						"unitLong": "small clove"
+					}
+				}
+			},
+			{
+				"id": 4053,
+				"aisle": "Oil, Vinegar, Salad Dressing",
+				"image": "olive-oil.jpg",
+				"consistency": "LIQUID",
+				"name": "olive oil; more",
+				"nameClean": "olive oil",
+				"original": "1/3 cup olive oil; more for the pan",
+				"originalName": "olive oil; more for the pan",
+				"amount": 0.33333334,
+				"unit": "cup",
+				"meta": ["for the pan"],
+				"measures": {
+					"us": {
+						"amount": 0.33333334,
+						"unitShort": "cups",
+						"unitLong": "cups"
+					},
+					"metric": {
+						"amount": 72.0,
+						"unitShort": "ml",
+						"unitLong": "milliliters"
+					}
+				}
+			},
+			{
+				"id": 12147,
+				"aisle": "Produce",
+				"image": "pine-nuts.png",
+				"consistency": "SOLID",
+				"name": "pine nuts",
+				"nameClean": "pine nuts",
+				"original": "1 Tbs. pine nuts",
+				"originalName": "pine nuts",
+				"amount": 1.0,
+				"unit": "Tbs",
+				"meta": [],
+				"measures": {
+					"us": { "amount": 1.0, "unitShort": "Tbs", "unitLong": "Tb" },
+					"metric": { "amount": 1.0, "unitShort": "Tbs", "unitLong": "Tb" }
+				}
+			},
+			{
+				"id": 10115076,
+				"aisle": "Seafood",
+				"image": "salmon.png",
+				"consistency": "SOLID",
+				"name": "salmon fillets",
+				"nameClean": "salmon fillets",
+				"original": "4 boneless salmon fillets (about 6 oz. each)",
+				"originalName": "boneless salmon fillets (about each)",
+				"amount": 24.0,
+				"unit": "oz",
+				"meta": ["boneless"],
+				"measures": {
+					"us": { "amount": 24.0, "unitShort": "oz", "unitLong": "ounces" },
+					"metric": { "amount": 680.389, "unitShort": "g", "unitLong": "grams" }
+				}
+			},
+			{
+				"id": 1002030,
+				"aisle": "Spices and Seasonings",
+				"image": "pepper.jpg",
+				"consistency": "SOLID",
+				"name": "salt and pepper",
+				"nameClean": "black pepper",
+				"original": "Salt and freshly ground black pepper",
+				"originalName": "Salt and freshly ground black pepper",
+				"amount": 4.0,
+				"unit": "servings",
+				"meta": ["black", "freshly ground"],
+				"measures": {
+					"us": {
+						"amount": 4.0,
+						"unitShort": "servings",
+						"unitLong": "servings"
+					},
+					"metric": {
+						"amount": 4.0,
+						"unitShort": "servings",
+						"unitLong": "servings"
+					}
+				}
+			},
+			{
+				"id": 18069,
+				"aisle": "Bakery/Bread",
+				"image": "white-bread.jpg",
+				"consistency": "SOLID",
+				"name": "bread",
+				"nameClean": "white bread",
+				"original": "3 slices white bread",
+				"originalName": "white bread",
+				"amount": 3.0,
+				"unit": "slices",
+				"meta": ["white"],
+				"measures": {
+					"us": { "amount": 3.0, "unitShort": "slice", "unitLong": "slices" },
+					"metric": {
+						"amount": 3.0,
+						"unitShort": "slice",
+						"unitLong": "slices"
+					}
+				}
+			}
+		],
+		"id": 5000,
+		"title": "Pesto-crusted Salmon",
+		"readyInMinutes": 45,
+		"servings": 4,
+		"sourceUrl": "http://www.finecooking.com/recipes/pesto_crusted_salmon.aspx",
+		"image": "https://img.spoonacular.com/recipes/5000-556x370.jpg",
+		"imageType": "jpg",
+		"summary": "If you want to add more <b>dairy free and pescatarian</b> recipes to your collection, Pesto-crusted Salmon might be a recipe you should try. This main course has <b>481 calories</b>, <b>37g of protein</b>, and <b>31g of fat</b> per serving. This recipe serves 4. For <b>$5.15 per serving</b>, this recipe <b>covers 35%</b> of your daily requirements of vitamins and minerals. From preparation to the plate, this recipe takes about <b>45 minutes</b>. 46 people were impressed by this recipe. It is brought to you by finecooking.com. A mixture of bread, pine nuts, olive oil; more, and a handful of other ingredients are all it takes to make this recipe so delicious. Overall, this recipe earns a <b>great spoonacular score of 98%</b>. If you like this recipe, you might also like recipes such as <a href=\"https://spoonacular.com/recipes/almond-crusted-salmon-fillets-with-roasted-broccolini-632122\">Almond Crusted Salmon Fillets with Roasted Broccolini</a>, <a href=\"https://spoonacular.com/recipes/crispy-panko-and-herb-crusted-salmon-640828\">Crispy Panko and Herb Crusted Salmon</a>, and <a href=\"https://spoonacular.com/recipes/pecan-crusted-sweet-potato-salmon-cakes-655506\">Pecan Crusted Sweet Potato-Salmon Cakes</a>.",
+		"cuisines": [],
+		"dishTypes": ["lunch", "main course", "main dish", "dinner"],
+		"diets": ["dairy free", "pescatarian"],
+		"occasions": [],
+		"winePairing": {
+			"pairedWines": [
+				"pinot noir",
+				"alcoholic drink",
+				"white wine",
+				"ingredient",
+				"dry red wine",
+				"sparkling wine",
+				"chardonnay",
+				"food product category",
+				"sauvignon blanc",
+				"wine",
+				"dry white wine",
+				"red wine",
+				"pinot grigio",
+				"drink",
+				"menu item type",
+				"gruener veltliner"
+			],
+			"pairingText": "Salmon works really well with Pinot Noir, Alcoholic Drink, and White Wine. To decide on white or red, you should consider your seasoning and sauces. Chardonnay is a great friend to buttery, creamy dishes, while sauvignon blanc can complement herb or citrus-centric dishes. A light-bodied, low-tannin red such as the pinot noir goes great with broiled or grilled salmon. One wine you could try is Beaux Freres Willamette Valley Pinot Noir. It has 4.7 out of 5 stars and a bottle costs about 50 dollars.",
+			"productMatches": [
+				{
+					"id": 434431,
+					"title": "Beaux Freres Willamette Valley Pinot Noir",
+					"description": "Our Willamette Valley cuvée features fruit grown onselect vineyard sites in Yamhill County. The winesbenefit from the same integrity in the winemakingprocess as our estate wines. These sites are farmedsustainably and managed to very low yields.It is not fined or filtered.It is a medium to full-bodied wine with sweet tannin,low acidity and an intriguing bouquet of \"foresty\" underbrush, redcurrants and black cherries. With ahint of Asian spices it has undeniable charm, silkinessand velvety texture. These are all hallmarks of thebest 2009 Oregon Pinots and are well displayed inthis wine.",
+					"price": "$49.99",
+					"imageUrl": "https://img.spoonacular.com/products/434431-312x231.jpg",
+					"averageRating": 0.9399999976158142,
+					"ratingCount": 21.0,
+					"score": 0.9244,
+					"link": "https://click.linksynergy.com/deeplink?id=*QCiIS6t4gA&mid=2025&murl=https%3A%2F%2Fwww.wine.com%2Fproduct%2Fbeaux-freres-willamette-valley-pinot-noir-2009%2F109402"
+				}
+			]
+		},
+		"instructions": "Heat the oven to 400F. Pulse the bread in a food processor to make breadcrumbs. Remove about 1/2 cup of the crumbs and reserve them. Add the pine nuts, garlic, 1 tsp. salt, and 1/4 tsp. pepper to the crumbs in the food processor and pulse. Add the basil and process again. With the motor running, add the olive oil in a slow stream, stopping occasionally to scrape down the sides of the bowl, until the pesto is spreadable.        Brush a small baking sheet with oil, put the fillets on it, and season them with salt and pepper. Spread a 1/4-inch layer of the pesto evenly over the top of each fillet. Sprinkle the reserved breadcrumbs over the pesto. Bake until the salmon is cooked -- it should just start to turn opaque, with a trace of bright orange in the middle -- and the topping is lightly browned, 10 to 15 minutes, depending on the thickness of the fish.                  nutrition information (per serving):        Calories                        (kcal):                      500, Fat                        (kcal):                      33, Fat Calories                        (g):                      300, Saturated Fat                        (g):                      5, Protein                        (g):                      37, Monounsaturated Fat                        (g):                      19, Carbohydrates                        (mg):                      13, Polyunsaturated Fat                        (mg):                      7, Sodium                        (g):                      770, Cholesterol                        (g):                      95, Fiber                        (g):                      2,                     Photo: Scott Phillips          Rate this Recipe and View Reviews",
+		"analyzedInstructions": [
+			{
+				"name": "",
+				"steps": [
+					{
+						"number": 1,
+						"step": "Heat the oven to 400F. Pulse the bread in a food processor to make breadcrumbs.",
+						"ingredients": [
+							{
+								"id": 18079,
+								"name": "breadcrumbs",
+								"localizedName": "breadcrumbs",
+								"image": "breadcrumbs.jpg"
+							},
+							{
+								"id": 18064,
+								"name": "bread",
+								"localizedName": "bread",
+								"image": "white-bread.jpg"
+							}
+						],
+						"equipment": [
+							{
+								"id": 404771,
+								"name": "food processor",
+								"localizedName": "food processor",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/food-processor.png"
+							},
+							{
+								"id": 404784,
+								"name": "oven",
+								"localizedName": "oven",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/oven.jpg",
+								"temperature": { "number": 400.0, "unit": "Fahrenheit" }
+							}
+						]
+					},
+					{
+						"number": 2,
+						"step": "Remove about 1/2 cup of the crumbs and reserve them.",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 3,
+						"step": "Add the pine nuts, garlic, 1 tsp. salt, and 1/4 tsp. pepper to the crumbs in the food processor and pulse.",
+						"ingredients": [
+							{
+								"id": 12147,
+								"name": "pine nuts",
+								"localizedName": "pine nuts",
+								"image": "pine-nuts.png"
+							},
+							{
+								"id": 11215,
+								"name": "garlic",
+								"localizedName": "garlic",
+								"image": "garlic.png"
+							},
+							{
+								"id": 1002030,
+								"name": "pepper",
+								"localizedName": "pepper",
+								"image": "pepper.jpg"
+							},
+							{
+								"id": 2047,
+								"name": "salt",
+								"localizedName": "salt",
+								"image": "salt.jpg"
+							}
+						],
+						"equipment": [
+							{
+								"id": 404771,
+								"name": "food processor",
+								"localizedName": "food processor",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/food-processor.png"
+							}
+						]
+					},
+					{
+						"number": 4,
+						"step": "Add the basil and process again. With the motor running, add the olive oil in a slow stream, stopping occasionally to scrape down the sides of the bowl, until the pesto is spreadable.",
+						"ingredients": [
+							{
+								"id": 4053,
+								"name": "olive oil",
+								"localizedName": "olive oil",
+								"image": "olive-oil.jpg"
+							},
+							{
+								"id": 2044,
+								"name": "basil",
+								"localizedName": "basil",
+								"image": "basil.jpg"
+							},
+							{
+								"id": 93698,
+								"name": "pesto",
+								"localizedName": "pesto",
+								"image": "basil-pesto.png"
+							}
+						],
+						"equipment": [
+							{
+								"id": 404783,
+								"name": "bowl",
+								"localizedName": "bowl",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/bowl.jpg"
+							}
+						]
+					},
+					{
+						"number": 5,
+						"step": "Brush a small baking sheet with oil, put the fillets on it, and season them with salt and pepper.",
+						"ingredients": [
+							{
+								"id": 1102047,
+								"name": "salt and pepper",
+								"localizedName": "salt and pepper",
+								"image": "salt-and-pepper.jpg"
+							},
+							{
+								"id": 4582,
+								"name": "cooking oil",
+								"localizedName": "cooking oil",
+								"image": "vegetable-oil.jpg"
+							}
+						],
+						"equipment": [
+							{
+								"id": 404727,
+								"name": "baking sheet",
+								"localizedName": "baking sheet",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/baking-sheet.jpg"
+							}
+						]
+					},
+					{
+						"number": 6,
+						"step": "Spread a 1/4-inch layer of the pesto evenly over the top of each fillet.",
+						"ingredients": [
+							{
+								"id": 0,
+								"name": "spread",
+								"localizedName": "spread",
+								"image": ""
+							},
+							{
+								"id": 93698,
+								"name": "pesto",
+								"localizedName": "pesto",
+								"image": "basil-pesto.png"
+							}
+						],
+						"equipment": []
+					},
+					{
+						"number": 7,
+						"step": "Sprinkle the reserved breadcrumbs over the pesto.",
+						"ingredients": [
+							{
+								"id": 18079,
+								"name": "breadcrumbs",
+								"localizedName": "breadcrumbs",
+								"image": "breadcrumbs.jpg"
+							},
+							{
+								"id": 93698,
+								"name": "pesto",
+								"localizedName": "pesto",
+								"image": "basil-pesto.png"
+							}
+						],
+						"equipment": []
+					},
+					{
+						"number": 8,
+						"step": "Bake until the salmon is cooked -- it should just start to turn opaque, with a trace of bright orange in the middle -- and the topping is lightly browned, 10 to 15 minutes, depending on the thickness of the fish.",
+						"ingredients": [
+							{
+								"id": 9200,
+								"name": "orange",
+								"localizedName": "orange",
+								"image": "orange.png"
+							},
+							{
+								"id": 15076,
+								"name": "salmon",
+								"localizedName": "salmon",
+								"image": "salmon.png"
+							},
+							{
+								"id": 10115261,
+								"name": "fish",
+								"localizedName": "fish",
+								"image": "fish-fillet.jpg"
+							}
+						],
+						"equipment": [
+							{
+								"id": 404784,
+								"name": "oven",
+								"localizedName": "oven",
+								"image": "https://spoonacular.com/cdn/equipment_100x100/oven.jpg"
+							}
+						],
+						"length": { "number": 10, "unit": "minutes" }
+					}
+				]
+			},
+			{
+				"name": "nutrition information (per serving)",
+				"steps": [
+					{
+						"number": 1,
+						"step": "Calories",
+						"ingredients": [],
+						"equipment": []
+					}
+				]
+			},
+			{
+				"name": "(kcal)",
+				"steps": [
+					{ "number": 1, "step": ", Fat", "ingredients": [], "equipment": [] },
+					{
+						"number": 2,
+						"step": ", Fat Calories",
+						"ingredients": [],
+						"equipment": []
+					}
+				]
+			},
+			{
+				"name": "(g)",
+				"steps": [
+					{
+						"number": 1,
+						"step": ", Saturated Fat",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 2,
+						"step": ", Protein",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 3,
+						"step": ", Monounsaturated Fat",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 4,
+						"step": ", Carbohydrates",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 5,
+						"step": ", Cholesterol",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 6,
+						"step": ", Fiber",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 7,
+						"step": "Photo: Scott Phillips",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 8,
+						"step": "Rate this Recipe and View Reviews",
+						"ingredients": [],
+						"equipment": []
+					}
+				]
+			},
+			{
+				"name": "(mg)",
+				"steps": [
+					{
+						"number": 1,
+						"step": ", Polyunsaturated Fat",
+						"ingredients": [],
+						"equipment": []
+					},
+					{
+						"number": 2,
+						"step": ", Sodium",
+						"ingredients": [],
+						"equipment": []
+					}
+				]
+			}
+		],
+		"originalId": null,
+		"spoonacularScore": 97.69461822509766
+	}
+]
