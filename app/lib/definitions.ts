@@ -92,13 +92,18 @@ export type Recipe = {
 	steps: [{ number: number; description: string; image?: string }];
 };
 
+type Rating = {
+	userId: string;
+	rating: number;
+};
+
 export type RecipeCard = {
 	_id: string | number;
 	image: string;
 	tags?: string[];
 	user: { _id: string | number; username: string; profileImage: string };
 	name: string;
-	ratings?: [{ userId: string | number; rating: number }];
+	ratings?: Rating[];
 	level?: string;
 	people: number;
 	calories?: number;

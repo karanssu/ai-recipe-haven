@@ -15,11 +15,22 @@ const Page = () => {
 				"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
 		},
 		name: "Longrecipewordthatwillbreakthewordwrap",
-		ratings: [{ userId: "1", rating: 5 }],
+		ratings: [
+			{ userId: "1", rating: 5 },
+			{ userId: "2", rating: 4 },
+			{ userId: "3", rating: 1 },
+		],
 		level: "easy",
 		people: 4,
 		calories: 200,
 		cookingTime: 30,
+	};
+
+	const getRating = (ratings: { userId: string; rating: number }[]) => {
+		const ratingsCount = ratings.length;
+		if (ratingsCount === 0) return 0;
+		const sum = ratings.reduce((acc, curr) => acc + curr.rating, 0);
+		return Math.round((sum / ratingsCount) * 2) / 2;
 	};
 
 	return (
@@ -90,6 +101,9 @@ const Page = () => {
 						</div>
 
 						<div className="mt-2 flex text-sm">
+							<div className="text-center">
+								<span>Rating: {getRating(recipe.ratings ?? [])}</span>
+							</div>
 							<div className="text-center">
 								<span>Level: {recipe.level}</span>
 							</div>
