@@ -1,6 +1,11 @@
 import { RecipeCard } from "@/app/lib/definitions";
 import Image from "next/image";
 import Link from "next/link";
+import { Clock01Icon as CookTimeIcon } from "hugeicons-react";
+import { FireIcon as CaloriesIcon } from "hugeicons-react";
+import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
+import { ChartLineData01Icon as LevelIcon } from "hugeicons-react";
+import { StarIcon as RatingIcon } from "hugeicons-react";
 
 const Page = () => {
 	const recipe: RecipeCard = {
@@ -14,7 +19,7 @@ const Page = () => {
 			profileImage:
 				"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
 		},
-		name: "Longrecipewordthatwillbreakthewordwrap",
+		name: "Tofu Tava Masala with Roti and Salad",
 		ratings: [
 			{ userId: "1", rating: 5 },
 			{ userId: "2", rating: 4 },
@@ -59,7 +64,7 @@ const Page = () => {
 
 			<div className="mt-10 flex items-center justify-center">
 				{/* Recipe Card */}
-				<div className="bg-green-100 w-80 rounded-lg border-gray-200 border-2 shadow-lg">
+				<div className="w-80 rounded-lg border-gray-200 border-2 shadow-lg">
 					<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center rounded-t-lg">
 						<Image
 							src={recipe.image}
@@ -69,7 +74,7 @@ const Page = () => {
 						/>
 					</div>
 
-					<div className="bg-red-100 p-4">
+					<div className="p-4">
 						<div className="flex justify-start">
 							{recipe.tags?.map((tag) => (
 								<span
@@ -81,13 +86,13 @@ const Page = () => {
 							))}
 						</div>
 
-						<div className="flex mt-2">
+						<div className="flex mt-3">
 							<div className="flex items-center">
 								<Image
 									src={recipe.user.profileImage}
 									alt={recipe.user.username}
-									width={40}
-									height={40}
+									width={30}
+									height={30}
 									className="rounded-full"
 								/>
 								<span className="ml-2 text-gray-400">
@@ -96,25 +101,48 @@ const Page = () => {
 							</div>
 						</div>
 
-						<div className="bg-yellow-100 mt-2 text-lg break-words">
-							{recipe.name}
-						</div>
+						<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
-						<div className="mt-2 flex text-sm">
-							<div className="text-center">
-								<span>Rating: {getRating(recipe.ratings ?? [])}</span>
+						<div className="mt-3 flex text-sm space-x-4 justify-center items-center">
+							<div className="flex justify-center items-center">
+								<span className="mr-2">
+									<RatingIcon className="text-Green w-4 h-4 inline-block" />
+								</span>
+								<span className="text-gray-400 font-semibold">
+									{getRating(recipe.ratings ?? [])}
+								</span>
 							</div>
-							<div className="text-center">
-								<span>Level: {recipe.level}</span>
+							<div className="flex justify-center items-center">
+								<span className="mr-2">
+									<LevelIcon className="text-Green w-4 h-4 inline-block" />
+								</span>
+								<span className="text-gray-400 font-semibold">
+									{recipe.level}
+								</span>
 							</div>
-							<div className="text-center">
-								<span>People: {recipe.people}</span>
+							<div className="flex justify-center items-center">
+								<span className="mr-2">
+									<PeopleIcon className="text-Green w-4 h-4 inline-block" />
+								</span>
+								<span className="text-gray-400 font-semibold">
+									{recipe.people}
+								</span>
 							</div>
-							<div className="text-center">
-								<span>Calories: {recipe.calories}</span>
+							<div className="flex justify-center items-center">
+								<span className="mr-2">
+									<CaloriesIcon className="text-Green w-4 h-4 inline-block" />
+								</span>
+								<span className="text-gray-400 font-semibold">
+									{recipe.calories}
+								</span>
 							</div>
-							<div className="text-center">
-								<span>Cooking Time: {recipe.cookingTime}</span>
+							<div className="flex justify-center items-center">
+								<span className="mr-2">
+									<CookTimeIcon className="text-Green w-4 h-4 inline-block" />
+								</span>
+								<span className="text-gray-400 font-semibold">
+									{recipe.cookingTime}
+								</span>
 							</div>
 						</div>
 					</div>
