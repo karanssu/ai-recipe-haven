@@ -58,3 +58,49 @@ export type User = {
 	profileImage?: string;
 	role: string;
 };
+
+export type Recipe = {
+	_id: string | number;
+	image: string;
+	tags?: string[];
+	userId: string | number;
+	name: string;
+	ratings?: [{ userId: string | number; rating: number }];
+	reviews?: [
+		{
+			userId: string | number;
+			review: string;
+			likes: [{ userid: string | number }];
+			date: Date;
+			rating?: number;
+			comments?: [{ userId: string | number; comment: string; date: Date }];
+		}
+	];
+	level?: string;
+	people: number;
+	maxPeople: number;
+	calories?: number;
+	fatGrams?: number;
+	carbsGrams?: number;
+	fiberGrams?: number;
+	sugarGrams?: number;
+	proteinGrams?: number;
+	preparationTime?: number;
+	cookingTime: number;
+	shortDescription?: string;
+	ingredients: [{ name: string; quantity?: number; unit?: string }];
+	steps: [{ number: number; description: string; image?: string }];
+};
+
+export type RecipeCard = {
+	_id: string | number;
+	image: string;
+	tags?: string[];
+	userId: string | number;
+	name: string;
+	ratings?: [{ userId: string | number; rating: number }];
+	level?: string;
+	people: number;
+	calories?: number;
+	cookingTime: number;
+};
