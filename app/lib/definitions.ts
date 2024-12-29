@@ -87,7 +87,7 @@ export type Recipe = {
 	proteinGrams?: number;
 	preparationTime?: number;
 	cookingTime: number;
-	shortDescription?: string;
+	description?: string;
 	ingredients: [{ name: string; quantity?: number; unit?: string }];
 	steps: [{ number: number; description: string; image?: string }];
 };
