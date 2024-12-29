@@ -47,7 +47,10 @@ export default function UserTable({
 									user={user}
 									revalidatePageAction={revalidatePageAction}
 								/>
-								<DeleteUserBtn user={user} />
+								<DeleteUserBtn
+									user={user}
+									revalidatePageAction={revalidatePageAction}
+								/>
 							</td>
 						</tr>
 					))}

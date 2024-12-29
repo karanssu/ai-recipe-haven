@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { User } from "@/app/lib/definitions";
 
-export default function DeleteUserBtn({ user }: { user: User }) {
+export default function DeleteUserBtn({
+	user,
+	revalidatePageAction,
+}: {
+	user: User;
+	revalidatePageAction: () => void;
+}) {
 	const [pending, setPending] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -18,6 +24,7 @@ export default function DeleteUserBtn({ user }: { user: User }) {
 		});
 		if (res.ok) {
 			closeModal();
+			revalidatePageAction();
 		}
 		setPending(false);
 	};
