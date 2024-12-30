@@ -17,9 +17,9 @@ const getRecipes = async () => {
 		},
 		name: "Tofu Tava Masala with Roti and Salad",
 		ratings: [
-			{ userId: "1", rating: 5 },
-			{ userId: "2", rating: 4 },
-			{ userId: "3", rating: 1 },
+			{ _id: "1", userId: "1", rating: 5 },
+			{ _id: "2", userId: "2", rating: 4 },
+			{ _id: "3", userId: "3", rating: 1 },
 		],
 		level: "easy",
 		people: 4,

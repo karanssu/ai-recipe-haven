@@ -6,15 +6,9 @@ import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
 import { ChartLineData01Icon as LevelIcon } from "hugeicons-react";
 import { StarIcon as RatingIcon } from "hugeicons-react";
 import Link from "next/link";
+import { calculateRecipeRating } from "@/app/lib/recipe";
 
 const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
-	const getRating = (ratings: { userId: string; rating: number }[]) => {
-		const ratingsCount = ratings.length;
-		if (ratingsCount === 0) return 0;
-		const sum = ratings.reduce((acc, curr) => acc + curr.rating, 0);
-		return Math.round((sum / ratingsCount) * 2) / 2;
-	};
-
 	return (
 		<Link
 			href={`/recipe/${recipe._id}`}
@@ -65,7 +59,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 						<span className="mr-2 flex justify-center items-center">
 							<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
-						<span>{getRating(recipe.ratings ?? [])}</span>
+						<span>{calculateRecipeRating(recipe.ratings)}</span>
 					</div>
 					<div className="flex justify-center items-center cursor-default">
 						<span className="mr-2 flex justify-center items-center">

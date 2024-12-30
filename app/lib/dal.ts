@@ -14,10 +14,10 @@ export const verifySession = cache(async () => {
 
 	return {
 		isAuth: true,
-		userId: session?.userId,
-		name: session?.name,
-		username: session?.username,
-		profileImage: session?.profileImage,
-		role: session?.role,
+		userId: session?.userId as string,
+		name: session?.name as string,
+		username: session?.username as string,
+		profileImage: session?.profileImage as string,
+		role: session?.role as string,
 	};
 });

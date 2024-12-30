@@ -59,23 +59,27 @@ export type User = {
 	role: string;
 };
 
+export type SessionUser = {
+	_id: string | number;
+	name: string;
+	username: string;
+	profileImage?: string;
+	role: string;
+};
+
 export type Recipe = {
 	_id: string | number;
 	image: string;
 	tags?: string[];
-	userId: string | number;
+	user: {
+		_id: string | number;
+		name: string;
+		username: string;
+		profileImage?: string;
+	};
 	name: string;
-	ratings?: [{ userId: string | number; rating: number }];
-	reviews?: [
-		{
-			userId: string | number;
-			review: string;
-			likes: [{ userid: string | number }];
-			date: Date;
-			rating?: number;
-			comments?: [{ userId: string | number; comment: string; date: Date }];
-		}
-	];
+	ratings?: Rating[];
+	reviews?: Review[];
 	level?: string;
 	people: number;
 	maxPeople: number;
@@ -88,12 +92,49 @@ export type Recipe = {
 	preparationTime?: number;
 	cookingTime: number;
 	description?: string;
-	ingredients: [{ name: string; quantity?: number; unit?: string }];
-	steps: [{ number: number; description: string; image?: string }];
+	ingredients: Ingredient[];
+	cookingSteps: CookingStep[];
+};
+
+type CookingStep = {
+	_id: string | number;
+	number: number;
+	description: string;
+	image?: string;
+};
+
+type Ingredient = {
+	_id: string | number;
+	name: string;
+	quantity?: number;
+	unit?: string;
+};
+
+type Like = {
+	_id: string | number;
+	userId: string | number;
+};
+
+type Comment = {
+	_id: string | number;
+	userId: string | number;
+	comment: string;
+	date: Date;
+};
+
+type Review = {
+	_id: string | number;
+	userId: string | number;
+	review: string;
+	likes: Like[];
+	date: Date;
+	rating?: number;
+	comments?: Comment[];
 };
 
 type Rating = {
-	userId: string;
+	_id: string | number;
+	userId: string | number;
 	rating: number;
 };
 

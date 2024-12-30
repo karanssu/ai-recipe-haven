@@ -1,11 +1,16 @@
 import { verifySession } from "@/app/lib/dal";
+import { SessionUser } from "@/app/lib/definitions";
 import { deleteSession } from "@/app/lib/session";
 import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = async () => {
+	let user: SessionUser | null = null;
 	const session = await verifySession();
+	if (session) {
+		user = { ...session, _id: session.userId };
+	}
 
 	return (
 		<nav className="px-16 flex justify-between items-center">
@@ -16,10 +21,10 @@ const Navbar = async () => {
 			</div>
 
 			<div className="flex space-x-4 text-sm">
-				{session && session?.userId ? (
+				{user && user?._id ? (
 					<>
 						<div>
-							<Link href="/profile">Hello, {session?.name as string}</Link>
+							<Link href="/profile">Hello, {user?.name as string}</Link>
 						</div>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipes</Link>
