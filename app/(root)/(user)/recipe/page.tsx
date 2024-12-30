@@ -40,29 +40,29 @@ const Page = () => {
 
 	return (
 		<>
-			<div className="text-4xl text-center mt-10 font-semibold">
+			<div className="text-4xl text-center mt-10 font-semibold font-title text-primaryText">
 				All Recipes
 			</div>
 
-			<ul className="mt-10 text-center text-xl cursor-pointer">
+			<ul className="mt-10 text-center text-xl cursor-pointer font-display space-y-5 text-primaryText">
 				<li>
-					<Link href={`/recipe/1`}>Recipe 1</Link>
+					<Link className="underline" href={`/recipe/1`}>
+						Recipe 1
+					</Link>
 				</li>
 				<li>
-					<Link href={`/recipe/2`}>Recipe 2</Link>
+					<Link className="underline" href={`/recipe/2`}>
+						Recipe 2
+					</Link>
 				</li>
 				<li>
-					<Link href={`/recipe/3`}>Recipe 3</Link>
-				</li>
-				<li>
-					<Link href={`/recipe/4`}>Recipe 4</Link>
-				</li>
-				<li>
-					<Link href={`/recipe/5`}>Recipe 5</Link>
+					<Link className="underline" href={`/recipe/3`}>
+						Recipe 3
+					</Link>
 				</li>
 			</ul>
 
-			<div className="mt-10 flex items-center justify-center">
+			<div className="mt-10 flex items-center justify-center text-primaryText">
 				{/* Recipe Card */}
 				<div className="w-80 rounded-lg border-gray-200 border-2 shadow-lg">
 					<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center rounded-t-lg">
@@ -79,7 +79,7 @@ const Page = () => {
 							{recipe.tags?.map((tag) => (
 								<span
 									key={tag}
-									className="mr-2 bg-primaryBg text-primaryText px-3 py-1 text-sm font-bold font-menu"
+									className="mr-2 bg-primaryBg px-3 py-1 text-sm font-bold font-menu"
 								>
 									{tag}
 								</span>
