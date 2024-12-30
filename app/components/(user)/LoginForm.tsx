@@ -18,7 +18,7 @@ export default function LoginForm() {
 			)}
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="usernameEmail"
 					type="text"
 					placeholder="Email or username"
@@ -28,7 +28,7 @@ export default function LoginForm() {
 
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="password"
 					type="password"
 					placeholder="Password"

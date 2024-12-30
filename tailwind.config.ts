@@ -13,7 +13,10 @@ export default {
 				primaryBgHover: "#22c55e",
 				primaryText: "#000000",
 				grayText: "#9ca3af",
+				darkGrayText: "#475569",
 				redText: "#ef4444",
+				darkRedText: "#dc2626",
+				blueText: "#3b82f6",
 			},
 			fontFamily: {
 				display: ["var(--font-roboto)"],

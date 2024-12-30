@@ -21,7 +21,9 @@ export default function EditUserForm({
 
 	return (
 		<form action={action}>
-			<div className="text-3xl text-center font-semibold mb-8">Edit User</div>
+			<div className="font-title font-semibold text-4xl text-center mb-8">
+				Edit User
+			</div>
 			{state?.ok && (
 				<div
 					className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
@@ -40,9 +42,9 @@ export default function EditUserForm({
 			)}
 			<input type="hidden" name="_id" value={user._id} />
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Full Name</label>
+				<label className="text-darkGrayText w-24 mr-5">Full Name</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="name"
 					type="text"
 					placeholder="Full Name"
@@ -50,13 +52,13 @@ export default function EditUserForm({
 				/>
 			</div>
 			{state?.errors?.name && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.name}</p>
 			)}
 
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Username</label>
+				<label className="text-darkGrayText w-24 mr-5">Username</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="username"
 					type="text"
 					placeholder="Username"
@@ -64,13 +66,13 @@ export default function EditUserForm({
 				/>
 			</div>
 			{state?.errors?.username && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.username}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.username}</p>
 			)}
 
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Email</label>
+				<label className="text-darkGrayText w-24 mr-5">Email</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="email"
 					type="email"
 					placeholder="Email"
@@ -78,13 +80,13 @@ export default function EditUserForm({
 				/>
 			</div>
 			{state?.errors?.email && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.email}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.email}</p>
 			)}
 
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Password</label>
+				<label className="text-darkGrayText w-24 mr-5">Password</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="password"
 					type="password"
 					placeholder="Password"
@@ -92,10 +94,10 @@ export default function EditUserForm({
 			</div>
 			{state?.errors?.password && (
 				<div>
-					<p className="text-red-500 text-sm mt-1">Password must:</p>
+					<p className="text-redText text-sm mt-1">Password must:</p>
 					<ul>
 						{state.errors.password.map((error: string) => (
-							<li className="text-red-500 text-sm mt-1" key={error}>
+							<li className="text-redText text-sm mt-1" key={error}>
 								- {error}
 							</li>
 						))}
@@ -104,9 +106,9 @@ export default function EditUserForm({
 			)}
 
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Profile Img URL</label>
+				<label className="text-darkGrayText w-24 mr-5">Profile Img URL</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="profileImage"
 					type="text"
 					placeholder="Profile Image URL"
@@ -115,18 +117,17 @@ export default function EditUserForm({
 			</div>
 
 			<div className="flex justify-center items-center mt-5">
-				<label className="text text-gray-600 w-24 mr-5">Role</label>
+				<label className="text-darkGrayText w-24 mr-5">Role</label>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full"
+					className="w-full"
 					name="role"
 					type="text"
 					defaultValue={user.role}
 					disabled={true}
 				/>
 			</div>
-
 			<button
-				className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
+				className="py-2 px-4 w-full mt-7"
 				disabled={pending}
 				type="submit"
 			>

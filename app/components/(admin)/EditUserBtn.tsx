@@ -3,6 +3,8 @@
 import { useState } from "react";
 import EditUserForm from "./EditUserForm";
 import { User } from "@/app/lib/definitions";
+import { Cancel01Icon as CloseIcon } from "hugeicons-react";
+import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 
 export default function EditUserBtn({
 	user,
@@ -27,10 +29,10 @@ export default function EditUserBtn({
 	return (
 		<>
 			<button
-				className="ml-5 font-medium text-blue-600 hover:underline"
+				className="bg-transparent hover:bg-transparent rounded-none"
 				onClick={openModal}
 			>
-				Edit
+				<EditIcon className="text-darkGrayText hover:text-blueText w-5" />
 			</button>
 
 			{isOpen && (
@@ -39,14 +41,14 @@ export default function EditUserBtn({
 					onClick={closeModal}
 				>
 					<div
-						className="relative w-full max-w-md p-6 bg-white rounded shadow-lg"
-						onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+						className="relative w-full max-w-md px-8 pt-5 pb-8 bg-white rounded shadow-lg"
+						onClick={(e) => e.stopPropagation()}
 					>
 						<button
-							className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+							className="bg-transparent hover:bg-transparent rounded-none absolute top-3 right-3"
 							onClick={closeModal}
 						>
-							&times;
+							<CloseIcon className="text-grayText hover:text-darkGrayText w-5" />
 						</button>
 
 						<EditUserForm user={user} revalidatePageAction={revalidateAction} />

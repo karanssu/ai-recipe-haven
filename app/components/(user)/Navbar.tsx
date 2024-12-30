@@ -34,7 +34,7 @@ const Navbar = async () => {
 							}}
 						>
 							<button
-								className="font-menu font-semibold text-primaryText hover:bg-transparent"
+								className="font-menu font-semibold text-primaryText bg-transparent hover:bg-transparent rounded-none"
 								type="submit"
 							>
 								Logout

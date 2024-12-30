@@ -42,15 +42,19 @@ export default function UserTable({
 							<td className="px-6 py-4">{user.username}</td>
 							<td className="px-6 py-4">{user.email}</td>
 							<td className="px-6 py-4">{user.role}</td>
-							<td className="px-6 py-4">
-								<EditUserBtn
-									user={user}
-									revalidatePageAction={revalidatePageAction}
-								/>
-								<DeleteUserBtn
-									user={user}
-									revalidatePageAction={revalidatePageAction}
-								/>
+							<td className="px-6 py-4 flex space-x-3">
+								<div>
+									<EditUserBtn
+										user={user}
+										revalidatePageAction={revalidatePageAction}
+									/>
+								</div>
+								<div>
+									<DeleteUserBtn
+										user={user}
+										revalidatePageAction={revalidatePageAction}
+									/>
+								</div>
 							</td>
 						</tr>
 					))}

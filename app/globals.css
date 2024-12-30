@@ -11,7 +11,7 @@ button {
 }
 
 input {
-  @apply rounded-md border-2 border-gray-200;
+  @apply rounded-md border-2 border-gray-200 p-2;
 }
 
 nav {

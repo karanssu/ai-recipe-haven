@@ -18,7 +18,7 @@ export default function SignupForm() {
 			)}
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="name"
 					type="text"
 					placeholder="Full Name"
@@ -31,7 +31,7 @@ export default function SignupForm() {
 
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="username"
 					type="text"
 					placeholder="Username"
@@ -44,7 +44,7 @@ export default function SignupForm() {
 
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="email"
 					type="email"
 					placeholder="Email"
@@ -57,7 +57,7 @@ export default function SignupForm() {
 
 			<div>
 				<input
-					className="p-2 w-full mt-5"
+					className="w-full mt-5"
 					name="password"
 					type="password"
 					placeholder="Password"

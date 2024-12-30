@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { User } from "@/app/lib/definitions";
+import { Cancel01Icon as CloseIcon } from "hugeicons-react";
+import { Delete02Icon as DeleteIcon } from "hugeicons-react";
 
 export default function DeleteUserBtn({
 	user,
@@ -32,10 +34,10 @@ export default function DeleteUserBtn({
 	return (
 		<>
 			<button
-				className="ml-5 font-medium text-blue-600 hover:underline"
+				className="bg-transparent hover:bg-transparent rounded-none"
 				onClick={openModal}
 			>
-				Delete
+				<DeleteIcon className="text-darkGrayText hover:text-redText w-5" />
 			</button>
 
 			{isOpen && (
@@ -44,44 +46,47 @@ export default function DeleteUserBtn({
 					onClick={closeModal}
 				>
 					<div
-						className="relative w-full max-w-md p-6 bg-white rounded shadow-lg"
+						className="relative w-full max-w-md px-7 py-6 bg-white rounded shadow-lg"
 						onClick={(e) => e.stopPropagation()}
 					>
 						<button
-							className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+							className="bg-transparent hover:bg-transparent rounded-none absolute top-3 right-3"
 							onClick={closeModal}
 						>
-							&times;
+							<CloseIcon className="text-grayText hover:text-darkGrayText w-5" />
 						</button>
 
-						<div className="font-semibold text-xl mb-3">
-							Are you sure you want to delete this user?{" "}
+						<div className="font-title font-semibold text-2xl mb-3 break-words">
+							Are you sure you want to delete this user?
 						</div>
-						<div>
-							<span className="font-semibold">Name:</span> {user.name}
-						</div>
-						<div>
-							<span className="font-semibold">Username: </span>
-							{user.username}
-						</div>
-						<div>
-							<span className="font-semibold">Email: </span>
-							{user.email}
-						</div>
-						<div>
-							<span className="font-semibold">Role: </span>
-							{user.role}
+						<div className="space-y-2 text-base">
+							<div>
+								<span className="font-medium mr-2">Name:</span>
+								{user.name}
+							</div>
+							<div>
+								<span className="font-medium mr-2">Username:</span>
+								{user.username}
+							</div>
+							<div>
+								<span className="font-medium mr-2">Email:</span>
+								{user.email}
+							</div>
+							<div>
+								<span className="font-medium mr-2">Role:</span>
+								{user.role}
+							</div>
 						</div>
 
-						<div className="flex justify-end items-end mt-5 space-x-4">
+						<div className="flex justify-end items-end mt-2 space-x-4">
 							<button
-								className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded text"
+								className="bg-redText hover:bg-darkRedText text-white px-5 py-2 rounded text"
 								onClick={handleDelete}
 							>
 								{pending ? "Deleting..." : "Delete"}
 							</button>
 							<button
-								className="bg-gray-500 hover:bg-gray-700 text-white px-5 py-2 rounded text"
+								className="bg-grayText hover:bg-darkGrayText text-white px-5 py-2 rounded text"
 								onClick={closeModal}
 							>
 								Cancel
