@@ -1,7 +1,7 @@
 import { signIn } from "@/auth";
 import Form from "next/form";
 import Link from "next/link";
-import SignupForm from "@/app/components/(user)/SignupForm";
+import SignupForm from "@/app/components/(user)/(auth)/SignupForm";
 
 const Page = () => {
 	return (

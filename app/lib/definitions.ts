@@ -97,7 +97,7 @@ type Rating = {
 	rating: number;
 };
 
-export type RecipeCard = {
+export type RecipeCardDef = {
 	_id: string | number;
 	image: string;
 	tags?: string[];

@@ -1,4 +1,4 @@
-import LoginForm from "@/app/components/(user)/LoginForm";
+import LoginForm from "@/app/components/(user)/(auth)/LoginForm";
 import { signIn } from "@/auth";
 import Form from "next/form";
 import Link from "next/link";
