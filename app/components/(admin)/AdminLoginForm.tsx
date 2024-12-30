@@ -18,7 +18,7 @@ export default function AdminLoginForm() {
 			)}
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="usernameEmail"
 					type="text"
 					placeholder="Email or username"
@@ -28,18 +28,18 @@ export default function AdminLoginForm() {
 
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="password"
 					type="password"
 					placeholder="Password"
 				/>
 			</div>
 			<button
-				className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
+				className="py-2 px-4 w-full mt-5"
 				disabled={pending}
 				type="submit"
 			>
-				{pending ? "Log in..." : "Log in"}
+				{pending ? "Logging in..." : "Log in"}
 			</button>
 		</form>
 	);

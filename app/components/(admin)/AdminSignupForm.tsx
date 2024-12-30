@@ -18,7 +18,7 @@ export default function AdminSignupForm() {
 			)}
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="name"
 					type="text"
 					placeholder="Full Name"
@@ -26,12 +26,12 @@ export default function AdminSignupForm() {
 				/>
 			</div>
 			{state?.errors?.name && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.name}</p>
 			)}
 
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="username"
 					type="text"
 					placeholder="Username"
@@ -39,12 +39,12 @@ export default function AdminSignupForm() {
 				/>
 			</div>
 			{state?.errors?.username && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.username}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.username}</p>
 			)}
 
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="email"
 					type="email"
 					placeholder="Email"
@@ -52,12 +52,12 @@ export default function AdminSignupForm() {
 				/>
 			</div>
 			{state?.errors?.email && (
-				<p className="text-red-500 text-sm mt-1">{state.errors.email}</p>
+				<p className="text-redText text-sm mt-1">{state.errors.email}</p>
 			)}
 
 			<div>
 				<input
-					className="border-2 border-gray-200 p-2 rounded-lg w-full mt-5"
+					className="w-full mt-5"
 					name="password"
 					type="password"
 					placeholder="Password"
@@ -65,10 +65,10 @@ export default function AdminSignupForm() {
 			</div>
 			{state?.errors?.password && (
 				<div>
-					<p className="text-red-500 text-sm mt-1">Password must:</p>
+					<p className="text-redText text-sm mt-1">Password must:</p>
 					<ul>
 						{state.errors.password.map((error: string) => (
-							<li className="text-red-500 text-sm mt-1" key={error}>
+							<li className="text-redText text-sm mt-1" key={error}>
 								- {error}
 							</li>
 						))}
@@ -76,11 +76,11 @@ export default function AdminSignupForm() {
 				</div>
 			)}
 			<button
-				className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
+				className="py-2 px-4 w-full mt-5"
 				disabled={pending}
 				type="submit"
 			>
-				{pending ? "Signing up..." : "Sign Up"}
+				{pending ? "Signing up..." : "Sign up"}
 			</button>
 		</form>
 	);

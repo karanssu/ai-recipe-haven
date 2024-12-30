@@ -35,7 +35,7 @@ const Page = () => {
 
 			<div className="text-center mt-5">
 				<span>Already have an Account?</span>
-				<Link className="ml-2 text-blue-500" href="/login">
+				<Link className="ml-2 text-blueText" href="/login">
 					Log in
 				</Link>
 			</div>

@@ -80,7 +80,7 @@ export default function SignupForm() {
 				disabled={pending}
 				type="submit"
 			>
-				{pending ? "Signing up..." : "Sign Up"}
+				{pending ? "Signing up..." : "Sign up"}
 			</button>
 		</form>
 	);

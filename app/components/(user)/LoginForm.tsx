@@ -39,7 +39,7 @@ export default function LoginForm() {
 				disabled={pending}
 				type="submit"
 			>
-				{pending ? "Log in..." : "Log in"}
+				{pending ? "Loggin in..." : "Log in"}
 			</button>
 		</form>
 	);
