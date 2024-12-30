@@ -25,7 +25,12 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		reviews: [
 			{
 				_id: "1",
-				userId: "1",
+				user: {
+					userId: "1",
+					username: "john_doe",
+					profileImage:
+						"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
+				},
 				review: "This is a very good recipe. I loved it.",
 				likes: [{ _id: "1", userId: "2" }],
 				date: new Date(),
@@ -47,7 +52,10 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 			},
 			{
 				_id: "2",
-				userId: "2",
+				user: {
+					userId: "2",
+					username: "merry",
+				},
 				review: "I tried this recipe and it was amazing.",
 				likes: [],
 				date: new Date(),
@@ -106,44 +114,74 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const recipe = await getRecipe(recipeId);
 
 	return (
-		<div className="text-4xl text-center mt-10 font-semibold font-title">
-			Recipe: {recipe._id}
-			Name: {recipe.name}
-			Description: {recipe.description}
-			userImg: {recipe.user.profileImage}
-			user Name: {recipe.user.name}
-			user username: {recipe.user.username}
-			Rating: {calculateRecipeRating(recipe.ratings)}
-			Total Rating: {recipe.ratings?.length || 0}
-			RecipeImg: {recipe.image}
-			Level: {recipe.level}
-			Total: {(recipe.preparationTime || 0) + recipe.cookingTime} min
-			Preparation Time: {recipe.preparationTime || 0} min Cooking Time:{" "}
-			{recipe.cookingTime} min Serving: {recipe.people} - {recipe.maxPeople}
-			Per Serving: Calories: {recipe.calories}
-			Fat: {recipe.fatGrams}g Carbs: {recipe.carbsGrams}g Fiber:{" "}
-			{recipe.fiberGrams}g Sugar: {recipe.sugarGrams}g Protein:{" "}
-			{recipe.proteinGrams}g Tags:
-			{recipe.tags?.map((tag) => (
-				<span key={tag} className="ml-2">
-					{tag}
-				</span>
-			))}
-			Ingredients:
-			{recipe.ingredients?.map((ingredient) => (
-				<div key={ingredient._id} className="ml-2">
-					{ingredient.name}: {ingredient.quantity} {ingredient.unit}
+		<div>
+			<div>Recipe: {recipe._id}</div>
+			<div>Name: {recipe.name}</div>
+			<div>Description: {recipe.description}</div>
+			<div>userImg: {recipe.user.profileImage}</div>
+			<div>user Name: {recipe.user.name}</div>
+			<div>user username: {recipe.user.username}</div>
+			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
+			<div>Total Rating: {recipe.ratings?.length || 0}</div>
+			<div>RecipeImg: {recipe.image}</div>
+			<div>Level: {recipe.level}</div>
+			<div>Total: {(recipe.preparationTime || 0) + recipe.cookingTime} min</div>
+			<div>Preparation Time: {recipe.preparationTime || 0} min</div>
+			<div>Cooking Time: {recipe.cookingTime} min</div>
+			<div>
+				Serving: {recipe.people} - {recipe.maxPeople}
+			</div>
+			<div>Per Serving: </div>
+			<div>Calories: {recipe.calories}</div>
+			<div>Fat: {recipe.fatGrams}g </div>
+			<div>Carbs: {recipe.carbsGrams}g </div>
+			<div>Fiber: {recipe.fiberGrams}g </div>
+			<div>Sugar: {recipe.sugarGrams}g </div>
+			<div>Protein: {recipe.proteinGrams}g</div>
+			<div>Tags:</div>
+			<div>
+				{recipe.tags?.map((tag) => (
+					<span key={tag} className="ml-2">
+						{tag}
+					</span>
+				))}
+			</div>
+			<div>Ingredients:</div>
+			<div>
+				{recipe.ingredients?.map((ingredient) => (
+					<span key={ingredient._id} className="ml-2">
+						{ingredient.name}: {ingredient.quantity} {ingredient.unit}
+					</span>
+				))}
+			</div>
+			<div>
+				Cooking Steps:
+				{recipe.cookingSteps?.map((step) => (
+					<div key={step._id} className="ml-2">
+						{step.number}. {step.description}
+					</div>
+				))}
+			</div>
+			<div>Review: {recipe.reviews?.length || 0}</div>
+			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
+			<div>Current User Img: {user.profileImage}</div>
+			<div>Reviews:</div>
+			{recipe.reviews?.map((review) => (
+				<div key={review._id} className="ml-2">
+					<div>Review User Img: {review.user.profileImage}</div>
+					<div>Review User Username: {review.user.username}</div>
+					<div>Review Date: {review.date.toDateString()}</div>
+					<div>Rating: {review.rating}</div>
+					<div>Review: {review.review}</div>
+					<div>Likes: {review.likes.length}</div>
+
+					{review.comments?.map((comment) => (
+						<div key={comment._id} className="ml-2">
+							Comment: {comment.comment}
+						</div>
+					))}
 				</div>
 			))}
-			Cooking Steps:
-			{recipe.cookingSteps?.map((step) => (
-				<div key={step._id} className="ml-2">
-					{step.number}. {step.description}
-				</div>
-			))}
-			Review: {recipe.reviews?.length || 0}
-			Rating: {calculateRecipeRating(recipe.ratings)}
-			Current User Img: {user.profileImage}
 		</div>
 	);
 };

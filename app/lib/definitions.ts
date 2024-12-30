@@ -124,7 +124,11 @@ type Comment = {
 
 type Review = {
 	_id: string | number;
-	userId: string | number;
+	user: {
+		userId: string | number;
+		username: string;
+		profileImage?: string;
+	};
 	review: string;
 	likes: Like[];
 	date: Date;
