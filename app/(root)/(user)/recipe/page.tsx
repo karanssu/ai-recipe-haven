@@ -79,7 +79,7 @@ const Page = () => {
 							{recipe.tags?.map((tag) => (
 								<span
 									key={tag}
-									className="mr-2 bg-Green text-gray-900 px-3 py-1 text-sm font-semibold"
+									className="mr-2 bg-Green text-gray-900 px-3 py-1 text-sm font-bold font-menu"
 								>
 									{tag}
 								</span>
@@ -95,54 +95,46 @@ const Page = () => {
 									height={30}
 									className="rounded-full"
 								/>
-								<span className="ml-2 text-gray-400">
+								<span className="ml-2 text-gray-400 font-display font-normal">
 									@{recipe.user.username}
 								</span>
 							</div>
 						</div>
 
-						<div className="mt-3 text-lg break-words">{recipe.name}</div>
+						<div className="mt-3 text-lg break-words font-display">
+							{recipe.name}
+						</div>
 
-						<div className="mt-3 flex text-sm space-x-4 justify-center items-center">
-							<div className="flex justify-center items-center">
-								<span className="mr-2">
+						<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-gray-400 font-medium">
+							<div className="flex justify-center items-center cursor-default">
+								<span className="mr-2 flex justify-center items-center">
 									<RatingIcon className="text-Green w-4 h-4 inline-block" />
 								</span>
-								<span className="text-gray-400 font-semibold">
-									{getRating(recipe.ratings ?? [])}
-								</span>
+								<span>{getRating(recipe.ratings ?? [])}</span>
 							</div>
-							<div className="flex justify-center items-center">
-								<span className="mr-2">
+							<div className="flex justify-center items-center cursor-default">
+								<span className="mr-2 flex justify-center items-center">
 									<LevelIcon className="text-Green w-4 h-4 inline-block" />
 								</span>
-								<span className="text-gray-400 font-semibold">
-									{recipe.level}
-								</span>
+								<span>{recipe.level}</span>
 							</div>
-							<div className="flex justify-center items-center">
-								<span className="mr-2">
+							<div className="flex justify-center items-center cursor-default">
+								<span className="mr-2 flex justify-center items-center">
 									<PeopleIcon className="text-Green w-4 h-4 inline-block" />
 								</span>
-								<span className="text-gray-400 font-semibold">
-									{recipe.people}
-								</span>
+								<span>{recipe.people}</span>
 							</div>
-							<div className="flex justify-center items-center">
-								<span className="mr-2">
+							<div className="flex justify-center items-center cursor-default">
+								<span className="mr-2 flex justify-center items-center">
 									<CaloriesIcon className="text-Green w-4 h-4 inline-block" />
 								</span>
-								<span className="text-gray-400 font-semibold">
-									{recipe.calories}
-								</span>
+								<span>{recipe.calories}</span>
 							</div>
-							<div className="flex justify-center items-center">
-								<span className="mr-2">
+							<div className="flex justify-center items-center cursor-default">
+								<span className="mr-2 flex justify-center items-center">
 									<CookTimeIcon className="text-Green w-4 h-4 inline-block" />
 								</span>
-								<span className="text-gray-400 font-semibold">
-									{recipe.cookingTime}
-								</span>
+								<span>{recipe.cookingTime}</span>
 							</div>
 						</div>
 					</div>

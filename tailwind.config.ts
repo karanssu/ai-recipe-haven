@@ -11,6 +11,11 @@ export default {
 			colors: {
 				Green: "#1AEB54",
 			},
+			fontFamily: {
+				display: ["var(--font-roboto)"],
+				menu: ["var(--font-poppins)"],
+				title: ["var(--font-raleway)"],
+			},
 		},
 	},
 	plugins: [],
