@@ -27,15 +27,12 @@ const getRecipes = async () => {
 		cookingTime: 30,
 	};
 
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
-	result.push(recipe);
+	result.push({ ...recipe, _id: "1" });
+	result.push({ ...recipe, _id: "2" });
+	result.push({ ...recipe, _id: "3" });
+	result.push({ ...recipe, _id: "4" });
+	result.push({ ...recipe, _id: "5" });
+	result.push({ ...recipe, _id: "6" });
 	return result;
 };
 
