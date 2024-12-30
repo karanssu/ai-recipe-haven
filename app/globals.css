@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply font-display text-primaryText;
+}
+
+button {
+  @apply font-menu font-bold text-white bg-primaryBg hover:bg-primaryBgHover ;
+}
+
+nav {
+  @apply font-menu font-semibold text-primaryText bg-primaryBg;
+}

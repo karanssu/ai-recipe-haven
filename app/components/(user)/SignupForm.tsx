@@ -76,7 +76,7 @@ export default function SignupForm() {
 				</div>
 			)}
 			<button
-				className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
+				className="py-2 px-4 rounded w-full mt-5"
 				disabled={pending}
 				type="submit"
 			>

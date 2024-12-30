@@ -44,7 +44,7 @@ const Page = () => {
 				All Recipes
 			</div>
 
-			<ul className="mt-10 text-center text-xl cursor-pointer font-display space-y-5 text-primaryText">
+			<ul className="mt-10 text-center text-xl cursor-pointer space-y-5 text-primaryText">
 				<li>
 					<Link className="underline" href={`/recipe/1`}>
 						Recipe 1
@@ -95,15 +95,13 @@ const Page = () => {
 									height={30}
 									className="rounded-full"
 								/>
-								<span className="ml-2 text-grayText font-display font-normal">
+								<span className="ml-2 text-grayText font-normal">
 									@{recipe.user.username}
 								</span>
 							</div>
 						</div>
 
-						<div className="mt-3 text-lg break-words font-display">
-							{recipe.name}
-						</div>
+						<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
 						<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-grayText font-medium">
 							<div className="flex justify-center items-center cursor-default">
