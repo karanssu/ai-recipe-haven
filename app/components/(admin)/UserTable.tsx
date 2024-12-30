@@ -36,7 +36,7 @@ export default function UserTable({
 				</thead>
 				<tbody>
 					{users.map((user, index) => (
-						<tr key={user._id} className="bg-white border-b text-gray-900">
+						<tr key={user._id} className="bg-white border-b text-primaryText">
 							<td className="px-6 py-4">{index + 1}</td>
 							<td className="px-6 py-4">{user.name}</td>
 							<td className="px-6 py-4">{user.username}</td>

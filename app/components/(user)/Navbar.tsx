@@ -33,7 +33,12 @@ const Navbar = async () => {
 								await signOut({ redirectTo: "/" });
 							}}
 						>
-							<button type="submit">Logout</button>
+							<button
+								className="font-menu font-semibold text-primaryText hover:bg-transparent"
+								type="submit"
+							>
+								Logout
+							</button>
 						</form>
 					</>
 				) : (
