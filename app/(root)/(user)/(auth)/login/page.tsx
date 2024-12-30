@@ -24,7 +24,7 @@ const Page = () => {
 				>
 					<button
 						type="submit"
-						className="bg-Green hover:bg-green-500 text-white font-bold py-2 px-4 w-full rounded"
+						className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 w-full rounded"
 					>
 						Log in with Google
 					</button>

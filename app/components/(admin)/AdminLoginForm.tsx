@@ -35,7 +35,7 @@ export default function AdminLoginForm() {
 				/>
 			</div>
 			<button
-				className="bg-Green hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
+				className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-5"
 				disabled={pending}
 				type="submit"
 			>

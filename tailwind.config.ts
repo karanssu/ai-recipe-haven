@@ -9,7 +9,9 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				Green: "#1AEB54",
+				primaryBg: "#1AEB54",
+				primaryText: "#000000",
+				grayText: "#9ca3af",
 			},
 			fontFamily: {
 				display: ["var(--font-roboto)"],

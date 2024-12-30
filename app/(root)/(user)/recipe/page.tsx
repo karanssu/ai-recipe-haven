@@ -79,7 +79,7 @@ const Page = () => {
 							{recipe.tags?.map((tag) => (
 								<span
 									key={tag}
-									className="mr-2 bg-Green text-gray-900 px-3 py-1 text-sm font-bold font-menu"
+									className="mr-2 bg-primaryBg text-primaryText px-3 py-1 text-sm font-bold font-menu"
 								>
 									{tag}
 								</span>
@@ -95,7 +95,7 @@ const Page = () => {
 									height={30}
 									className="rounded-full"
 								/>
-								<span className="ml-2 text-gray-400 font-display font-normal">
+								<span className="ml-2 text-grayText font-display font-normal">
 									@{recipe.user.username}
 								</span>
 							</div>
@@ -105,34 +105,34 @@ const Page = () => {
 							{recipe.name}
 						</div>
 
-						<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-gray-400 font-medium">
+						<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-grayText font-medium">
 							<div className="flex justify-center items-center cursor-default">
 								<span className="mr-2 flex justify-center items-center">
-									<RatingIcon className="text-Green w-4 h-4 inline-block" />
+									<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
 								</span>
 								<span>{getRating(recipe.ratings ?? [])}</span>
 							</div>
 							<div className="flex justify-center items-center cursor-default">
 								<span className="mr-2 flex justify-center items-center">
-									<LevelIcon className="text-Green w-4 h-4 inline-block" />
+									<LevelIcon className="text-primaryBg w-4 h-4 inline-block" />
 								</span>
 								<span>{recipe.level}</span>
 							</div>
 							<div className="flex justify-center items-center cursor-default">
 								<span className="mr-2 flex justify-center items-center">
-									<PeopleIcon className="text-Green w-4 h-4 inline-block" />
+									<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
 								</span>
 								<span>{recipe.people}</span>
 							</div>
 							<div className="flex justify-center items-center cursor-default">
 								<span className="mr-2 flex justify-center items-center">
-									<CaloriesIcon className="text-Green w-4 h-4 inline-block" />
+									<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
 								</span>
 								<span>{recipe.calories}</span>
 							</div>
 							<div className="flex justify-center items-center cursor-default">
 								<span className="mr-2 flex justify-center items-center">
-									<CookTimeIcon className="text-Green w-4 h-4 inline-block" />
+									<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
 								</span>
 								<span>{recipe.cookingTime}</span>
 							</div>
