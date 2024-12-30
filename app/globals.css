@@ -7,9 +7,13 @@ body {
 }
 
 button {
-  @apply font-menu font-bold text-white bg-primaryBg hover:bg-primaryBgHover ;
+  @apply font-menu font-bold text-white bg-primaryBg hover:bg-primaryBgHover rounded-md;
+}
+
+input {
+  @apply rounded-md border-2 border-gray-200;
 }
 
 nav {
-  @apply font-menu font-semibold text-primaryText bg-primaryBg;
+  @apply font-menu font-semibold bg-primaryBg;
 }
