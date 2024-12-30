@@ -5,6 +5,7 @@ import { FireIcon as CaloriesIcon } from "hugeicons-react";
 import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
 import { ChartLineData01Icon as LevelIcon } from "hugeicons-react";
 import { StarIcon as RatingIcon } from "hugeicons-react";
+import Link from "next/link";
 
 const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	const getRating = (ratings: { userId: string; rating: number }[]) => {
@@ -15,7 +16,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	};
 
 	return (
-		<div className="w-80 rounded-lg border-gray-200 border-2 shadow-lg">
+		<Link
+			href={`/recipe/${recipe._id}`}
+			className="w-80 rounded-lg border-gray-200 border-2 shadow-lg cursor-pointer"
+		>
 			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center rounded-t-lg">
 				<Image
 					src={recipe.image}
@@ -89,7 +93,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

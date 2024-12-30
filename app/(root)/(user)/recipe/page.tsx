@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Page = () => {
 	const recipe: RecipeCardDef = {
-		_id: "1",
+		_id: "999",
 		image:
 			"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
 		tags: ["Indian", "Spicy", "Vegan"],
