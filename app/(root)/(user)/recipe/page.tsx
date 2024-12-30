@@ -28,7 +28,7 @@ const Page = () => {
 
 	return (
 		<>
-			<div className="text-4xl text-center mt-10 font-semibold font-title text-primaryText">
+			<div className="text-4xl text-center mt-10 font-semibold font-title">
 				All Recipes
 			</div>
 
@@ -50,8 +50,7 @@ const Page = () => {
 				</li>
 			</ul>
 
-			<div className="mt-10 flex items-center justify-center text-primaryText">
-				{/* Recipe Card */}
+			<div className="mt-10 flex items-center justify-center">
 				<RecipeCard recipe={recipe} />
 			</div>
 		</>

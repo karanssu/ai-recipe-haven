@@ -65,7 +65,7 @@ const Page = async () => {
 
 	return (
 		<>
-			<div className="text-4xl text-center mt-10 font-semibold">
+			<div className="text-4xl text-center mt-10 font-semibold font-title">
 				Manage Users
 			</div>
 			<div className="m-10">

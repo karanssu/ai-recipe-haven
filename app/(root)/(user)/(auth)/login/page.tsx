@@ -6,7 +6,9 @@ import Link from "next/link";
 const Page = () => {
 	return (
 		<div className="border-2 border-gray-200 p-5 rounded-lg w-[400px] ml-auto mr-auto mt-10">
-			<div className="text-4xl text-center font-semibold">Log in</div>
+			<div className="text-4xl text-center font-semibold font-title">
+				Log in
+			</div>
 
 			<div className="mt-5">
 				<LoginForm />
@@ -22,10 +24,7 @@ const Page = () => {
 						await signIn("google");
 					}}
 				>
-					<button
-						type="submit"
-						className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 w-full rounded"
-					>
+					<button type="submit" className="py-2 px-4 w-full">
 						Log in with Google
 					</button>
 				</Form>

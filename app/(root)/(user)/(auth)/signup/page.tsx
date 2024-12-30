@@ -24,10 +24,7 @@ const Page = () => {
 						await signIn("google");
 					}}
 				>
-					<button
-						type="submit"
-						className="bg-primaryBg hover:bg-green-500 text-white font-bold py-2 px-4 w-full rounded"
-					>
+					<button type="submit" className="py-2 px-4 w-full">
 						Log in with Google
 					</button>
 				</Form>
