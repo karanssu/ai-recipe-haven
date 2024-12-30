@@ -2,7 +2,8 @@ import RecipeCard from "@/app/components/(user)/RecipeCard";
 import { RecipeCardDef } from "@/app/lib/definitions";
 import Link from "next/link";
 
-const Page = () => {
+const getRecipes = async () => {
+	const result: RecipeCardDef[] = [];
 	const recipe: RecipeCardDef = {
 		_id: "999",
 		image:
@@ -25,6 +26,21 @@ const Page = () => {
 		calories: 200,
 		cookingTime: 30,
 	};
+
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	result.push(recipe);
+	return result;
+};
+
+const Page = async () => {
+	const recipes = await getRecipes();
 
 	return (
 		<>
@@ -50,8 +66,10 @@ const Page = () => {
 				</li>
 			</ul>
 
-			<div className="mt-10 flex items-center justify-center">
-				<RecipeCard recipe={recipe} />
+			<div className="mt-10 px-10 py-5 flex overflow-x-auto space-x-10">
+				{recipes.map((recipe) => (
+					<RecipeCard key={recipe._id} recipe={recipe} />
+				))}
 			</div>
 		</>
 	);
