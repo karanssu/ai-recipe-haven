@@ -101,7 +101,7 @@ export type RecipeCardDef = {
 	_id: string | number;
 	image: string;
 	tags?: string[];
-	user: { _id: string | number; username: string; profileImage: string };
+	user: { _id: string | number; username: string; profileImage?: string };
 	name: string;
 	ratings?: Rating[];
 	level?: string;
