@@ -86,7 +86,8 @@ export type SessionUser = {
 // sugarGrams = nutrition.nutrients[{"name": "Sugar", "amount": #3, "unit": "g"}]
 // proteinGrams = nutrition.nutrients[{"name": "Protein", "amount": #3, "unit": "g"}]
 // description = summary
-// ingredients = ??
+// ingredients = extendedIngredients[{name, measures.us.amount, measures.us.unitShort}]
+// cookingSteps = analyzedInstructions[0].steps[{number, step}]
 
 export type Recipe = {
 	_id: string | number;
