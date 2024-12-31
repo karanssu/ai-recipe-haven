@@ -69,28 +69,28 @@ export type SessionUser = {
 
 export type Recipe = {
 	_id: string | number;
+	name: string;
 	image: string;
-	tags?: string[];
+	serving: number;
+	preparationTime?: number;
+	cookingTime: number;
 	user: {
 		_id: string | number;
 		name: string;
 		username: string;
 		profileImage?: string;
 	};
-	name: string;
+	tags?: string[];
 	ratings?: Rating[];
 	reviews?: Review[];
 	level?: string;
-	people: number;
-	maxPeople: number;
+	maxServing: number;
 	calories?: number;
 	fatGrams?: number;
 	carbsGrams?: number;
 	fiberGrams?: number;
 	sugarGrams?: number;
 	proteinGrams?: number;
-	preparationTime?: number;
-	cookingTime: number;
 	description?: string;
 	ingredients: Ingredient[];
 	cookingSteps: CookingStep[];
@@ -152,5 +152,6 @@ export type RecipeCardDef = {
 	level?: string;
 	people: number;
 	calories?: number;
+	preparationTime?: number;
 	cookingTime: number;
 };
