@@ -1,7 +1,6 @@
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, SessionUser } from "@/app/lib/definitions";
 import { calculateRecipeRating } from "@/app/lib/recipe";
-import { redirect } from "next/navigation";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
 	const recipe: Recipe = {
@@ -104,10 +103,9 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 
 const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const session = await verifySession();
+	let user: SessionUser | null = null;
+	if (session) user = { ...session, _id: session.userId };
 
-	if (!session) redirect("/login");
-
-	const user: SessionUser = { ...session, _id: session.userId };
 	const recipeId = (await params).recipeId;
 	const recipe = await getRecipe(recipeId);
 
@@ -161,7 +159,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			</div>
 			<div>Review: {recipe.reviews?.length || 0}</div>
 			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
-			<div>Current User Img: {user.profileImage}</div>
+			<div>Current User Img: {user?.profileImage}</div>
 			<div>Reviews:</div>
 			{recipe.reviews?.map((review) => (
 				<div key={review._id} className="ml-2">
