@@ -73,7 +73,8 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 							<span className="mr-2 flex justify-center items-center">
 								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
 							</span>
-							<span>{recipe.calories}</span>
+							<span className="mr-1">{recipe.calories}</span>
+							<span>cal</span>
 						</div>
 					)}
 					<div className="flex justify-center items-center cursor-default">
@@ -81,7 +82,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 							<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
 						<span>
-							{(recipe.preparationMinutes || 0) + recipe.cookingMinutes}
+							{(recipe.preparationMinutes || 0) + recipe.cookingMinutes}m
 						</span>
 					</div>
 				</div>
