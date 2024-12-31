@@ -67,6 +67,11 @@ export type SessionUser = {
 	role: string;
 };
 
+// _id = id
+// name = title
+// image = image
+// serving
+
 export type Recipe = {
 	_id: string | number;
 	name: string;
@@ -84,7 +89,6 @@ export type Recipe = {
 	ratings?: Rating[];
 	reviews?: Review[];
 	level?: string;
-	maxServing: number;
 	calories?: number;
 	fatGrams?: number;
 	carbsGrams?: number;
