@@ -62,7 +62,6 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 				rating: 4,
 			},
 		],
-		level: "easy",
 		serving: 4,
 		calories: 200,
 		fatGrams: 10,
@@ -70,8 +69,8 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		fiberGrams: 5,
 		sugarGrams: 5,
 		proteinGrams: 15,
-		preparationTime: 15,
-		cookingTime: 30,
+		preparationMinutes: 15,
+		cookingMinutes: 30,
 		description:
 			"This is a very good recipe. I loved it. I tried this recipe and it was amazing.",
 		ingredients: [
@@ -123,10 +122,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
 			<div>Total Rating: {recipe.ratings?.length || 0}</div>
 			<div>RecipeImg: {recipe.image}</div>
-			<div>Level: {recipe.level}</div>
-			<div>Total: {(recipe.preparationTime || 0) + recipe.cookingTime} min</div>
-			<div>Preparation Time: {recipe.preparationTime || 0} min</div>
-			<div>Cooking Time: {recipe.cookingTime} min</div>
+			<div>
+				Total: {(recipe.preparationMinutes || 0) + recipe.cookingMinutes} min
+			</div>
+			<div>Preparation Time: {recipe.preparationMinutes || 0} min</div>
+			<div>Cooking Time: {recipe.cookingMinutes} min</div>
 			<div>Serving: {recipe.serving}</div>
 			<div>Per Serving: </div>
 			<div>Calories: {recipe.calories}</div>

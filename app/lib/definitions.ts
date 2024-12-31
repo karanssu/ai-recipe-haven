@@ -70,15 +70,31 @@ export type SessionUser = {
 // _id = id
 // name = title
 // image = image
-// serving
+// serving = servings
+// preparationMinutes = preparationMinutes
+// cookingMinutes = cookingMinutes
+// user._id = $generated
+// user.name = sourceName
+// user.username = $generated
+// user.profileImage = $generated
+// tags = cuisines[] + dishTypes[] + diets[]
+// ratings = spoonacularScore (0-100 -> 0-5) (first rating with superadmin id)
+// calories = nutrition.nutrients[{"name": "Calories", "amount": #103, "unit": "kcal"}]
+// fatGrams = nutrition.nutrients[{"name": "Fat", "amount": #3, "unit": "g"}]
+// carbsGrams = nutrition.nutrients[{"name": "Carbohydrates", "amount": #20, "unit": "g"}]
+// fiberGrams = nutrition.nutrients[{"name": "Fiber", "amount": #3, "unit": "g"}]
+// sugarGrams = nutrition.nutrients[{"name": "Sugar", "amount": #3, "unit": "g"}]
+// proteinGrams = nutrition.nutrients[{"name": "Protein", "amount": #3, "unit": "g"}]
+// description = summary
+// ingredients = ??
 
 export type Recipe = {
 	_id: string | number;
 	name: string;
 	image: string;
 	serving: number;
-	preparationTime?: number;
-	cookingTime: number;
+	preparationMinutes?: number;
+	cookingMinutes: number;
 	user: {
 		_id: string | number;
 		name: string;
@@ -88,7 +104,6 @@ export type Recipe = {
 	tags?: string[];
 	ratings?: Rating[];
 	reviews?: Review[];
-	level?: string;
 	calories?: number;
 	fatGrams?: number;
 	carbsGrams?: number;
@@ -153,9 +168,8 @@ export type RecipeCardDef = {
 	user: { _id: string | number; username: string; profileImage?: string };
 	name: string;
 	ratings?: Rating[];
-	level?: string;
-	people: number;
+	serving: number;
 	calories?: number;
-	preparationTime?: number;
-	cookingTime: number;
+	preparationMinutes?: number;
+	cookingMinutes: number;
 };

@@ -21,10 +21,9 @@ const getRecipes = async () => {
 			{ _id: "2", userId: "2", rating: 4 },
 			{ _id: "3", userId: "3", rating: 1 },
 		],
-		level: "easy",
-		people: 4,
+		serving: 4,
 		calories: 200,
-		cookingTime: 30,
+		cookingMinutes: 30,
 	};
 
 	result.push({ ...recipe, _id: "1" });

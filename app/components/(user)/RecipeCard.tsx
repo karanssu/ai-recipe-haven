@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Clock01Icon as CookTimeIcon } from "hugeicons-react";
 import { FireIcon as CaloriesIcon } from "hugeicons-react";
 import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
-import { ChartLineData01Icon as LevelIcon } from "hugeicons-react";
 import { StarIcon as RatingIcon } from "hugeicons-react";
 import Link from "next/link";
 import { calculateRecipeRating } from "@/app/lib/recipe";
@@ -55,35 +54,35 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
 				<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-grayText font-medium">
-					<div className="flex justify-center items-center cursor-default">
-						<span className="mr-2 flex justify-center items-center">
-							<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span>{calculateRecipeRating(recipe.ratings)}</span>
-					</div>
-					<div className="flex justify-center items-center cursor-default">
-						<span className="mr-2 flex justify-center items-center">
-							<LevelIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span>{recipe.level}</span>
-					</div>
+					{recipe.ratings && (
+						<div className="flex justify-center items-center cursor-default">
+							<span className="mr-2 flex justify-center items-center">
+								<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
+							</span>
+							<span>{calculateRecipeRating(recipe.ratings)}</span>
+						</div>
+					)}
 					<div className="flex justify-center items-center cursor-default">
 						<span className="mr-2 flex justify-center items-center">
 							<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
-						<span>{recipe.people}</span>
+						<span>{recipe.serving}</span>
 					</div>
-					<div className="flex justify-center items-center cursor-default">
-						<span className="mr-2 flex justify-center items-center">
-							<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span>{recipe.calories}</span>
-					</div>
+					{recipe.calories && (
+						<div className="flex justify-center items-center cursor-default">
+							<span className="mr-2 flex justify-center items-center">
+								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
+							</span>
+							<span>{recipe.calories}</span>
+						</div>
+					)}
 					<div className="flex justify-center items-center cursor-default">
 						<span className="mr-2 flex justify-center items-center">
 							<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
-						<span>{(recipe.preparationTime || 0) + recipe.cookingTime}</span>
+						<span>
+							{(recipe.preparationMinutes || 0) + recipe.cookingMinutes}
+						</span>
 					</div>
 				</div>
 			</div>
