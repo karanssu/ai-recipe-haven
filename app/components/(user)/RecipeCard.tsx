@@ -83,7 +83,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 						<span className="mr-2 flex justify-center items-center">
 							<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
-						<span>{recipe.cookingTime}</span>
+						<span>{(recipe.preparationTime || 0) + recipe.cookingTime}</span>
 					</div>
 				</div>
 			</div>
