@@ -4,8 +4,6 @@ export async function GET(req: Request) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
 
-	console.log("referer", referer);
-
 	if (
 		!referer ||
 		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
