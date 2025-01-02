@@ -5,7 +5,11 @@ import { FireIcon as CaloriesIcon } from "hugeicons-react";
 import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
 import { StarIcon as RatingIcon } from "hugeicons-react";
 import Link from "next/link";
-import { calculateRecipeRating, getCaloriesWithUnit } from "@/app/lib/recipe";
+import {
+	calculateRecipeRating,
+	getDisplayCaloriesWithUnit,
+	getDisplayTotalCookingTimeWithUnit,
+} from "@/app/lib/recipe";
 
 const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	return (
@@ -53,38 +57,47 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
-				<div className="mt-3 flex text-sm space-x-4 justify-center items-center font-menu text-grayText font-medium">
+				<div className="mt-3 flex text-sm space-x-4 justify-start items-center font-menu text-grayText font-medium">
 					{recipe.ratings && (
-						<div className="flex justify-center items-center cursor-default">
+						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
 								<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
 							</span>
 							<span>{calculateRecipeRating(recipe.ratings)}</span>
 						</div>
 					)}
-					<div className="flex justify-center items-center cursor-default">
+					<div className="flex justify-center items-center">
 						<span className="mr-2 flex justify-center items-center">
 							<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
 						<span>{recipe.serving}</span>
 					</div>
-					{recipe.calories && (
-						<div className="flex justify-center items-center cursor-default">
-							<span className="mr-2 flex justify-center items-center">
-								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
-							</span>
-							<span className="mr-1">
-								{getCaloriesWithUnit(recipe.calories).calories}
-							</span>
-							<span>{getCaloriesWithUnit(recipe.calories).unit}</span>
-						</div>
-					)}
-					<div className="flex justify-center items-center cursor-default">
+					<div className="flex justify-center items-center">
+						<span className="mr-2 flex justify-center items-center">
+							<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
+						</span>
+						<span className="mr-1">
+							{getDisplayCaloriesWithUnit(recipe.calories).calories}
+						</span>
+						<span>{getDisplayCaloriesWithUnit(recipe.calories).unit}</span>
+					</div>
+					<div className="flex justify-center items-center">
 						<span className="mr-2 flex justify-center items-center">
 							<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
 						</span>
 						<span>
-							{(recipe.preparationMinutes || 0) + recipe.cookingMinutes}m
+							{
+								getDisplayTotalCookingTimeWithUnit(
+									recipe.preparationMinutes,
+									recipe.cookingMinutes
+								).totalTime
+							}
+							{
+								getDisplayTotalCookingTimeWithUnit(
+									recipe.preparationMinutes,
+									recipe.cookingMinutes
+								).unit
+							}
 						</span>
 					</div>
 				</div>

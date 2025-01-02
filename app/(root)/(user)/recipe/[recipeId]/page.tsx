@@ -120,9 +120,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
 			<div>Total Rating: {recipe.ratings?.length || 0}</div>
 			<div>RecipeImg: {recipe.image}</div>
-			<div>
-				Total: {(recipe.preparationMinutes || 0) + recipe.cookingMinutes} min
-			</div>
+			<div>Total: {recipe.preparationMinutes + recipe.cookingMinutes} min</div>
 			<div>Preparation Time: {recipe.preparationMinutes || 0} min</div>
 			<div>Cooking Time: {recipe.cookingMinutes} min</div>
 			<div>Serving: {recipe.serving}</div>

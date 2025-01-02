@@ -26,6 +26,7 @@ export async function GET(req: Request) {
 			name: "API Recipe",
 			serving: 100,
 			calories: 5123,
+			preparationMinutes: 30,
 			cookingMinutes: 150,
 		},
 	];

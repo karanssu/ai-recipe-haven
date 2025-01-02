@@ -94,7 +94,7 @@ export type Recipe = {
 	name: string;
 	image: string;
 	serving: number;
-	preparationMinutes?: number;
+	preparationMinutes: number;
 	cookingMinutes: number;
 	user: {
 		_id: string | number;
@@ -170,7 +170,7 @@ export type RecipeCardDef = {
 	name: string;
 	ratings?: Rating[];
 	serving: number;
-	calories?: number;
-	preparationMinutes?: number;
+	calories: number;
+	preparationMinutes: number;
 	cookingMinutes: number;
 };

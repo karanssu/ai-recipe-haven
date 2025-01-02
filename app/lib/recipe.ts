@@ -9,7 +9,7 @@ export const calculateRecipeRating = (
 	return Math.round((sum / ratingsCount) * 2) / 2;
 };
 
-export const getCaloriesWithUnit = (
+export const getDisplayCaloriesWithUnit = (
 	calories: number
 ): { calories: number; unit: string } => {
 	let unit = "cal";
@@ -23,4 +23,25 @@ export const getCaloriesWithUnit = (
 	}
 
 	return { calories, unit };
+};
+
+export const getDisplayTotalCookingTimeWithUnit = (
+	preparationMinutes: number,
+	cookingMinutes: number
+): { totalTime: number; unit: string } => {
+	let unit = "m";
+	let totalMinutes = preparationMinutes + cookingMinutes;
+	if (totalMinutes > 60) {
+		totalMinutes = totalMinutes / 60;
+		unit = "h";
+	}
+
+	// here if floting point is not 0 then it will show 2 decimal points
+	// if it is 0 then it will show only the integer part
+	// if it is 1 then it will show 1 decimal point
+	if (totalMinutes % 1 !== 0) {
+		totalMinutes = parseFloat(totalMinutes.toFixed(2));
+	}
+
+	return { totalTime: totalMinutes, unit };
 };
