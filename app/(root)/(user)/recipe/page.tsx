@@ -3,35 +3,21 @@ import { RecipeCardDef } from "@/app/lib/definitions";
 import Link from "next/link";
 
 const getRecipes = async () => {
-	const result: RecipeCardDef[] = [];
-	const recipe: RecipeCardDef = {
-		_id: "999",
-		image:
-			"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-		tags: ["Indian", "Spicy", "Vegan"],
-		user: {
-			_id: "1",
-			username: "karandpatel321",
-			profileImage:
-				"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-		},
-		name: "Tofu Tava Masala with Roti and Salad",
-		ratings: [
-			{ _id: "1", userId: "1", rating: 5 },
-			{ _id: "2", userId: "2", rating: 4 },
-			{ _id: "3", userId: "3", rating: 1 },
-		],
-		serving: 4,
-		calories: 200,
-		cookingMinutes: 30,
-	};
+	"use server";
 
-	result.push({ ...recipe, _id: "1" });
-	result.push({ ...recipe, _id: "2" });
-	result.push({ ...recipe, _id: "3" });
-	result.push({ ...recipe, _id: "4" });
-	result.push({ ...recipe, _id: "5" });
-	result.push({ ...recipe, _id: "6" });
+	const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe`, {
+		method: "GET",
+		referrer: process.env.NEXT_PUBLIC_APP_URL,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	const data = await res.json();
+	let result: RecipeCardDef[] = data?.recipes || [];
+
+	result = [result[0], result[0], result[0], result[0], result[0], result[0]];
+
 	return result;
 };
 
