@@ -5,7 +5,7 @@ import { FireIcon as CaloriesIcon } from "hugeicons-react";
 import { UserGroupIcon as PeopleIcon } from "hugeicons-react";
 import { StarIcon as RatingIcon } from "hugeicons-react";
 import Link from "next/link";
-import { calculateRecipeRating } from "@/app/lib/recipe";
+import { calculateRecipeRating, getCaloriesWithUnit } from "@/app/lib/recipe";
 
 const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	return (
@@ -73,8 +73,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 							<span className="mr-2 flex justify-center items-center">
 								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
 							</span>
-							<span className="mr-1">{recipe.calories}</span>
-							<span>cal</span>
+							<span className="mr-1">
+								{getCaloriesWithUnit(recipe.calories).calories}
+							</span>
+							<span>{getCaloriesWithUnit(recipe.calories).unit}</span>
 						</div>
 					)}
 					<div className="flex justify-center items-center cursor-default">
