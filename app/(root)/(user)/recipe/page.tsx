@@ -14,10 +14,7 @@ const getRecipes = async () => {
 	});
 
 	const data = await res.json();
-	let result: RecipeCardDef[] = data?.recipes || [];
-
-	result = [result[0], result[0], result[0], result[0], result[0], result[0]];
-
+	const result: RecipeCardDef[] = data?.recipes || [];
 	return result;
 };
 

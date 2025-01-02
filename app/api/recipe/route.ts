@@ -1,4 +1,5 @@
 import { RecipeCardDef } from "@/app/lib/definitions";
+import { saveRecipes } from "@/app/lib/spoonacular";
 
 export async function GET(req: Request) {
 	// only Frontend can access this route
@@ -11,23 +12,25 @@ export async function GET(req: Request) {
 		return Response.json({ error: "Unauthorized" }, { status: 403 });
 	}
 
-	const recipes: RecipeCardDef[] = [
-		{
-			_id: "12345",
-			image:
-				"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-			tags: ["tag #1", "tag #2", "tag #3"],
-			user: {
-				_id: "999",
-				username: "api_user",
-			},
-			name: "API Recipe",
-			serving: 100,
-			calories: 5123,
-			preparationMinutes: 30,
-			cookingMinutes: 150,
+	const recipe: RecipeCardDef = {
+		_id: "12345",
+		image:
+			"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
+		tags: ["tag #1", "tag #2", "tag #3"],
+		user: {
+			_id: "999",
+			username: "api_user",
 		},
-	];
+		name: "API Recipe",
+		serving: 100,
+		calories: 5123,
+		preparationMinutes: 30,
+		cookingMinutes: 150,
+	};
+
+	const recipes: RecipeCardDef[] = [recipe];
+
+	saveRecipes(recipes);
 
 	// return Response.json(
 	// 	{
