@@ -1,8 +1,6 @@
 import { RecipeCardDef } from "@/app/lib/definitions";
 import { saveRecipesInFile } from "@/app/lib/recipeUtils";
 
-// https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=0&number=20
-
 export async function GET(req: Request) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
@@ -13,6 +11,14 @@ export async function GET(req: Request) {
 	) {
 		return Response.json({ error: "Unauthorized" }, { status: 403 });
 	}
+
+	// https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=0&number=20
+
+	// const lastRecipeNum = await getLastRecipeNum();
+	// const recipes = await getRecipes(lastRecipeNum);
+	// saveRecipesInFile(recipes);
+	// saveRecipesInDB(recipes);
+	// return Response.json({ recipes: recipes }, { status: 200 });
 
 	const recipe: RecipeCardDef = {
 		_id: "12345",
