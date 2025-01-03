@@ -1,6 +1,8 @@
 import { RecipeCardDef } from "@/app/lib/definitions";
 import { saveRecipes } from "@/app/lib/spoonacular";
 
+// https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=0&number=20
+
 export async function GET(req: Request) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
