@@ -1,6 +1,6 @@
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, SessionUser } from "@/app/lib/definitions";
-import { calculateRecipeRating } from "@/app/lib/recipe";
+import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
 	const recipe: Recipe = {

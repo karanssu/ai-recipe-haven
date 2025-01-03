@@ -9,7 +9,7 @@ import {
 	calculateRecipeRating,
 	getDisplayCaloriesWithUnit,
 	getDisplayTotalCookingTimeWithUnit,
-} from "@/app/lib/recipe";
+} from "@/app/lib/recipeUtils";
 
 const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	return (

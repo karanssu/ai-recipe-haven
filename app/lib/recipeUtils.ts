@@ -1,3 +1,23 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+export const saveRecipesInFile = (recipes: object[]) => {
+	const fileName = "data.json";
+	const dirPath = path.dirname(fileURLToPath(import.meta.url));
+	const filePath = path.join(dirPath, fileName);
+
+	let data = { recipes: [] as object[] };
+
+	if (fs.existsSync(filePath)) {
+		data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+	}
+
+	data.recipes.push(...recipes);
+
+	fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+};
+
 export const calculateRecipeRating = (
 	ratings: { rating: number }[] | undefined
 ) => {
@@ -36,9 +56,6 @@ export const getDisplayTotalCookingTimeWithUnit = (
 		unit = "h";
 	}
 
-	// here if floting point is not 0 then it will show 2 decimal points
-	// if it is 0 then it will show only the integer part
-	// if it is 1 then it will show 1 decimal point
 	if (totalMinutes % 1 !== 0) {
 		totalMinutes = parseFloat(totalMinutes.toFixed(2));
 	}

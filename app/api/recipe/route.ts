@@ -1,5 +1,5 @@
 import { RecipeCardDef } from "@/app/lib/definitions";
-import { saveRecipes } from "@/app/lib/spoonacular";
+import { saveRecipesInFile } from "@/app/lib/recipeUtils";
 
 // https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=0&number=20
 
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
 
 	const recipes: RecipeCardDef[] = [recipe];
 
-	saveRecipes(recipes);
+	saveRecipesInFile(recipes);
 
 	// return Response.json(
 	// 	{
