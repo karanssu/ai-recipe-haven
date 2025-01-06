@@ -79,22 +79,20 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 			{ _id: "4", name: "Capsicum", quantity: 1, unit: "" },
 		],
 		cookingSteps: [
-			{ _id: "1", number: 1, description: "Cut tofu into small cubes." },
-			{ _id: "2", number: 2, description: "Cut tomato, onion, and capsicum." },
-			{ _id: "3", number: 3, description: "Heat oil in a pan." },
+			{ number: 1, step: "Cut tofu into small cubes." },
+			{ number: 2, step: "Cut tomato, onion, and capsicum." },
+			{ number: 3, step: "Heat oil in a pan." },
 			{
-				_id: "4",
 				number: 4,
-				description: "Add tofu and cook until golden brown.",
+				step: "Add tofu and cook until golden brown.",
 			},
-			{ _id: "5", number: 5, description: "Add tomato, onion, and capsicum." },
+			{ number: 5, step: "Add tomato, onion, and capsicum." },
 			{
-				_id: "6",
 				number: 6,
-				description: "Add salt, red chili powder, and turmeric powder.",
+				step: "Add salt, red chili powder, and turmeric powder.",
 			},
-			{ _id: "7", number: 7, description: "Cook for 5 minutes." },
-			{ _id: "8", number: 8, description: "Serve hot with roti and salad." },
+			{ number: 7, step: "Cook for 5 minutes." },
+			{ number: 8, step: "Serve hot with roti and salad." },
 		],
 	};
 
