@@ -117,9 +117,8 @@ export type Recipe = {
 };
 
 type CookingStep = {
-	_id: string | number;
 	number: number;
-	description: string;
+	step: string;
 	image?: string;
 };
 
@@ -173,4 +172,55 @@ export type RecipeCardDef = {
 	calories: number;
 	preparationMinutes: number;
 	cookingMinutes: number;
+};
+
+// {
+// 			calories: rawRecipe.nutrition.nutrients.find(
+// 			fatGrams: rawRecipe.nutrition.nutrients.find(
+// 			carbsGrams: rawRecipe.nutrition.nutrients.find(
+// 			fiberGrams: rawRecipe.nutrition.nutrients.find(
+// 			sugarGrams: rawRecipe.nutrition.nutrients.find(
+// 			proteinGrams: rawRecipe.nutrition.nutrients.find(
+// 			description: rawRecipe.summary || "",
+// 			ingredients:
+// 			cookingSteps:
+// }
+
+export type RawRecipe = {
+	id: string;
+	title: string;
+	image: string;
+	servings: number;
+	preparationMinutes: number;
+	cookingMinutes: number;
+	sourceName: string;
+	cuisines: string[];
+	dishTypes: string[];
+	diets: string[];
+	spoonacularScore: number;
+	nutrition: {
+		nutrients: {
+			name: string;
+			amount: number;
+		}[];
+	};
+	summary: string;
+	extendedIngredients:
+		| {
+				id: string | number;
+				name: string;
+				measures: {
+					us: {
+						amount: number;
+						unitShort: string;
+					};
+				};
+		  }[]
+		| undefined;
+	analyzedInstructions: {
+		steps: {
+			number: number;
+			step: string;
+		}[];
+	}[];
 };

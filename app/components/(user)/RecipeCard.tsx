@@ -66,40 +66,49 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 							<span>{calculateRecipeRating(recipe.ratings)}</span>
 						</div>
 					)}
-					<div className="flex justify-center items-center">
-						<span className="mr-2 flex justify-center items-center">
-							<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span>{recipe.serving}</span>
-					</div>
-					<div className="flex justify-center items-center">
-						<span className="mr-2 flex justify-center items-center">
-							<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span className="mr-1">
-							{getDisplayCaloriesWithUnit(recipe.calories).calories}
-						</span>
-						<span>{getDisplayCaloriesWithUnit(recipe.calories).unit}</span>
-					</div>
-					<div className="flex justify-center items-center">
-						<span className="mr-2 flex justify-center items-center">
-							<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
-						</span>
-						<span>
-							{
-								getDisplayTotalCookingTimeWithUnit(
-									recipe.preparationMinutes,
-									recipe.cookingMinutes
-								).totalTime
-							}
-							{
-								getDisplayTotalCookingTimeWithUnit(
-									recipe.preparationMinutes,
-									recipe.cookingMinutes
-								).unit
-							}
-						</span>
-					</div>
+					{recipe.serving && (
+						<div className="flex justify-center items-center">
+							<span className="mr-2 flex justify-center items-center">
+								<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
+							</span>
+							<span>{recipe.serving}</span>
+						</div>
+					)}
+					{recipe.calories && (
+						<div className="flex justify-center items-center">
+							<span className="mr-2 flex justify-center items-center">
+								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
+							</span>
+							<span className="mr-1">
+								{getDisplayCaloriesWithUnit(recipe.calories).calories}
+							</span>
+							<span>{getDisplayCaloriesWithUnit(recipe.calories).unit}</span>
+						</div>
+					)}
+					{getDisplayTotalCookingTimeWithUnit(
+						recipe.preparationMinutes,
+						recipe.cookingMinutes
+					).totalTime > 0 && (
+						<div className="flex justify-center items-center">
+							<span className="mr-2 flex justify-center items-center">
+								<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
+							</span>
+							<span>
+								{
+									getDisplayTotalCookingTimeWithUnit(
+										recipe.preparationMinutes,
+										recipe.cookingMinutes
+									).totalTime
+								}
+								{
+									getDisplayTotalCookingTimeWithUnit(
+										recipe.preparationMinutes,
+										recipe.cookingMinutes
+									).unit
+								}
+							</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</Link>
