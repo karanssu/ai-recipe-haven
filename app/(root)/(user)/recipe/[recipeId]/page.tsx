@@ -148,8 +148,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div>
 				Cooking Steps:
 				{recipe.cookingSteps?.map((step) => (
-					<div key={step._id} className="ml-2">
-						{step.number}. {step.description}
+					<div key={step.number} className="ml-2">
+						{step.number}. {step.step}
 					</div>
 				))}
 			</div>
