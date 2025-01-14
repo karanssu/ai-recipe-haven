@@ -1,6 +1,5 @@
 import { RawRecipe, Recipe } from "@/app/lib/definitions";
 import { saveRecipesInFile } from "@/app/lib/recipeUtils";
-// import { saveRecipesInFile } from "@/app/lib/recipeUtils";
 
 export async function GET(req: Request) {
 	// only Frontend can access this route
@@ -16,23 +15,18 @@ export async function GET(req: Request) {
 	// const lastRecipeNum = await getLastRecipeNum();
 	const lastRecipeNum = 4000;
 
-	const rawRecipes = await getRecipes(lastRecipeNum);
+	const rawRecipes = await fetchAPIRecipes(lastRecipeNum);
+	saveRecipesInFile(rawRecipes);
 	const recipes = parseRecipes(rawRecipes);
-	console.log("parsed Recipes:\n", recipes);
-	// saveRecipesInFile(recipes);
-	// saveRecipesInDB(recipes);
-	// return Response.json({ recipes: recipes }, { status: 200 });
-
-	// return Response.json(
-	// 	{
-	// 		errors: { error: "Username already exists" },
-	// 	},
-	// 	{ status: 500 }
-	// );
-	return Response.json({ recipes: recipes }, { status: 200 });
+	try {
+		// saveRecipesInDB(recipes);
+		return Response.json({ recipes: recipes }, { status: 200 });
+	} catch (err) {
+		return Response.json({ error: err }, { status: 500 });
+	}
 }
 
-const getRecipes = async (lastRecipeNum: number) => {
+const fetchAPIRecipes = async (lastRecipeNum: number) => {
 	const startRecipeNum = lastRecipeNum + 1;
 	const totalRecipes = 10;
 
@@ -42,9 +36,6 @@ const getRecipes = async (lastRecipeNum: number) => {
 
 	const data = await res.json();
 	const rawRecipes = data.results;
-	saveRecipesInFile(rawRecipes);
-
-	console.log("rawRecipes:\n", rawRecipes);
 
 	return rawRecipes;
 };
