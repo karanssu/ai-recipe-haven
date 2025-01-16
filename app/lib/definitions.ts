@@ -174,18 +174,6 @@ export type RecipeCardDef = {
 	cookingMinutes: number;
 };
 
-// {
-// 			calories: rawRecipe.nutrition.nutrients.find(
-// 			fatGrams: rawRecipe.nutrition.nutrients.find(
-// 			carbsGrams: rawRecipe.nutrition.nutrients.find(
-// 			fiberGrams: rawRecipe.nutrition.nutrients.find(
-// 			sugarGrams: rawRecipe.nutrition.nutrients.find(
-// 			proteinGrams: rawRecipe.nutrition.nutrients.find(
-// 			description: rawRecipe.summary || "",
-// 			ingredients:
-// 			cookingSteps:
-// }
-
 export type RawRecipe = {
 	id: string;
 	title: string;
