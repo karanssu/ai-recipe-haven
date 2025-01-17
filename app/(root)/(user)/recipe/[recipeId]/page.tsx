@@ -8,13 +8,7 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		image:
 			"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
 		tags: ["Indian", "Spicy", "Vegan"],
-		user: {
-			_id: "1",
-			name: "Karan Patel",
-			username: "karandpatel321",
-			profileImage:
-				"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-		},
+		userId: "1",
 		name: "Tofu Tava Masala with Roti and Salad",
 		ratings: [
 			{ _id: "1", userId: "1", rating: 5 },
@@ -94,9 +88,6 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div>Recipe: {recipe._id}</div>
 			<div>Name: {recipe.name}</div>
 			<div>Description: {recipe.description}</div>
-			<div>userImg: {recipe.user.profileImage}</div>
-			<div>user Name: {recipe.user.name}</div>
-			<div>user username: {recipe.user.username}</div>
 			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
 			<div>Total Rating: {recipe.ratings?.length || 0}</div>
 			<div>RecipeImg: {recipe.image}</div>

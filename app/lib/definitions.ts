@@ -97,12 +97,7 @@ export type Recipe = {
 	serving: number;
 	preparationMinutes: number;
 	cookingMinutes: number;
-	user: {
-		_id: string | number;
-		name: string;
-		username: string;
-		profileImage?: string;
-	};
+	userId: mongoose.Types.ObjectId | string | number;
 	tags?: string[];
 	ratings?: Rating[];
 	calories?: number;
@@ -144,7 +139,7 @@ export type RecipeReview = {
 
 type Rating = {
 	_id: string | number;
-	userId: string | number;
+	userId: mongoose.Types.ObjectId | string | number;
 	rating: number;
 };
 
