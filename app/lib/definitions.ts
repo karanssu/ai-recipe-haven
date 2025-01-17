@@ -104,7 +104,6 @@ export type Recipe = {
 	};
 	tags?: string[];
 	ratings?: Rating[];
-	reviews?: Review[];
 	calories?: number;
 	fatGrams?: number;
 	carbsGrams?: number;
@@ -134,7 +133,7 @@ type Like = {
 	userId: string | number;
 };
 
-type Review = {
+export type RecipeReview = {
 	_id: string | number;
 	user: {
 		userId: string | number;

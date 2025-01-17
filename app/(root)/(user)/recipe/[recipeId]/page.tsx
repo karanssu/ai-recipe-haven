@@ -1,5 +1,5 @@
 import { verifySession } from "@/app/lib/dal";
-import { Recipe, SessionUser } from "@/app/lib/definitions";
+import { Recipe, RecipeReview, SessionUser } from "@/app/lib/definitions";
 import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
@@ -20,30 +20,6 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 			{ _id: "1", userId: "1", rating: 5 },
 			{ _id: "2", userId: "2", rating: 4 },
 			{ _id: "3", userId: "3", rating: 1 },
-		],
-		reviews: [
-			{
-				_id: "1",
-				user: {
-					userId: "1",
-					username: "john_doe",
-					profileImage:
-						"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-				},
-				review: "This is a very good recipe. I loved it.",
-				likes: [{ _id: "1", userId: "2" }],
-				date: new Date(),
-			},
-			{
-				_id: "2",
-				user: {
-					userId: "2",
-					username: "merry",
-				},
-				review: "I tried this recipe and it was amazing.",
-				likes: [],
-				date: new Date(),
-			},
 		],
 		serving: 4,
 		calories: 200,
@@ -83,6 +59,35 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 	return recipe;
 };
 
+const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
+	const recipeReviews: RecipeReview[] = [
+		{
+			_id: recipeId + "1",
+			user: {
+				userId: "1",
+				username: "john_doe",
+				profileImage:
+					"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
+			},
+			review: "This is a very good recipe. I loved it.",
+			likes: [{ _id: "1", userId: "2" }],
+			date: new Date(),
+		},
+		{
+			_id: "2",
+			user: {
+				userId: "2",
+				username: "merry",
+			},
+			review: "I tried this recipe and it was amazing!!!",
+			likes: [],
+			date: new Date(),
+		},
+	];
+
+	return recipeReviews;
+};
+
 const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const session = await verifySession();
 	let user: SessionUser | null = null;
@@ -90,6 +95,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 
 	const recipeId = (await params).recipeId;
 	const recipe = await getRecipe(recipeId);
+	const recipeReviews = await getRecipeReviews(recipeId);
 
 	return (
 		<div>
@@ -137,11 +143,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</div>
 				))}
 			</div>
-			<div>Review: {recipe.reviews?.length || 0}</div>
+			<div>Review: {recipeReviews?.length || 0}</div>
 			<div>Rating: {calculateRecipeRating(recipe.ratings)}</div>
 			<div>Current User Img: {user?.profileImage}</div>
 			<div>Reviews:</div>
-			{recipe.reviews?.map((review) => (
+			{recipeReviews?.map((review) => (
 				<div key={review._id} className="ml-2">
 					<div>Review User Img: {review.user.profileImage}</div>
 					<div>Review User Username: {review.user.username}</div>
