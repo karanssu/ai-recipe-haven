@@ -63,22 +63,14 @@ const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
 	const recipeReviews: RecipeReview[] = [
 		{
 			_id: recipeId + "1",
-			user: {
-				userId: "1",
-				username: "john_doe",
-				profileImage:
-					"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
-			},
+			userId: "1",
 			review: "This is a very good recipe. I loved it.",
 			likes: [{ _id: "1", userId: "2" }],
 			date: new Date(),
 		},
 		{
 			_id: "2",
-			user: {
-				userId: "2",
-				username: "merry",
-			},
+			userId: "2",
 			review: "I tried this recipe and it was amazing!!!",
 			likes: [],
 			date: new Date(),
@@ -149,8 +141,6 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div>Reviews:</div>
 			{recipeReviews?.map((review) => (
 				<div key={review._id} className="ml-2">
-					<div>Review User Img: {review.user.profileImage}</div>
-					<div>Review User Username: {review.user.username}</div>
 					<div>Review Date: {review.date.toDateString()}</div>
 					<div>Review: {review.review}</div>
 					<div>Likes: {review.likes.length}</div>

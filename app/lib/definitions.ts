@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { z } from "zod";
 
 export const SignupFormSchema = z.object({
@@ -135,11 +136,7 @@ type Like = {
 
 export type RecipeReview = {
 	_id: string | number;
-	user: {
-		userId: string | number;
-		username: string;
-		profileImage?: string;
-	};
+	userId: mongoose.Types.ObjectId | string | number;
 	review: string;
 	likes: Like[];
 	date: Date;
@@ -165,7 +162,7 @@ export type RecipeCardDef = {
 };
 
 export type RawRecipe = {
-	id: string;
+	id: string | number;
 	title: string;
 	image: string;
 	servings: number;
