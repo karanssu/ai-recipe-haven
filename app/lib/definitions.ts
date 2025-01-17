@@ -134,13 +134,6 @@ type Like = {
 	userId: string | number;
 };
 
-type Comment = {
-	_id: string | number;
-	userId: string | number;
-	comment: string;
-	date: Date;
-};
-
 type Review = {
 	_id: string | number;
 	user: {
@@ -151,8 +144,6 @@ type Review = {
 	review: string;
 	likes: Like[];
 	date: Date;
-	rating?: number;
-	comments?: Comment[];
 };
 
 type Rating = {

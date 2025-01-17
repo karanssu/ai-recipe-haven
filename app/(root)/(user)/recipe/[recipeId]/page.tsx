@@ -33,21 +33,6 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 				review: "This is a very good recipe. I loved it.",
 				likes: [{ _id: "1", userId: "2" }],
 				date: new Date(),
-				rating: 5,
-				comments: [
-					{
-						_id: "1",
-						userId: "2",
-						comment: "I loved it too.",
-						date: new Date(),
-					},
-					{
-						_id: "1",
-						userId: "3",
-						comment: "I loved it, it's amazing.",
-						date: new Date(),
-					},
-				],
 			},
 			{
 				_id: "2",
@@ -58,7 +43,6 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 				review: "I tried this recipe and it was amazing.",
 				likes: [],
 				date: new Date(),
-				rating: 4,
 			},
 		],
 		serving: 4,
@@ -162,15 +146,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<div>Review User Img: {review.user.profileImage}</div>
 					<div>Review User Username: {review.user.username}</div>
 					<div>Review Date: {review.date.toDateString()}</div>
-					<div>Rating: {review.rating}</div>
 					<div>Review: {review.review}</div>
 					<div>Likes: {review.likes.length}</div>
-
-					{review.comments?.map((comment) => (
-						<div key={comment._id} className="ml-2">
-							Comment: {comment.comment}
-						</div>
-					))}
 				</div>
 			))}
 		</div>
