@@ -27,30 +27,31 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 			</div>
 
 			<div className="p-4">
-				<div className="flex justify-start">
-					{recipe.tags?.map((tag) => (
-						<span
+				{/* below dev if the content overflow x then move it to next line style (tailwind css) and give some space between those divs if they move to next line*/}
+				<div className="flex flex-wrap gap-2">
+					{recipe.tags?.slice(0, 3).map((tag) => (
+						<div
 							key={tag}
-							className="mr-2 bg-primaryBg px-3 py-1 text-sm font-bold font-menu"
+							className="bg-primaryBg px-3 py-1 text-sm font-bold font-menu whitespace-nowrap"
 						>
 							{tag}
-						</span>
+						</div>
 					))}
 				</div>
 
 				<div className="flex mt-3">
 					<div className="flex items-center">
 						<Image
-							src={recipe.user.profileImage || "default-profile.svg"}
-							alt={recipe.user.username}
+							src={recipe.user?.profileImage || "default-profile.svg"}
+							alt={recipe.user?.username}
 							width={30}
 							height={30}
 							className={`rounded-full object-center object-cover bg-gray-200 ${
-								!recipe.user.profileImage && "p-1"
+								!recipe.user?.profileImage && "p-1"
 							}`}
 						/>
 						<span className="ml-2 text-grayText font-normal">
-							@{recipe.user.username}
+							@{recipe.user?.username}
 						</span>
 					</div>
 				</div>
