@@ -22,11 +22,8 @@ const Page = async () => {
 
 	return (
 		<>
-			<div className="text-4xl text-center mt-10 font-semibold font-title">
-				All Recipes
-			</div>
-
-			<div className="mt-10 px-10 py-5 flex overflow-x-auto space-x-10">
+			{/* I want a div below with the width of whole screen and content center, with RecipeCard inside it, if there are more recipecard then they move to next line */}
+			<div className="mt-10 px-10 py-5 flex flex-wrap gap-5 justify-start items-start w-full ">
 				{recipes.map((recipe) => (
 					<RecipeCard key={recipe._id} recipe={recipe} />
 				))}

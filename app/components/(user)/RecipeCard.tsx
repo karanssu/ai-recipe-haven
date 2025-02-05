@@ -39,22 +39,24 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					))}
 				</div>
 
-				<div className="flex mt-3">
-					<div className="flex items-center">
-						<Image
-							src={recipe.user?.profileImage || "default-profile.svg"}
-							alt={recipe.user?.username}
-							width={30}
-							height={30}
-							className={`rounded-full object-center object-cover bg-gray-200 ${
-								!recipe.user?.profileImage && "p-1"
-							}`}
-						/>
-						<span className="ml-2 text-grayText font-normal">
-							@{recipe.user?.username}
-						</span>
+				{recipe.user && (
+					<div className="flex mt-3">
+						<div className="flex items-center">
+							<Image
+								src={recipe.user?.profileImage || "default-profile.svg"}
+								alt={recipe.user?.username}
+								width={30}
+								height={30}
+								className={`rounded-full object-center object-cover bg-gray-200 ${
+									!recipe.user?.profileImage && "p-1"
+								}`}
+							/>
+							<span className="ml-2 text-grayText font-normal">
+								@{recipe.user?.username}
+							</span>
+						</div>
 					</div>
-				</div>
+				)}
 
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
