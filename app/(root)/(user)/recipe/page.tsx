@@ -22,11 +22,12 @@ const Page = async () => {
 
 	return (
 		<>
-			{/* I want a div below with the width of whole screen and content center, with RecipeCard inside it, if there are more recipecard then they move to next line */}
-			<div className="mt-10 px-10 py-5 flex flex-wrap gap-5 justify-start items-start w-full ">
-				{recipes.map((recipe) => (
-					<RecipeCard key={recipe._id} recipe={recipe} />
-				))}
+			<div className="flex justify-center p-10">
+				<div className="flex flex-wrap justify-center gap-8">
+					{recipes.map((recipe) => (
+						<RecipeCard key={recipe._id} recipe={recipe} />
+					))}
+				</div>
 			</div>
 		</>
 	);
