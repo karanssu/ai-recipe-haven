@@ -133,7 +133,7 @@ export default function Home() {
 			</section>
 
 			<Link
-				href="/dashboard"
+				href="/recipe"
 				className="fixed bottom-8 right-8 px-6 py-3 bg-primaryBg text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition"
 			>
 				Explore
