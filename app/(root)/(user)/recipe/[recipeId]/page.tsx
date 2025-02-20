@@ -7,7 +7,7 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 	const recipe: Recipe = {
 		_id: recipeId,
 		image:
-			"https://lh3.googleusercontent.com/a/ACg8ocLAnHar6JP6NbRjFWUZoAyKQIBRMPSqLTy3QN6-p0whKq_9KZw=s96-c",
+			"https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg",
 		tags: ["Indian", "Spicy", "Vegan"],
 		userId: "1",
 		name: "Tofu Tava Masala with Roti and Salad",

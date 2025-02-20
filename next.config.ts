@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: "https",
+				hostname: "img.freepik.com",
+				port: "",
+				pathname: "/**",
+				search: "",
+			},
+			{
+				protocol: "https",
 				hostname: "img.spoonacular.com",
 				port: "",
 				pathname: "/**",
