@@ -13,7 +13,7 @@ export async function GET(req: Request) {
 	}
 
 	// const lastRecipeNum = await getLastRecipeNum();
-	const lastRecipeNum = 4000;
+	const lastRecipeNum = 1000;
 
 	const rawRecipes = await fetchAPIRecipes(lastRecipeNum);
 	// saveRecipesInFile(rawRecipes);
@@ -28,7 +28,7 @@ export async function GET(req: Request) {
 
 const fetchAPIRecipes = async (lastRecipeNum: number) => {
 	const startRecipeNum = lastRecipeNum + 1;
-	const totalRecipes = 10;
+	const totalRecipes = 100;
 
 	const res = await fetch(
 		`https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=${startRecipeNum}&number=${totalRecipes}&apiKey=${process.env.SPOONACULAR_API_KEY}`
