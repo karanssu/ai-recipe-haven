@@ -15,9 +15,9 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 	return (
 		<Link
 			href={`/recipe/${recipe._id}`}
-			className="w-80 min-w-72 max-w-80 h-fit rounded-lg border-gray-200 border-2 shadow-lg cursor-pointer"
+			className="w-80 min-w-72 max-w-80 h-fit rounded-lg shadow-lg cursor-pointer overflow-hidden"
 		>
-			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center rounded-t-lg">
+			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center">
 				<Image
 					src={recipe.image}
 					alt={recipe.name}

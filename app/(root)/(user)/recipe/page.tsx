@@ -22,10 +22,15 @@ const Page = async () => {
 
 	return (
 		<>
-			<div className="flex justify-center p-10">
-				<div className="flex flex-wrap justify-center gap-8">
+			<div className="p-10">
+				<div className="flex flex-wrap justify-center items-stretch gap-8">
 					{recipes.map((recipe) => (
-						<RecipeCard key={recipe._id} recipe={recipe} />
+						<div
+							key={recipe._id}
+							className="flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
+						>
+							<RecipeCard recipe={recipe} />
+						</div>
 					))}
 				</div>
 			</div>
