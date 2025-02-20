@@ -169,7 +169,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</h2>
 					<ol className="list-decimal list-inside text-gray-700 space-y-3">
 						{recipe.cookingSteps?.map((step) => (
-							<li key={step.number}>
+							<li key={step.number} className="list-none">
 								<span className="font-medium">{step.number}.</span> {step.step}
 							</li>
 						))}
