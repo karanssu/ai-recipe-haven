@@ -101,7 +101,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<h1 className="text-4xl font-bold text-gray-800">{recipe.name}</h1>
 					<p className="text-gray-600 mt-4">{recipe.description}</p>
 					<div className="mt-4 flex items-center space-x-4">
-						<div className="text-yellow-500 font-semibold">
+						<div className="text-primaryBgHover font-semibold">
 							Rating: {calculateRecipeRating(recipe.ratings)}
 						</div>
 						<div className="text-gray-500">

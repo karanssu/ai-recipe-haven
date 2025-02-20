@@ -64,7 +64,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.ratings && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<RatingIcon className="text-primaryBg w-4 h-4 inline-block" />
+								<RatingIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
 							</span>
 							<span>{calculateRecipeRating(recipe.ratings)}</span>
 						</div>
@@ -72,7 +72,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.serving && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<PeopleIcon className="text-primaryBg w-4 h-4 inline-block" />
+								<PeopleIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
 							</span>
 							<span>{recipe.serving}</span>
 						</div>
@@ -80,7 +80,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.calories && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<CaloriesIcon className="text-primaryBg w-4 h-4 inline-block" />
+								<CaloriesIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
 							</span>
 							<span className="mr-1">
 								{getDisplayCaloriesWithUnit(recipe.calories).calories}
@@ -94,7 +94,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					).totalTime > 0 && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<CookTimeIcon className="text-primaryBg w-4 h-4 inline-block" />
+								<CookTimeIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
 							</span>
 							<span>
 								{
