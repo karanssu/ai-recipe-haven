@@ -1,17 +1,21 @@
-"use client";
-
 import EditUserForm from "@/app/components/(admin)/EditUserForm";
-import { User } from "@/app/lib/definitions";
+import { verifySession } from "@/app/lib/dal";
+import { User as UserDef } from "@/app/lib/definitions";
+import { connectMongoDB } from "@/app/lib/mongodb";
+import User from "@/app/models/user";
 
-const Page = () => {
-	const user: User = {
-		_id: 1,
-		name: "Test",
-		role: "admin",
-		username: "test",
-		password: "test",
-		profileImage: "https://www.google.com",
-		email: "test@gmail.com",
+const Page = async () => {
+	const session = await verifySession();
+
+	if (!session) return null;
+
+	const userId = session.userId;
+	const user: UserDef = await getUserById(userId);
+
+	const saveUser = async () => {
+		"use server";
+
+		console.log("user profile edited");
 	};
 
 	return (
@@ -19,12 +23,17 @@ const Page = () => {
 			<EditUserForm
 				title="Profile"
 				user={user}
-				revalidatePageAction={() => {
-					console.log("user profile edited");
-				}}
+				revalidatePageAction={saveUser}
 			/>
 		</div>
 	);
 };
+
+async function getUserById(userId: string) {
+	await connectMongoDB();
+
+	const user = await User.findById(userId);
+	return user;
+}
 
 export default Page;
