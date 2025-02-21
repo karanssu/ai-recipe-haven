@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/app/actions/auth";
+import { updateUserProfile } from "@/app/actions/auth";
 import { useActionState } from "react";
 import { User } from "@/app/lib/definitions";
 
@@ -11,7 +11,7 @@ export default function EditUserProfileForm({
 	user: User;
 	revalidatePageAction: () => void;
 }) {
-	const [state, action, pending] = useActionState(updateUser, undefined);
+	const [state, action, pending] = useActionState(updateUserProfile, undefined);
 	if (state?.user) {
 		user = { ...user, ...state.user };
 	}
