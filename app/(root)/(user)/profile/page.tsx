@@ -19,7 +19,7 @@ const Page = async () => {
 	};
 
 	return (
-		<div className="border-2 border-gray-200 p-5 rounded-lg w-[500px] ml-auto mr-auto mt-10">
+		<div className="border-2 border-gray-200 p-5 rounded-lg w-96 md:w-[450px] ml-auto mr-auto mt-10">
 			<EditUserProfileForm user={user} revalidatePageAction={saveUser} />
 		</div>
 	);
