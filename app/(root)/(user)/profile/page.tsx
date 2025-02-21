@@ -1,4 +1,4 @@
-import EditUserForm from "@/app/components/(admin)/EditUserForm";
+import EditProfileForm from "@/app/components/(user)/EditProfileForm";
 import { verifySession } from "@/app/lib/dal";
 import { User as UserDef } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
@@ -15,16 +15,12 @@ const Page = async () => {
 	const saveUser = async () => {
 		"use server";
 
-		console.log("user profile edited");
+		console.log("User Profile Updated");
 	};
 
 	return (
 		<div className="border-2 border-gray-200 p-5 rounded-lg w-[500px] ml-auto mr-auto mt-10">
-			<EditUserForm
-				title="Profile"
-				user={user}
-				revalidatePageAction={saveUser}
-			/>
+			<EditProfileForm user={user} revalidatePageAction={saveUser} />
 		</div>
 	);
 };
