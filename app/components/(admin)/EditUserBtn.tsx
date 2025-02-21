@@ -51,11 +51,7 @@ export default function EditUserBtn({
 							<CloseIcon className="text-grayText hover:text-darkGrayText w-5" />
 						</button>
 
-						<EditUserForm
-							user={user}
-							title="Edit User"
-							revalidatePageAction={revalidateAction}
-						/>
+						<EditUserForm user={user} revalidatePageAction={revalidateAction} />
 					</div>
 				</div>
 			)}
