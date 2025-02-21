@@ -237,3 +237,82 @@ export async function updateUser(state: FormState, formData: FormData) {
 		};
 	}
 }
+
+export async function updateUserProfile(state: FormState, formData: FormData) {
+	const _id = formData.get("_id")?.toString().trim();
+	const name = formData.get("name")?.toString().trim() as string;
+	const username = formData.get("username")?.toString().trim() as string;
+	const email = formData.get("email")?.toString().trim() as string;
+	const password = formData.get("password") as string;
+	const profileImage = formData
+		.get("profileImage")
+		?.toString()
+		.trim() as string;
+	const user = { name, username, email, password, profileImage };
+
+	const DEFAULT_VALID_PASSWORD = "ValidPassword123!";
+	const passwordExist = formData.get("password") !== "";
+	const validationPassword = passwordExist
+		? formData.get("password")
+		: DEFAULT_VALID_PASSWORD;
+
+	const validatedFields = SignupFormSchema.safeParse({
+		name: formData.get("name"),
+		username: formData.get("username"),
+		email: formData.get("email"),
+		password: validationPassword,
+	});
+
+	if (!validatedFields.success) {
+		return {
+			user: user,
+			errors: validatedFields.error.flatten().fieldErrors,
+		};
+	}
+
+	let data = null;
+
+	if (passwordExist) {
+		data = JSON.stringify({
+			_id,
+			name,
+			username,
+			email,
+			password,
+			profileImage,
+		});
+	} else {
+		data = JSON.stringify({
+			_id,
+			name,
+			username,
+			email,
+			profileImage,
+		});
+	}
+
+	const savedUser = await fetch("/api/user", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: data,
+	});
+
+	if (savedUser.ok) {
+		const userId = _id || "";
+		await createSession(userId, name, username, profileImage, "user");
+
+		return {
+			user: user,
+			message: "User updated successfully",
+			ok: true,
+		};
+	} else {
+		const data = await savedUser.json();
+		return {
+			user: user,
+			errors: data.errors,
+		};
+	}
+}
