@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "@/app/lib/session";
+import { decrypt, updateSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 
 const authRoutes = ["/login", "/signup", "/admin/login"];
@@ -56,6 +56,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	updateSession();
 	return NextResponse.next();
 }
 
