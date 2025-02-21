@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUserProfile } from "@/app/actions/auth";
+import { updateUser } from "@/app/actions/auth";
 import { useActionState } from "react";
 import { User } from "@/app/lib/definitions";
 
@@ -11,7 +11,7 @@ export default function EditUserProfileForm({
 	user: User;
 	revalidatePageAction: () => void;
 }) {
-	const [state, action, pending] = useActionState(updateUserProfile, undefined);
+	const [state, action, pending] = useActionState(updateUser, undefined);
 	if (state?.user) {
 		user = { ...user, ...state.user };
 	}
@@ -63,7 +63,7 @@ export default function EditUserProfileForm({
 					type="text"
 					placeholder="Username"
 					defaultValue={user.username}
-					disabled={true}
+					readOnly
 				/>
 			</div>
 			{state?.errors?.username && (
