@@ -6,9 +6,11 @@ import { User } from "@/app/lib/definitions";
 
 export default function EditUserForm({
 	user,
+	title,
 	revalidatePageAction,
 }: {
 	user: User;
+	title: string;
 	revalidatePageAction: () => void;
 }) {
 	const [state, action, pending] = useActionState(updateUser, undefined);
@@ -22,7 +24,7 @@ export default function EditUserForm({
 	return (
 		<form action={action}>
 			<div className="font-title font-semibold text-4xl text-center mb-8">
-				Edit User
+				{title}
 			</div>
 			{state?.ok && (
 				<div
