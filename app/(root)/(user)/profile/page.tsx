@@ -1,4 +1,4 @@
-import EditProfileForm from "@/app/components/(user)/EditProfileForm";
+import EditUserProfileForm from "@/app/components/(user)/EditUserProfileForm";
 import { verifySession } from "@/app/lib/dal";
 import { User as UserDef } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
@@ -20,7 +20,7 @@ const Page = async () => {
 
 	return (
 		<div className="border-2 border-gray-200 p-5 rounded-lg w-[500px] ml-auto mr-auto mt-10">
-			<EditProfileForm user={user} revalidatePageAction={saveUser} />
+			<EditUserProfileForm user={user} revalidatePageAction={saveUser} />
 		</div>
 	);
 };

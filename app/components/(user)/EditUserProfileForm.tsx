@@ -1,17 +1,17 @@
 "use client";
 
-import { updateUser } from "@/app/actions/auth";
+import { updateUserProfile } from "@/app/actions/auth";
 import { useActionState } from "react";
 import { User } from "@/app/lib/definitions";
 
-export default function EditProfileForm({
+export default function EditUserProfileForm({
 	user,
 	revalidatePageAction,
 }: {
 	user: User;
 	revalidatePageAction: () => void;
 }) {
-	const [state, action, pending] = useActionState(updateUser, undefined);
+	const [state, action, pending] = useActionState(updateUserProfile, undefined);
 	if (state?.user) {
 		user = { ...user, ...state.user };
 	}
@@ -22,7 +22,7 @@ export default function EditProfileForm({
 	return (
 		<form action={action}>
 			<div className="font-title font-semibold text-4xl text-center mb-8">
-				My Form
+				My Profile
 			</div>
 			{state?.ok && (
 				<div
@@ -63,6 +63,7 @@ export default function EditProfileForm({
 					type="text"
 					placeholder="Username"
 					defaultValue={user.username}
+					disabled={true}
 				/>
 			</div>
 			{state?.errors?.username && (
@@ -115,23 +116,12 @@ export default function EditProfileForm({
 					defaultValue={user.profileImage}
 				/>
 			</div>
-
-			<div className="flex justify-center items-center mt-5">
-				<label className="text-darkGrayText w-24 mr-5">Role</label>
-				<input
-					className="w-full"
-					name="role"
-					type="text"
-					defaultValue={user.role}
-					disabled={true}
-				/>
-			</div>
 			<button
-				className="py-2 px-4 w-full mt-7"
+				className="py-2 px-4 w-full mt-10"
 				disabled={pending}
 				type="submit"
 			>
-				{pending ? "Updating user..." : "Update User"}
+				{pending ? "Saving..." : "Save"}
 			</button>
 		</form>
 	);
