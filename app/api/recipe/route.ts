@@ -1,5 +1,4 @@
 import { RawRecipe, Recipe } from "@/app/lib/definitions";
-// import { saveRecipesInFile } from "@/app/lib/recipeUtils";
 
 export async function GET(req: Request) {
 	// only Frontend can access this route
@@ -16,7 +15,6 @@ export async function GET(req: Request) {
 	const lastRecipeNum = 1000;
 
 	const rawRecipes = await fetchAPIRecipes(lastRecipeNum);
-	// saveRecipesInFile(rawRecipes);
 	const recipes = parseRecipes(rawRecipes);
 	try {
 		// saveRecipesInDB(recipes);

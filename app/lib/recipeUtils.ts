@@ -1,23 +1,3 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-
-export const saveRecipesInFile = (recipes: object[]) => {
-	const fileName = "data.json";
-	const dirPath = path.dirname(fileURLToPath(import.meta.url));
-	const filePath = path.join(dirPath, fileName);
-
-	let data = { recipes: [] as object[] };
-
-	if (fs.existsSync(filePath)) {
-		data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-	}
-
-	data.recipes.push(...recipes);
-
-	fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-};
-
 export const calculateRecipeRating = (
 	ratings: { rating: number }[] | undefined
 ) => {
