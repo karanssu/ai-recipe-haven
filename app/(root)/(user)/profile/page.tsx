@@ -2,7 +2,7 @@ import EditUserProfileForm from "@/app/components/(user)/EditUserProfileForm";
 import { verifySession } from "@/app/lib/dal";
 import { User as UserDef } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/app/models/user";
+import User from "@/app/models/user.model";
 
 const Page = async () => {
 	const session = await verifySession();

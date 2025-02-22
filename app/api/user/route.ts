@@ -1,5 +1,5 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/app/models/user";
+import User from "@/app/models/user.model";
 import { encodePassword } from "@/app/lib/password";
 
 export async function PUT(req: Request) {

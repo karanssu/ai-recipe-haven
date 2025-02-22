@@ -1,5 +1,5 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
-import User from "@/app/models/user";
+import User from "@/app/models/user.model";
 
 export async function DELETE(req: Request) {
 	// only Frontend can access this route
