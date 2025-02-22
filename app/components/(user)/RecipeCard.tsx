@@ -27,7 +27,6 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 			</div>
 
 			<div className="p-4">
-				{/* below dev if the content overflow x then move it to next line style (tailwind css) and give some space between those divs if they move to next line*/}
 				<div className="flex flex-wrap gap-2">
 					{recipe.tags?.slice(0, 3).map((tag) => (
 						<div
