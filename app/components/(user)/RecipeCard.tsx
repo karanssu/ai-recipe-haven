@@ -19,7 +19,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 		>
 			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center">
 				<Image
-					src={recipe.image}
+					src={recipe.imageUrl}
 					alt={recipe.name}
 					fill={true}
 					className="object-cover object-center"

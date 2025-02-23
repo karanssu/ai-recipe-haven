@@ -13,6 +13,7 @@ interface IRecipeIngredient {
 
 export interface IRecipe extends Document {
 	name: string;
+	apiId: string;
 	imageUrl?: string;
 	description?: string;
 	preparationMinutes: number;
@@ -55,6 +56,7 @@ const RecipeIngredientSchema = new Schema<IRecipeIngredient>(
 const RecipeSchema = new Schema<IRecipe>(
 	{
 		name: { type: String, required: true, trim: true, index: true },
+		apiId: { type: String, required: false, index: true },
 		imageUrl: { type: String, trim: true },
 		description: { type: String, trim: true, default: "" },
 		preparationMinutes: { type: Number, default: 0 },
