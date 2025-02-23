@@ -59,7 +59,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
-				<div className="mt-3 flex text-sm space-x-4 justify-start items-center font-menu text-grayText font-medium">
+				<div className="mt-3 flex text-sm space-x-3 justify-start items-center font-menu text-grayText font-medium">
 					{recipe.ratings && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
