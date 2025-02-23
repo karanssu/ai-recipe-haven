@@ -93,7 +93,7 @@ export type SessionUser = {
 export type Recipe = {
 	_id: string | number;
 	name: string;
-	image: string;
+	imageUrl: string;
 	serving: number;
 	preparationMinutes: number;
 	cookingMinutes: number;
@@ -138,7 +138,6 @@ export type RecipeReview = {
 };
 
 type Rating = {
-	_id: string | number;
 	userId: mongoose.Types.ObjectId | string | number;
 	rating: number;
 };
