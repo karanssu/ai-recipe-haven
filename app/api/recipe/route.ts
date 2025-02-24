@@ -13,9 +13,9 @@ export async function GET(req: Request) {
 		return Response.json({ error: "Unauthorized" }, { status: 403 });
 	}
 
-	const lastRecipeNum = await getLastRecipeNum();
-	console.log("\n\n\nlastRecipeNum\n\n\n", lastRecipeNum);
-	const rawRecipes = await fetchAPIRecipes(lastRecipeNum);
+	const totalApiRecipesCount = await getTotalApiRecipesCount();
+	console.log("totalApiRecipesCount", totalApiRecipesCount);
+	const rawRecipes = await fetchAPIRecipes(totalApiRecipesCount);
 	const recipes = parseRecipes(rawRecipes);
 	try {
 		saveRecipesInDB(recipes);
@@ -25,9 +25,9 @@ export async function GET(req: Request) {
 	}
 }
 
-const fetchAPIRecipes = async (lastRecipeNum: number) => {
-	const startRecipeNum = lastRecipeNum + 1;
-	const totalRecipes = 100;
+const fetchAPIRecipes = async (previousRecipeCount: number) => {
+	const startRecipeNum = previousRecipeCount + 1;
+	const totalRecipes = 2;
 
 	const res = await fetch(
 		`https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=${startRecipeNum}&number=${totalRecipes}&apiKey=${process.env.SPOONACULAR_API_KEY}`
@@ -108,18 +108,19 @@ const parseRecipes = (rawRecipes: RawRecipe[]): Recipe[] => {
 	return result;
 };
 
-const getLastRecipeNum = async () => {
+const getTotalApiRecipesCount = async () => {
 	await connectMongoDB();
 
-	const lastRecipe = await RecipeModel.findOne({
+	// I want to get the totalnumber of recipes in the database that have an apiId
+	const totalRecipes = await RecipeModel.countDocuments({
 		apiId: { $exists: true },
-	}).sort({ apiId: -1 });
+	});
 
-	if (!lastRecipe?.apiId) {
+	if (!totalRecipes) {
 		return 0;
 	}
 
-	return lastRecipe.apiId;
+	return totalRecipes;
 };
 
 const saveRecipesInDB = async (recipes: Recipe[]) => {

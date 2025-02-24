@@ -90,18 +90,18 @@ export type Recipe = {
 	// cookingSteps: CookingStep[];
 };
 
-type CookingStep = {
-	number: number;
-	step: string;
-	image?: string;
-};
+// type CookingStep = {
+// 	number: number;
+// 	step: string;
+// 	image?: string;
+// };
 
-type Ingredient = {
-	_id: string | number;
-	name: string;
-	quantity?: number;
-	unit?: string;
-};
+// type Ingredient = {
+// 	_id: string | number;
+// 	name: string;
+// 	quantity?: number;
+// 	unit?: string;
+// };
 
 type Like = {
 	_id: string | number;
