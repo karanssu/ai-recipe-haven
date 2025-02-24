@@ -1,21 +1,22 @@
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, RecipeReview, SessionUser } from "@/app/lib/definitions";
-import { calculateRecipeRating } from "@/app/lib/recipeUtils";
+// import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 import Image from "next/image";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
 	const recipe: Recipe = {
 		_id: recipeId,
-		image:
+		apiId: "1",
+		imageUrl:
 			"https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg",
-		tags: ["Indian", "Spicy", "Vegan"],
-		userId: "1",
+		// tags: ["Indian", "Spicy", "Vegan"],
+		// userId: "1",
 		name: "Tofu Tava Masala with Roti and Salad",
-		ratings: [
-			{ _id: "1", userId: "1", rating: 5 },
-			{ _id: "2", userId: "2", rating: 4 },
-			{ _id: "3", userId: "3", rating: 1 },
-		],
+		// ratings: [
+		// 	{ _id: "1", userId: "1", rating: 5 },
+		// 	{ _id: "2", userId: "2", rating: 4 },
+		// 	{ _id: "3", userId: "3", rating: 1 },
+		// ],
 		serving: 4,
 		calories: 200,
 		fatGrams: 10,
@@ -27,28 +28,28 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		cookingMinutes: 30,
 		description:
 			"This is a very good recipe. I loved it. I tried this recipe and it was amazing.",
-		ingredients: [
-			{ _id: "1", name: "Tofu", quantity: 200, unit: "g" },
-			{ _id: "2", name: "Tomato", quantity: 2, unit: "" },
-			{ _id: "3", name: "Onion", quantity: 1, unit: "" },
-			{ _id: "4", name: "Capsicum", quantity: 1, unit: "" },
-		],
-		cookingSteps: [
-			{ number: 1, step: "Cut tofu into small cubes." },
-			{ number: 2, step: "Cut tomato, onion, and capsicum." },
-			{ number: 3, step: "Heat oil in a pan." },
-			{
-				number: 4,
-				step: "Add tofu and cook until golden brown.",
-			},
-			{ number: 5, step: "Add tomato, onion, and capsicum." },
-			{
-				number: 6,
-				step: "Add salt, red chili powder, and turmeric powder.",
-			},
-			{ number: 7, step: "Cook for 5 minutes." },
-			{ number: 8, step: "Serve hot with roti and salad." },
-		],
+		// ingredients: [
+		// 	{ _id: "1", name: "Tofu", quantity: 200, unit: "g" },
+		// 	{ _id: "2", name: "Tomato", quantity: 2, unit: "" },
+		// 	{ _id: "3", name: "Onion", quantity: 1, unit: "" },
+		// 	{ _id: "4", name: "Capsicum", quantity: 1, unit: "" },
+		// ],
+		// cookingSteps: [
+		// 	{ number: 1, step: "Cut tofu into small cubes." },
+		// 	{ number: 2, step: "Cut tomato, onion, and capsicum." },
+		// 	{ number: 3, step: "Heat oil in a pan." },
+		// 	{
+		// 		number: 4,
+		// 		step: "Add tofu and cook until golden brown.",
+		// 	},
+		// 	{ number: 5, step: "Add tomato, onion, and capsicum." },
+		// 	{
+		// 		number: 6,
+		// 		step: "Add salt, red chili powder, and turmeric powder.",
+		// 	},
+		// 	{ number: 7, step: "Cook for 5 minutes." },
+		// 	{ number: 8, step: "Serve hot with roti and salad." },
+		// ],
 	};
 
 	return recipe;
@@ -90,7 +91,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
 				<div className="relative w-full md:w-1/2 h-64 md:h-auto">
 					<Image
-						src={recipe.image}
+						src={recipe.imageUrl}
 						alt={recipe.name}
 						layout="fill"
 						objectFit="cover"
@@ -102,10 +103,10 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<p className="text-gray-600 mt-4">{recipe.description}</p>
 					<div className="mt-4 flex items-center space-x-4">
 						<div className="text-primaryBgHover font-semibold">
-							Rating: {calculateRecipeRating(recipe.ratings)}
+							{/* Rating: {calculateRecipeRating(recipe.ratings)} */}
 						</div>
 						<div className="text-gray-500">
-							({recipe.ratings?.length || 0} reviews)
+							{/* ({recipe.ratings?.length || 0} reviews) */}
 						</div>
 					</div>
 					<div className="mt-4 space-y-1 text-gray-700">
@@ -131,7 +132,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						{recipe.fiberGrams}g Fiber, {recipe.sugarGrams}g Sugar,{" "}
 						{recipe.proteinGrams}g Protein
 					</div>
-					{recipe.tags && (
+					{/* {recipe.tags && (
 						<div className="mt-4">
 							<span className="font-medium text-gray-700">Tags:</span>
 							<div className="flex flex-wrap mt-1">
@@ -145,7 +146,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 								))}
 							</div>
 						</div>
-					)}
+					)} */}
 				</div>
 			</div>
 
@@ -155,11 +156,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 				<div className="bg-white p-6 rounded-lg shadow-lg">
 					<h2 className="text-2xl font-bold text-gray-800 mb-4">Ingredients</h2>
 					<ul className="list-disc list-inside text-gray-700 space-y-2">
-						{recipe.ingredients?.map((ingredient) => (
+						{/* {recipe.ingredients?.map((ingredient) => (
 							<li key={ingredient._id}>
 								{ingredient.name}: {ingredient.quantity} {ingredient.unit}
 							</li>
-						))}
+						))} */}
 					</ul>
 				</div>
 				{/* Cooking Steps */}
@@ -168,11 +169,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						Cooking Steps
 					</h2>
 					<ol className="list-decimal list-inside text-gray-700 space-y-3">
-						{recipe.cookingSteps?.map((step) => (
+						{/* {recipe.cookingSteps?.map((step) => (
 							<li key={step.number} className="list-none">
 								<span className="font-medium">{step.number}.</span> {step.step}
 							</li>
-						))}
+						))} */}
 					</ol>
 				</div>
 			</div>
