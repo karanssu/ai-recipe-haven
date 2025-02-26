@@ -1,6 +1,6 @@
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, RecipeReview, SessionUser } from "@/app/lib/definitions";
-// import { calculateRecipeRating } from "@/app/lib/recipeUtils";
+import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 import Image from "next/image";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
@@ -9,14 +9,13 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		apiId: "1",
 		imageUrl:
 			"https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg",
-		// tags: ["Indian", "Spicy", "Vegan"],
-		// userId: "1",
+		tags: ["Indian", "Spicy", "Vegan"],
 		name: "Tofu Tava Masala with Roti and Salad",
-		// ratings: [
-		// 	{ _id: "1", userId: "1", rating: 5 },
-		// 	{ _id: "2", userId: "2", rating: 4 },
-		// 	{ _id: "3", userId: "3", rating: 1 },
-		// ],
+		ratings: [
+			{ userId: "1", rating: 5 },
+			{ userId: "2", rating: 4 },
+			{ userId: "3", rating: 1 },
+		],
 		serving: 4,
 		calories: 200,
 		fatGrams: 10,
@@ -103,7 +102,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<p className="text-gray-600 mt-4">{recipe.description}</p>
 					<div className="mt-4 flex items-center space-x-4">
 						<div className="text-primaryBgHover font-semibold">
-							{/* Rating: {calculateRecipeRating(recipe.ratings)} */}
+							Rating: {calculateRecipeRating(recipe.ratings)}
 						</div>
 						<div className="text-gray-500">
 							{/* ({recipe.ratings?.length || 0} reviews) */}
