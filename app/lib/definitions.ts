@@ -77,7 +77,7 @@ export type Recipe = {
 	preparationMinutes: number;
 	cookingMinutes: number;
 	// userId: mongoose.Types.ObjectId | string | number;
-	// tags?: string[];
+	tags?: string[];
 	// ratings?: Rating[];
 	calories?: number;
 	fatGrams?: number;

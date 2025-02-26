@@ -50,7 +50,7 @@ const parseRecipes = (rawRecipes: RawRecipe[]): Recipe[] => {
 			serving: rawRecipe.servings || 1,
 			preparationMinutes: rawRecipe.preparationMinutes || 0,
 			cookingMinutes: rawRecipe.cookingMinutes || 0,
-			// tags: rawRecipe.cuisines.concat(rawRecipe.dishTypes, rawRecipe.diets),
+			tags: rawRecipe.cuisines.concat(rawRecipe.dishTypes, rawRecipe.diets),
 			// ratings: [
 			// 	{
 			// 		_id: "$generated" + rawRecipe.id,

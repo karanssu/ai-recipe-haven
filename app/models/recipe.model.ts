@@ -26,7 +26,7 @@ export interface IRecipe extends Document {
 	fiberGrams?: number;
 	sugarGrams?: number;
 	proteinGrams?: number;
-	tags: Types.ObjectId[];
+	tags: string[];
 	recipeIngredients: IRecipeIngredient[];
 	cookingSteps: ICookingStep[];
 }
@@ -74,12 +74,7 @@ const RecipeSchema = new Schema<IRecipe>(
 		fiberGrams: { type: Number },
 		sugarGrams: { type: Number },
 		proteinGrams: { type: Number },
-		tags: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Tag",
-			},
-		],
+		tags: [{ type: String, trim: true, index: true }],
 		recipeIngredients: [RecipeIngredientSchema],
 		cookingSteps: [CookingStepSchema],
 	},

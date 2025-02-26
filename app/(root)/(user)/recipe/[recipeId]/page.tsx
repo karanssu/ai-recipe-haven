@@ -132,7 +132,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						{recipe.fiberGrams}g Fiber, {recipe.sugarGrams}g Sugar,{" "}
 						{recipe.proteinGrams}g Protein
 					</div>
-					{/* {recipe.tags && (
+					{recipe.tags && (
 						<div className="mt-4">
 							<span className="font-medium text-gray-700">Tags:</span>
 							<div className="flex flex-wrap mt-1">
@@ -146,7 +146,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 								))}
 							</div>
 						</div>
-					)} */}
+					)}
 				</div>
 			</div>
 
