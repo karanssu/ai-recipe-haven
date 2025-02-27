@@ -1,57 +1,35 @@
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, RecipeReview, SessionUser } from "@/app/lib/definitions";
-import { calculateRecipeRating } from "@/app/lib/recipeUtils";
+import {
+	calculateRecipeRating,
+	parseHTMLTextToHtml,
+} from "@/app/lib/recipeUtils";
 import Image from "next/image";
 
 const getRecipe = async (recipeId: string): Promise<Recipe> => {
-	const recipe: Recipe = {
-		_id: recipeId,
-		apiId: "1",
-		imageUrl:
-			"https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg",
-		tags: ["Indian", "Spicy", "Vegan"],
-		name: "Tofu Tava Masala with Roti and Salad",
-		ratings: [
-			{ userId: "1", rating: 5 },
-			{ userId: "2", rating: 4 },
-			{ userId: "3", rating: 1 },
-		],
-		serving: 4,
-		calories: 200,
-		fatGrams: 10,
-		carbsGrams: 20,
-		fiberGrams: 5,
-		sugarGrams: 5,
-		proteinGrams: 15,
-		preparationMinutes: 15,
-		cookingMinutes: 30,
-		description:
-			"This is a very good recipe. I loved it. I tried this recipe and it was amazing.",
-		ingredients: [
-			{ name: "Tofu", quantity: 200, unit: "g" },
-			{ name: "Tomato", quantity: 2, unit: "" },
-			{ name: "Onion", quantity: 1, unit: "" },
-			{ name: "Capsicum", quantity: 1, unit: "" },
-		],
-		cookingSteps: [
-			{ number: 1, step: "Cut tofu into small cubes." },
-			{ number: 2, step: "Cut tomato, onion, and capsicum." },
-			{ number: 3, step: "Heat oil in a pan." },
-			{
-				number: 4,
-				step: "Add tofu and cook until golden brown.",
+	"use server";
+
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}`,
+		{
+			method: "GET",
+			referrer: process.env.NEXT_PUBLIC_APP_URL,
+			headers: {
+				"Content-Type": "application/json",
 			},
-			{ number: 5, step: "Add tomato, onion, and capsicum." },
-			{
-				number: 6,
-				step: "Add salt, red chili powder, and turmeric powder.",
-			},
-			{ number: 7, step: "Cook for 5 minutes." },
-			{ number: 8, step: "Serve hot with roti and salad." },
-		],
-	};
+		}
+	);
+
+	const data = await res.json();
+	const recipe: Recipe = data?.recipe || {};
 
 	return recipe;
+};
+
+const RecipeDescription = (text: string) => {
+	return (
+		<div dangerouslySetInnerHTML={{ __html: parseHTMLTextToHtml(text) }} />
+	);
 };
 
 const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
@@ -88,18 +66,20 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 		<div className="container mx-auto px-4 py-8 space-y-12">
 			{/* Recipe Header */}
 			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
-				<div className="relative w-full md:w-1/2 h-64 md:h-auto">
+				<div className="relative w-full md:w-1/2 h-96 md:h-auto max-h-screen">
 					<Image
 						src={recipe.imageUrl}
 						alt={recipe.name}
 						layout="fill"
 						objectFit="cover"
-						className="rounded-l-lg"
+						objectPosition="center"
 					/>
 				</div>
 				<div className="w-full md:w-1/2 p-6">
 					<h1 className="text-4xl font-bold text-gray-800">{recipe.name}</h1>
-					<p className="text-gray-600 mt-4">{recipe.description}</p>
+					<p className="text-gray-600 mt-4">
+						{RecipeDescription(recipe.description || "")}
+					</p>
 					<div className="mt-4 flex items-center space-x-4">
 						<div className="text-primaryBgHover font-semibold">
 							Rating: {calculateRecipeRating(recipe.ratings)}

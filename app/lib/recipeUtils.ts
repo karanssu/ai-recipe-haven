@@ -1,3 +1,11 @@
+import DOMPurify from "isomorphic-dompurify";
+
+export const parseHTMLTextToHtml = (htmlText: string) => {
+	const withoutLinks = htmlText.replace(/<a[^>]*>(.*?)<\/a>/gi, "$1");
+
+	return DOMPurify.sanitize(withoutLinks);
+};
+
 export const calculateRecipeRating = (
 	ratings: { rating: number }[] | undefined
 ) => {

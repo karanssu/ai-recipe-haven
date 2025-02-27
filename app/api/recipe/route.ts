@@ -1,5 +1,5 @@
-import { RecipeCardDef, Rating } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
+import { Rating as RatingModel } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 
 export async function GET(req: Request) {
@@ -22,28 +22,25 @@ export async function GET(req: Request) {
 }
 const fetchRecipeCardData = async () => {
 	await connectMongoDB();
-	const recipes = await RecipeModel.find({})
-		.limit(500)
-		.populate("ratings")
-		.exec();
+	const recipes = await RecipeModel.find({}).limit(10).populate("ratings");
 
-	const recipeCardData: RecipeCardDef[] = recipes.map((recipe) => ({
+	const recipeCardData = recipes.map((recipe) => ({
 		_id: recipe._id,
 		apiId: recipe.apiId,
 		imageUrl: recipe.imageUrl,
 		tags: recipe.tags,
 		name: recipe.name,
-		ratings: recipe.ratings.map((rating: Rating) => {
-			return {
-				userId: rating.userId,
-				rating: rating.rating,
-			};
-		}),
+		ratings: recipe.ratings,
 		serving: recipe.serving,
 		calories: recipe.calories,
 		preparationMinutes: recipe.preparationMinutes,
 		cookingMinutes: recipe.cookingMinutes,
 	}));
+
+	for (let i = 0; i < recipeCardData.length; i++) {
+		const recipe = recipeCardData[i];
+		recipe.ratings = await RatingModel.find({ _id: { $in: recipe.ratings } });
+	}
 
 	return recipeCardData;
 };

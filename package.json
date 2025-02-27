@@ -17,6 +17,7 @@
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "hugeicons-react": "^0.3.0",
+    "isomorphic-dompurify": "^2.22.0",
     "mongoose": "^8.9.2",
     "next": "15.1.0",
     "next-auth": "^5.0.0-beta.25",
