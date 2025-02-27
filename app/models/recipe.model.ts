@@ -5,7 +5,7 @@ interface ICookingStep {
 	step: string;
 }
 
-interface IRecipeIngredient {
+export interface IRecipeIngredient {
 	ingredientId: Types.ObjectId;
 	quantity?: number;
 	unit?: string;

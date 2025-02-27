@@ -1,4 +1,5 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
+import { Ingredient } from "@/app/models/ingredient.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 
 export async function GET(req: Request) {
@@ -28,11 +29,32 @@ export async function GET(req: Request) {
 }
 const fetchRecipeById = async (recipeId: string) => {
 	await connectMongoDB();
-	console.log("Fetching recipe with ID:", recipeId);
+	let recipe = await RecipeModel.findById(recipeId);
+	console.log("Recipe from Id Route: ", recipe);
 
-	const recipe = await RecipeModel.findById(recipeId);
+	// fetch all the recipe ingredients from database using Promise all
+	if (!recipe) {
+		throw new Error("Recipe not found");
+	}
 
-	console.log("Fetched recipe:", recipe);
+	const namedIngredients = await Promise.all(
+		recipe.ingredients.map(
+			async (ingredient: { _doc: object; ingredientId: string }) => {
+				const ingredientName = await Ingredient.findById(
+					ingredient.ingredientId
+				).then((ing) => ing?.name || "Unknown Ingredient");
+
+				return {
+					...ingredient._doc,
+					name: ingredientName,
+				};
+			}
+		)
+	);
+
+	recipe = { ...recipe._doc, ingredients: namedIngredients };
+
+	console.log("Recipe from Id Route: ", recipe);
 
 	return recipe;
 };
