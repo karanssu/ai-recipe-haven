@@ -135,11 +135,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 				<div className="bg-white p-6 rounded-lg shadow-lg">
 					<h2 className="text-2xl font-bold text-gray-800 mb-4">Ingredients</h2>
 					<ul className="list-disc list-inside text-gray-700 space-y-2">
-						{/* {recipe.ingredients?.map((ingredient) => (
-							<li key={ingredient._id}>
+						{recipe.ingredients?.map((ingredient) => (
+							<li key={ingredient.name}>
 								{ingredient.name}: {ingredient.quantity} {ingredient.unit}
 							</li>
-						))} */}
+						))}
 					</ul>
 				</div>
 				{/* Cooking Steps */}
@@ -148,11 +148,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						Cooking Steps
 					</h2>
 					<ol className="list-decimal list-inside text-gray-700 space-y-3">
-						{/* {recipe.cookingSteps?.map((step) => (
+						{recipe.cookingSteps?.map((step) => (
 							<li key={step.number} className="list-none">
 								<span className="font-medium">{step.number}.</span> {step.step}
 							</li>
-						))} */}
+						))}
 					</ol>
 				</div>
 			</div>
