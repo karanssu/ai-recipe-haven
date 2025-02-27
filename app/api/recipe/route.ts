@@ -17,11 +17,9 @@ export async function GET(req: Request) {
 	}
 
 	const totalApiRecipesCount = await getTotalApiRecipesCount();
-	console.log("totalApiRecipesCount", totalApiRecipesCount);
 	const rawRecipes = await fetchAPIRecipes(totalApiRecipesCount);
 	try {
-		const recipes = parseRecipes(rawRecipes);
-		// saveRecipesInDB(recipes);
+		const recipes = saveRecipesInDB(rawRecipes);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
@@ -42,29 +40,22 @@ const fetchAPIRecipes = async (previousRecipeCount: number) => {
 	return rawRecipes;
 };
 
-const parseRecipes = async (rawRecipes: RawRecipe[]) => {
-	console.log("Raw recipes:", rawRecipes);
-
+const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 	await connectMongoDB();
 
-	// Use a fixed ObjectId for the system user (adjust as needed)
 	const superAdminId = new Types.ObjectId("676b5c8b79b81a34d4ffd21a");
 
 	const recipes: Recipe[] = [];
 
-	// Process each raw recipe sequentially
 	for (const rawRecipe of rawRecipes) {
-		// Compute the rating based on spoonacularScore (example logic)
 		const computedRating =
 			Math.round((rawRecipe.spoonacularScore / 20) * 2) / 2 || 3.5;
 
-		// Create a Rating document and get its ObjectId
 		const ratingDoc = await Rating.create({
 			rating: computedRating,
 			userId: superAdminId,
 		});
 
-		// Process ingredients: for each extended ingredient, ensure it exists and store its _id, quantity, and unit
 		const recipeIngredients = rawRecipe.extendedIngredients
 			? await Promise.all(
 					rawRecipe.extendedIngredients.map(async (ingredient) => {
@@ -86,20 +77,17 @@ const parseRecipes = async (rawRecipes: RawRecipe[]) => {
 			  )
 			: [];
 
-		// Process cooking steps
 		const cookingSteps =
 			rawRecipe.analyzedInstructions[0]?.steps.map((step) => ({
 				number: step.number,
 				step: step.step,
 			})) || [];
 
-		// Concatenate cuisines, dishTypes, and diets into tags
 		const tags = rawRecipe.cuisines.concat(
 			rawRecipe.dishTypes,
 			rawRecipe.diets
 		);
 
-		// Construct the Recipe object
 		const recipeObj: Recipe = {
 			name: rawRecipe.title || "",
 			apiId: rawRecipe.id.toString(),
@@ -131,14 +119,14 @@ const parseRecipes = async (rawRecipes: RawRecipe[]) => {
 		recipes.push(recipeObj);
 	}
 
-	// Bulk insert all mapped recipes
-	await RecipeModel.insertMany(recipes);
+	const result = await RecipeModel.insertMany(recipes);
+
+	return result;
 };
 
 const getTotalApiRecipesCount = async () => {
 	await connectMongoDB();
 
-	// I want to get the totalnumber of recipes in the database that have an apiId
 	const totalRecipes = await RecipeModel.countDocuments({
 		apiId: { $exists: true },
 	});
@@ -149,8 +137,3 @@ const getTotalApiRecipesCount = async () => {
 
 	return totalRecipes;
 };
-
-// const saveRecipesInDB = async (recipes: Recipe[]) => {
-// 	await connectMongoDB();
-// 	await RecipeModel.insertMany(recipes);
-// };
