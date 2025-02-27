@@ -114,7 +114,7 @@ export type RecipeReview = {
 	date: Date;
 };
 
-type Rating = {
+export type Rating = {
 	userId: mongoose.Types.ObjectId | string | number;
 	rating: number;
 };
@@ -124,7 +124,7 @@ export type RecipeCardDef = {
 	apiId: string;
 	imageUrl: string;
 	tags?: string[];
-	user: { _id: string | number; username: string; profileImage?: string };
+	// user: { _id: string | number; username: string; profileImage?: string };
 	name: string;
 	ratings?: Rating[];
 	serving: number;

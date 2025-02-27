@@ -38,7 +38,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					))}
 				</div>
 
-				{recipe.user && (
+				{/* {recipe.user && (
 					<div className="flex mt-3">
 						<div className="flex items-center">
 							<Image
@@ -55,7 +55,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 							</span>
 						</div>
 					</div>
-				)}
+				)} */}
 
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
