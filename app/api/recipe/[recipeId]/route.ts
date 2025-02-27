@@ -29,10 +29,9 @@ export async function GET(req: Request) {
 }
 const fetchRecipeById = async (recipeId: string) => {
 	await connectMongoDB();
-	let recipe = await RecipeModel.findById(recipeId);
+	let recipe = await RecipeModel.findById(recipeId).populate("ratings");
 	console.log("Recipe from Id Route: ", recipe);
 
-	// fetch all the recipe ingredients from database using Promise all
 	if (!recipe) {
 		throw new Error("Recipe not found");
 	}

@@ -2,6 +2,7 @@ import { verifySession } from "@/app/lib/dal";
 import { Recipe, RecipeReview, SessionUser } from "@/app/lib/definitions";
 import {
 	calculateRecipeRating,
+	getDisplayTimeWithUnit,
 	parseHTMLTextToHtml,
 } from "@/app/lib/recipeUtils";
 import Image from "next/image";
@@ -90,16 +91,18 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</div>
 					<div className="mt-4 space-y-1 text-gray-700">
 						<div>
-							<span className="font-medium">Total Time:</span>{" "}
-							{recipe.preparationMinutes + recipe.cookingMinutes} min
+							<span className="font-medium">Total Time: </span>
+							{getDisplayTimeWithUnit(
+								recipe.preparationMinutes + recipe.cookingMinutes
+							)}
 						</div>
 						<div>
-							<span className="font-medium">Preparation:</span>{" "}
-							{recipe.preparationMinutes} min
+							<span className="font-medium">Preparation: </span>
+							{getDisplayTimeWithUnit(recipe.preparationMinutes)}
 						</div>
 						<div>
-							<span className="font-medium">Cooking:</span>{" "}
-							{recipe.cookingMinutes} min
+							<span className="font-medium">Cooking: </span>
+							{getDisplayTimeWithUnit(recipe.cookingMinutes)}
 						</div>
 						<div>
 							<span className="font-medium">Serving:</span> {recipe.serving}

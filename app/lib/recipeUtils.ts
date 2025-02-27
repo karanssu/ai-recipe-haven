@@ -50,3 +50,24 @@ export const getDisplayTotalCookingTimeWithUnit = (
 
 	return { totalTime: totalMinutes, unit };
 };
+
+export const getDisplayTimeWithUnit = (timeMinutes: number): string => {
+	let time = timeMinutes;
+	let unit = "min";
+
+	if (time >= 1440) {
+		time = time / 1440;
+		unit = "day";
+	} else if (time >= 60) {
+		time = time / 60;
+		unit = "hour";
+	}
+
+	time = parseFloat(time.toFixed(1));
+
+	if (time !== 1) {
+		unit += "s";
+	}
+
+	return `${time} ${unit}`;
+};
