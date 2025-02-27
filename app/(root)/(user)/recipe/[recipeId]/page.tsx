@@ -116,12 +116,11 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</div>
 					{recipe.tags && (
 						<div className="mt-4">
-							<span className="font-medium text-gray-700">Tags:</span>
 							<div className="flex flex-wrap mt-1">
 								{recipe.tags.map((tag) => (
 									<span
 										key={tag}
-										className="mr-2 mb-2 px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-full"
+										className="mr-2 mb-2 px-3 py-1 bg-primaryBg text-primaryText text-sm font-menu font-semibold"
 									>
 										{tag}
 									</span>
