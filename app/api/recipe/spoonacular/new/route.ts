@@ -131,6 +131,10 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 	}
 
 	const result = await RecipeModel.insertMany(recipes);
+	for (let i = 0; i < result.length; i++) {
+		const recipe = result[i];
+		recipe.ratings = await Rating.find({ _id: { $in: recipe.ratings } });
+	}
 
 	return result;
 };
