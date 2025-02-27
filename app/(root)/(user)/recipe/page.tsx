@@ -19,6 +19,7 @@ const getRecipes = async () => {
 
 const Page = async () => {
 	const recipes = await getRecipes();
+	console.log("PAGE recipes: ", recipes);
 
 	return (
 		<>

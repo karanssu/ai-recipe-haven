@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 	const totalApiRecipesCount = await getTotalApiRecipesCount();
 	const rawRecipes = await fetchAPIRecipes(totalApiRecipesCount);
 	try {
-		const recipes = saveRecipesInDB(rawRecipes);
+		const recipes = await saveRecipesInDB(rawRecipes);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
