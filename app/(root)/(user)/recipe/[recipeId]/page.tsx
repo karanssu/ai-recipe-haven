@@ -27,28 +27,28 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 		cookingMinutes: 30,
 		description:
 			"This is a very good recipe. I loved it. I tried this recipe and it was amazing.",
-		// ingredients: [
-		// 	{ _id: "1", name: "Tofu", quantity: 200, unit: "g" },
-		// 	{ _id: "2", name: "Tomato", quantity: 2, unit: "" },
-		// 	{ _id: "3", name: "Onion", quantity: 1, unit: "" },
-		// 	{ _id: "4", name: "Capsicum", quantity: 1, unit: "" },
-		// ],
-		// cookingSteps: [
-		// 	{ number: 1, step: "Cut tofu into small cubes." },
-		// 	{ number: 2, step: "Cut tomato, onion, and capsicum." },
-		// 	{ number: 3, step: "Heat oil in a pan." },
-		// 	{
-		// 		number: 4,
-		// 		step: "Add tofu and cook until golden brown.",
-		// 	},
-		// 	{ number: 5, step: "Add tomato, onion, and capsicum." },
-		// 	{
-		// 		number: 6,
-		// 		step: "Add salt, red chili powder, and turmeric powder.",
-		// 	},
-		// 	{ number: 7, step: "Cook for 5 minutes." },
-		// 	{ number: 8, step: "Serve hot with roti and salad." },
-		// ],
+		ingredients: [
+			{ name: "Tofu", quantity: 200, unit: "g" },
+			{ name: "Tomato", quantity: 2, unit: "" },
+			{ name: "Onion", quantity: 1, unit: "" },
+			{ name: "Capsicum", quantity: 1, unit: "" },
+		],
+		cookingSteps: [
+			{ number: 1, step: "Cut tofu into small cubes." },
+			{ number: 2, step: "Cut tomato, onion, and capsicum." },
+			{ number: 3, step: "Heat oil in a pan." },
+			{
+				number: 4,
+				step: "Add tofu and cook until golden brown.",
+			},
+			{ number: 5, step: "Add tomato, onion, and capsicum." },
+			{
+				number: 6,
+				step: "Add salt, red chili powder, and turmeric powder.",
+			},
+			{ number: 7, step: "Cook for 5 minutes." },
+			{ number: 8, step: "Serve hot with roti and salad." },
+		],
 	};
 
 	return recipe;

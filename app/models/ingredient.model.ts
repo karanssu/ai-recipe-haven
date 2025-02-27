@@ -16,7 +16,5 @@ const IngredientSchema = new Schema<IIngredient>(
 	{ timestamps: true }
 );
 
-IngredientSchema.index({ name: 1 });
-
 export const Ingredient =
 	models.Ingredient || model<IIngredient>("Ingredient", IngredientSchema);

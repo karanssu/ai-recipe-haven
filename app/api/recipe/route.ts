@@ -1,6 +1,9 @@
 import { RawRecipe, Recipe } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
+import { Ingredient } from "@/app/models/ingredient.model";
+import { Rating } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
+import { Types } from "mongoose";
 
 export async function GET(req: Request) {
 	// only Frontend can access this route
@@ -16,9 +19,9 @@ export async function GET(req: Request) {
 	const totalApiRecipesCount = await getTotalApiRecipesCount();
 	console.log("totalApiRecipesCount", totalApiRecipesCount);
 	const rawRecipes = await fetchAPIRecipes(totalApiRecipesCount);
-	const recipes = parseRecipes(rawRecipes);
 	try {
-		saveRecipesInDB(recipes);
+		const recipes = parseRecipes(rawRecipes);
+		// saveRecipesInDB(recipes);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
@@ -27,10 +30,10 @@ export async function GET(req: Request) {
 
 const fetchAPIRecipes = async (previousRecipeCount: number) => {
 	const startRecipeNum = previousRecipeCount + 1;
-	const totalRecipes = 2;
+	const totalRecipes = 1;
 
 	const res = await fetch(
-		`https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&sortDirection=desc&offset=${startRecipeNum}&number=${totalRecipes}&apiKey=${process.env.SPOONACULAR_API_KEY}`
+		`https://api.spoonacular.com/recipes/complexSearch?addRecipeInstructions=true&addRecipeNutrition=true&fillIngredients=true&sortDirection=desc&offset=${startRecipeNum}&number=${totalRecipes}&apiKey=${process.env.SPOONACULAR_API_KEY}`
 	);
 
 	const data = await res.json();
@@ -39,73 +42,97 @@ const fetchAPIRecipes = async (previousRecipeCount: number) => {
 	return rawRecipes;
 };
 
-const parseRecipes = (rawRecipes: RawRecipe[]): Recipe[] => {
-	const result: Recipe[] = [];
+const parseRecipes = async (rawRecipes: RawRecipe[]) => {
+	console.log("Raw recipes:", rawRecipes);
 
-	rawRecipes.forEach((rawRecipe: RawRecipe) => {
-		const recipe: Recipe = {
+	await connectMongoDB();
+
+	// Use a fixed ObjectId for the system user (adjust as needed)
+	const superAdminId = new Types.ObjectId("676b5c8b79b81a34d4ffd21a");
+
+	const recipes: Recipe[] = [];
+
+	// Process each raw recipe sequentially
+	for (const rawRecipe of rawRecipes) {
+		// Compute the rating based on spoonacularScore (example logic)
+		const computedRating =
+			Math.round((rawRecipe.spoonacularScore / 20) * 2) / 2 || 3.5;
+
+		// Create a Rating document and get its ObjectId
+		const ratingDoc = await Rating.create({
+			rating: computedRating,
+			userId: superAdminId,
+		});
+
+		// Process ingredients: for each extended ingredient, ensure it exists and store its _id, quantity, and unit
+		const recipeIngredients = rawRecipe.extendedIngredients
+			? await Promise.all(
+					rawRecipe.extendedIngredients.map(async (ingredient) => {
+						let ingredientDoc = await Ingredient.findOne({
+							name: ingredient.name,
+						});
+						if (!ingredientDoc) {
+							ingredientDoc = await Ingredient.create({
+								name: ingredient.name,
+							});
+						}
+						return {
+							ingredientId: ingredientDoc._id,
+							name: ingredient.name,
+							quantity: ingredient.measures.us.amount || 1,
+							unit: ingredient.measures.us.unitShort || "",
+						};
+					})
+			  )
+			: [];
+
+		// Process cooking steps
+		const cookingSteps =
+			rawRecipe.analyzedInstructions[0]?.steps.map((step) => ({
+				number: step.number,
+				step: step.step,
+			})) || [];
+
+		// Concatenate cuisines, dishTypes, and diets into tags
+		const tags = rawRecipe.cuisines.concat(
+			rawRecipe.dishTypes,
+			rawRecipe.diets
+		);
+
+		// Construct the Recipe object
+		const recipeObj: Recipe = {
 			name: rawRecipe.title || "",
 			apiId: rawRecipe.id.toString(),
 			imageUrl: rawRecipe.image || "",
-			serving: rawRecipe.servings || 1,
-			preparationMinutes: rawRecipe.preparationMinutes || 0,
-			cookingMinutes: rawRecipe.cookingMinutes || 0,
-			tags: rawRecipe.cuisines.concat(rawRecipe.dishTypes, rawRecipe.diets),
-			// ratings: [
-			// 	{
-			// 		_id: "$generated" + rawRecipe.id,
-			// 		rating: Math.round((rawRecipe.spoonacularScore / 20) * 2) / 2 || 3.5,
-			// 		userId: rawRecipe.id,
-			// 	},
-			// ],
-			calories: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Calories"
-			)?.amount,
-			fatGrams: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Fat"
-			)?.amount,
-			carbsGrams: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Carbohydrates"
-			)?.amount,
-			fiberGrams: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Fiber"
-			)?.amount,
-			sugarGrams: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Sugar"
-			)?.amount,
-			proteinGrams: rawRecipe.nutrition.nutrients.find(
-				(n: { name: string }) => n.name === "Protein"
-			)?.amount,
 			description: rawRecipe.summary || "",
-			// ingredients:
-			// 	rawRecipe.extendedIngredients?.map(
-			// 		(ingredient: {
-			// 			id: number | string;
-			// 			name: string;
-			// 			measures: { us: { amount: number; unitShort: string } };
-			// 		}) => {
-			// 			return {
-			// 				_id: ingredient.id,
-			// 				name: ingredient.name,
-			// 				amount: ingredient.measures.us.amount,
-			// 				unit: ingredient.measures.us.unitShort,
-			// 			};
-			// 		}
-			// 	) || [],
-			// cookingSteps:
-			// 	rawRecipe.analyzedInstructions[0]?.steps.map(
-			// 		(step: { number: number; step: string }) => {
-			// 			return {
-			// 				number: step.number,
-			// 				step: step.step,
-			// 			};
-			// 		}
-			// 	) || [],
+			preparationMinutes: rawRecipe.preparationMinutes || 0,
+			cookingMinutes: rawRecipe.cookingMinutes || rawRecipe.readyInMinutes || 0,
+			serving: rawRecipe.servings || 1,
+			tags,
+			ratings: [ratingDoc._id], // Now ratings is an array of ObjectIds
+			calories: rawRecipe.nutrition.nutrients.find((n) => n.name === "Calories")
+				?.amount,
+			fatGrams: rawRecipe.nutrition.nutrients.find((n) => n.name === "Fat")
+				?.amount,
+			carbsGrams: rawRecipe.nutrition.nutrients.find(
+				(n) => n.name === "Carbohydrates"
+			)?.amount,
+			fiberGrams: rawRecipe.nutrition.nutrients.find((n) => n.name === "Fiber")
+				?.amount,
+			sugarGrams: rawRecipe.nutrition.nutrients.find((n) => n.name === "Sugar")
+				?.amount,
+			proteinGrams: rawRecipe.nutrition.nutrients.find(
+				(n) => n.name === "Protein"
+			)?.amount,
+			ingredients: recipeIngredients,
+			cookingSteps,
 		};
-		result.push(recipe);
-	});
 
-	return result;
+		recipes.push(recipeObj);
+	}
+
+	// Bulk insert all mapped recipes
+	await RecipeModel.insertMany(recipes);
 };
 
 const getTotalApiRecipesCount = async () => {
@@ -123,7 +150,7 @@ const getTotalApiRecipesCount = async () => {
 	return totalRecipes;
 };
 
-const saveRecipesInDB = async (recipes: Recipe[]) => {
-	await connectMongoDB();
-	await RecipeModel.insertMany(recipes);
-};
+// const saveRecipesInDB = async (recipes: Recipe[]) => {
+// 	await connectMongoDB();
+// 	await RecipeModel.insertMany(recipes);
+// };

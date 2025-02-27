@@ -7,8 +7,8 @@ interface ICookingStep {
 
 interface IRecipeIngredient {
 	ingredientId: Types.ObjectId;
-	quantity: number;
-	unit: string;
+	quantity?: number;
+	unit?: string;
 }
 
 export interface IRecipe extends Document {
@@ -27,7 +27,7 @@ export interface IRecipe extends Document {
 	sugarGrams?: number;
 	proteinGrams?: number;
 	tags: string[];
-	recipeIngredients: IRecipeIngredient[];
+	ingredients: IRecipeIngredient[];
 	cookingSteps: ICookingStep[];
 }
 
@@ -47,8 +47,8 @@ const RecipeIngredientSchema = new Schema<IRecipeIngredient>(
 			required: true,
 			index: true,
 		},
-		quantity: { type: Number, required: true },
-		unit: { type: String, required: true },
+		quantity: { type: Number, default: 1 },
+		unit: { type: String, default: "" },
 	},
 	{ _id: false }
 );
@@ -75,7 +75,7 @@ const RecipeSchema = new Schema<IRecipe>(
 		sugarGrams: { type: Number },
 		proteinGrams: { type: Number },
 		tags: [{ type: String, trim: true, index: true }],
-		recipeIngredients: [RecipeIngredientSchema],
+		ingredients: [RecipeIngredientSchema],
 		cookingSteps: [CookingStepSchema],
 	},
 	{ timestamps: true }

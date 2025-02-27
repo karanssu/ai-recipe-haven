@@ -85,22 +85,21 @@ export type Recipe = {
 	sugarGrams?: number;
 	proteinGrams?: number;
 	description?: string;
-	// ingredients: Ingredient[];
-	// cookingSteps: CookingStep[];
+	ingredients: Ingredient[];
+	cookingSteps: CookingStep[];
 };
 
-// type CookingStep = {
-// 	number: number;
-// 	step: string;
-// 	image?: string;
-// };
+type CookingStep = {
+	number: number;
+	step: string;
+	image?: string;
+};
 
-// type Ingredient = {
-// 	_id: string | number;
-// 	name: string;
-// 	quantity?: number;
-// 	unit?: string;
-// };
+type Ingredient = {
+	name: string;
+	quantity?: number;
+	unit?: string;
+};
 
 type Like = {
 	_id: string | number;
@@ -141,6 +140,7 @@ export type RawRecipe = {
 	servings: number;
 	preparationMinutes: number;
 	cookingMinutes: number;
+	readyInMinutes: number;
 	sourceName: string;
 	cuisines: string[];
 	dishTypes: string[];
