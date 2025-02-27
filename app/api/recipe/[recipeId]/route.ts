@@ -30,7 +30,6 @@ export async function GET(req: Request) {
 const fetchRecipeById = async (recipeId: string) => {
 	await connectMongoDB();
 	let recipe = await RecipeModel.findById(recipeId).populate("ratings");
-	console.log("Recipe from Id Route: ", recipe);
 
 	if (!recipe) {
 		throw new Error("Recipe not found");
@@ -52,8 +51,6 @@ const fetchRecipeById = async (recipeId: string) => {
 	);
 
 	recipe = { ...recipe._doc, ingredients: namedIngredients };
-
-	console.log("Recipe from Id Route: ", recipe);
 
 	return recipe;
 };
