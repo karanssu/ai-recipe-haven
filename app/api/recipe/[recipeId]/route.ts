@@ -27,6 +27,7 @@ export async function GET(req: Request) {
 		return Response.json({ error: err }, { status: 500 });
 	}
 }
+
 const fetchRecipeById = async (recipeId: string) => {
 	await connectMongoDB();
 	let recipe = await RecipeModel.findById(recipeId).populate("ratings");
