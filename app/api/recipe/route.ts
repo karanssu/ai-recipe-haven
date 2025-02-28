@@ -16,7 +16,7 @@ export async function GET(req: Request) {
 	try {
 		const { searchParams } = new URL(req.url);
 		const page = Number(searchParams.get("page")) || 1;
-		const limit = Number(searchParams.get("limit")) || 20;
+		const limit = Number(searchParams.get("limit")) || 10;
 		const skip = page > 1 ? (page - 1) * limit : 0;
 
 		const recipes = await fetchRecipeCardData(limit, skip);
@@ -25,6 +25,7 @@ export async function GET(req: Request) {
 		return Response.json({ error: err }, { status: 500 });
 	}
 }
+
 const fetchRecipeCardData = async (limit: number, skip: number) => {
 	await connectMongoDB();
 	const recipes = await RecipeModel.find({})
