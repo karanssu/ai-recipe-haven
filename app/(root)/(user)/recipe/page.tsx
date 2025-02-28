@@ -1,24 +1,33 @@
 import RecipeCard from "@/app/components/(user)/RecipeCard";
 import { RecipeCardDef } from "@/app/lib/definitions";
 
-const getRecipes = async () => {
+const getRecipes = async (page: string) => {
 	"use server";
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe`, {
-		method: "GET",
-		referrer: process.env.NEXT_PUBLIC_APP_URL,
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe?page=${page}`,
+		{
+			method: "GET",
+			referrer: process.env.NEXT_PUBLIC_APP_URL,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
 
 	const data = await res.json();
 	const result: RecipeCardDef[] = data?.recipes || [];
 	return result;
 };
 
-const Page = async () => {
-	const recipes = await getRecipes();
+const Page = async ({
+	searchParams,
+}: {
+	searchParams: Promise<{ [key: string]: string }>;
+}) => {
+	const page = (await searchParams).page;
+
+	const recipes = await getRecipes(page);
 
 	return (
 		<>

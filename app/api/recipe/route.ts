@@ -14,15 +14,24 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const recipes = await fetchRecipeCardData();
+		const { searchParams } = new URL(req.url);
+		const page = Number(searchParams.get("page")) || 1;
+		const limit = Number(searchParams.get("limit")) || 20;
+		const skip = page > 1 ? (page - 1) * limit : 0;
+
+		const recipes = await fetchRecipeCardData(limit, skip);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
 	}
 }
-const fetchRecipeCardData = async () => {
+const fetchRecipeCardData = async (limit: number, skip: number) => {
 	await connectMongoDB();
-	const recipes = await RecipeModel.find({}).limit(10).populate("ratings");
+	const recipes = await RecipeModel.find({})
+		.skip(skip)
+		.limit(limit)
+		.populate("ratings")
+		.lean();
 
 	const recipeCardData = recipes.map((recipe) => ({
 		_id: recipe._id,
