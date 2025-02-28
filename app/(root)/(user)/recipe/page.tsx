@@ -43,6 +43,7 @@ const RecipeInfiniteScroll = () => {
 
 	useEffect(() => {
 		loadMoreRecipes();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -55,13 +56,14 @@ const RecipeInfiniteScroll = () => {
 			{ threshold: 1.0 }
 		);
 
-		if (loaderRef.current) {
-			observer.observe(loaderRef.current);
+		const currentLoaderRef = loaderRef.current;
+		if (currentLoaderRef) {
+			observer.observe(currentLoaderRef);
 		}
 
 		return () => {
-			if (loaderRef.current) {
-				observer.unobserve(loaderRef.current);
+			if (currentLoaderRef) {
+				observer.unobserve(currentLoaderRef);
 			}
 		};
 	}, [loadMoreRecipes, hasMore]);
