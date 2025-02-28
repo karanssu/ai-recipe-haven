@@ -9,6 +9,7 @@ const RecipeInfiniteScroll = () => {
 	const [recipes, setRecipes] = useState<RecipeCardDef[]>([]);
 	const [page, setPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
+	const [isFetching, setIsFetching] = useState(false);
 	const loaderRef = useRef<HTMLDivElement>(null);
 
 	const fetchRecipes = async (page: number): Promise<RecipeCardDef[]> => {
@@ -26,6 +27,9 @@ const RecipeInfiniteScroll = () => {
 	};
 
 	const loadMoreRecipes = useCallback(async () => {
+		if (isFetching) return;
+		setIsFetching(true);
+
 		const newRecipes = await fetchRecipes(page);
 		if (newRecipes.length === 0) {
 			setHasMore(false);
@@ -39,7 +43,9 @@ const RecipeInfiniteScroll = () => {
 			});
 			setPage((prev) => prev + 1);
 		}
-	}, [page]);
+
+		setIsFetching(false);
+	}, [page, isFetching]);
 
 	useEffect(() => {
 		loadMoreRecipes();
