@@ -26,8 +26,8 @@ const Page = async ({
 	searchParams: Promise<{ [key: string]: string }>;
 }) => {
 	const number = (await searchParams).number
-		? parseInt((await searchParams).number, 10)
-		: 10;
+		? parseInt((await searchParams).number, 8)
+		: 8;
 
 	const recipes = await fetchNewRecipes(number);
 

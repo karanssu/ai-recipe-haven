@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 	}
 
 	const url = new URL(req.url);
-	const defaultRecipeCount = 10;
+	const defaultRecipeCount = 8;
 	const totalRecipeCount = parseInt(
 		url.searchParams.get("number") || defaultRecipeCount.toString()
 	);
