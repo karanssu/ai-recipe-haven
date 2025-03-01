@@ -13,7 +13,7 @@ const Navbar = async () => {
 	}
 
 	return (
-		<nav className="px-16 flex justify-between items-center">
+		<nav className="px-16 flex justify-between items-center sm:max-w-screen-sm md:max-w-full">
 			<div>
 				<Link href="/dashboard">
 					<Image src="/logo.png" alt="logo" width={80} height={80} />
