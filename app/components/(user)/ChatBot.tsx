@@ -7,24 +7,119 @@ import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import Image from "next/image";
 
+// Helper component to render chat messages
+const ChatBody = () => {
+	// Sample messages
+	const messages = [
+		{
+			id: "1",
+			type: "system",
+			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
+		},
+		{
+			id: "2",
+			type: "user",
+			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
+		},
+		{
+			id: "3",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "4", type: "user", text: "It is #12345." },
+		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
+		{ id: "6", type: "user", text: "I need help with my order." },
+		{
+			id: "7",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "8", type: "user", text: "It is #12345." },
+		{
+			id: "1",
+			type: "system",
+			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
+		},
+		{
+			id: "2",
+			type: "user",
+			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
+		},
+		{
+			id: "3",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "4", type: "user", text: "It is #12345." },
+		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
+		{ id: "6", type: "user", text: "I need help with my order." },
+		{
+			id: "7",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "8", type: "user", text: "It is #12345." },
+		{
+			id: "1",
+			type: "system",
+			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
+		},
+		{
+			id: "2",
+			type: "user",
+			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
+		},
+		{
+			id: "3",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "4", type: "user", text: "It is #12345." },
+		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
+		{ id: "6", type: "user", text: "I need help with my order." },
+		{
+			id: "7",
+			type: "system",
+			text: "Sure, please provide your order number.",
+		},
+		{ id: "8", type: "user", text: "It is #12345." },
+	];
+
+	return (
+		<div className="flex flex-col gap-2 overflow-y-scroll mt-4 h-[100%]">
+			{messages.map((msg) => (
+				<div
+					key={msg.id}
+					className={`max-w-[80%] p-2 rounded-md ${
+						msg.type === "system"
+							? "bg-gray-200 self-start"
+							: "bg-green-300 self-end"
+					}`}
+				>
+					<p className="text-sm text-gray-800 break-words text-left pl-2">
+						{msg.text}
+					</p>
+				</div>
+			))}
+		</div>
+	);
+};
+
 const ChatBot = () => {
 	const [isOpen, setIsOpen] = useState(false);
-
-	const toogleIsOpen = () => {
-		setIsOpen(!isOpen);
-	};
+	const toggleIsOpen = () => setIsOpen(!isOpen);
 
 	return (
 		<>
 			{/* Chat Button */}
 			<div
-				onClick={() => toogleIsOpen()}
+				onClick={() => toggleIsOpen()}
 				className="fixed bottom-8 right-8 w-14 h-14 bg-primaryBg text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition cursor-pointer flex items-center justify-center"
 			>
 				<ChatBotIcon className="text-primaryText w-8 h-8" />
 			</div>
 
-			{/* Chat Window for Small Screens (full-screen modal) */}
+			{/* Chat Modal for Small Screens */}
 			{isOpen && (
 				<div className="fixed inset-0 z-50 md:hidden bg-black bg-opacity-50 flex items-center justify-center">
 					<div className="relative w-full h-full bg-white">
@@ -35,8 +130,8 @@ const ChatBot = () => {
 						>
 							<CloseIcon className="stroke-2" />
 						</button>
-						{/* Chat Body */}
-						<div className="h-[85%] p-4 overflow-y-auto">
+						{/* Chat Header */}
+						<div className="h-[85%] px-4 pt-4 overflow-y-auto">
 							<div className="flex border-b-2 pb-2 justify-center items-center">
 								<Image
 									className="mr-2"
@@ -47,8 +142,9 @@ const ChatBot = () => {
 								/>
 								<h2 className="text-xl font-bold">Chat with AI</h2>
 							</div>
-							<div className="items-center justify-center overflow-y-auto h-[85%]">
-								{/* Additional chat messages can be rendered here */}
+							{/* Chat Body */}
+							<div className="h-[100%]">
+								<ChatBody />
 							</div>
 						</div>
 						{/* Chat Input Area */}
@@ -66,18 +162,18 @@ const ChatBot = () => {
 				</div>
 			)}
 
-			{/* Chat Window for Medium & Large Screens (popover above chat button) */}
+			{/* Chat Modal for Medium & Large Screens */}
 			{isOpen && (
 				<div className="hidden md:flex fixed bottom-24 right-8 z-50 w-80 h-96 bg-gray-50 rounded-lg shadow-lg flex-col">
 					{/* Close Button */}
 					<button
 						onClick={() => setIsOpen(false)}
-						className="absolute top-2 right-2 mt-2 text-gray-500 hover:text-gray-700 z-10 bg-transparent hover:bg-transparent"
+						className="absolute top-2 right-2 mt-2 text-gray-400 hover:text-gray-500 z-10 bg-transparent hover:bg-transparent"
 					>
 						<CollapseIcon className="stroke-2" />
 					</button>
-					{/* Chat Body */}
-					<div className="h-[85%] p-4 overflow-y-auto">
+					{/* Chat Header */}
+					<div className="h-[85%] px-4 pt-4 overflow-y-auto">
 						<div className="flex border-b-2 pb-2 justify-center items-center">
 							<Image
 								className="mr-2"
@@ -88,8 +184,9 @@ const ChatBot = () => {
 							/>
 							<h2 className="text-xl font-bold">Chat with AI</h2>
 						</div>
-						<div className="items-center justify-center overflow-y-auto h-[85%]">
-							{/* Additional chat messages can be rendered here */}
+						{/* Chat Body */}
+						<div className="h-[80%]">
+							<ChatBody />
 						</div>
 					</div>
 					{/* Chat Input Area */}
