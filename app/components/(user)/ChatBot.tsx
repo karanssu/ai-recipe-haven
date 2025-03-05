@@ -68,7 +68,7 @@ const ChatBot = () => {
 
 			{/* Chat Window for Medium & Large Screens (popover above chat button) */}
 			{isOpen && (
-				<div className="hidden md:block fixed bottom-24 right-8 z-50 w-80 h-96 bg-gray-50 rounded-lg shadow-lg flex flex-col">
+				<div className="hidden md:flex fixed bottom-24 right-8 z-50 w-80 h-96 bg-gray-50 rounded-lg shadow-lg flex-col">
 					{/* Close Button */}
 					<button
 						onClick={() => setIsOpen(false)}
