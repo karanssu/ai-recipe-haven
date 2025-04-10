@@ -135,7 +135,7 @@ const RecipeInfiniteScroll = () => {
 				>
 					<option value="newest">Newest</option>
 					<option value="rating">Highest Rating</option>
-					<option value="time">Total Time</option>
+					<option value="time">Cooking Time</option>
 				</select>
 			</div>
 
