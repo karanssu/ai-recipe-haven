@@ -71,7 +71,7 @@ const RecipeInfiniteScroll = () => {
 	// Reset recipes if search, filter, or sort options change.
 	useEffect(() => {
 		setRecipes([]);
-		setPage(1);
+		setPage(0);
 		setHasMore(true);
 		loadMoreRecipes();
 		// eslint-disable-next-line react-hooks/exhaustive-deps

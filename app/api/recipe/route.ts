@@ -15,7 +15,8 @@ export async function GET(req: Request) {
 
 	try {
 		const { searchParams } = new URL(req.url);
-		const page = Number(searchParams.get("page")) || 1;
+		const rawPage = Number(searchParams.get("page")) || 1;
+		const page = rawPage < 1 ? 1 : rawPage;
 		const limit = Number(searchParams.get("limit")) || 12;
 		const skip = page > 1 ? (page - 1) * limit : 0;
 
