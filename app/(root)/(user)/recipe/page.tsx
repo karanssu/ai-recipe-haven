@@ -118,11 +118,13 @@ const RecipeInfiniteScroll = () => {
 					className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-primaryBg"
 				>
 					<option value="">All Diets</option>
-					{tagOptions.map((tag) => (
-						<option key={tag} value={tag}>
-							{tag}
-						</option>
-					))}
+					{[...tagOptions]
+						.sort((a, b) => a.localeCompare(b))
+						.map((tag) => (
+							<option key={tag} value={tag}>
+								{tag}
+							</option>
+						))}
 				</select>
 
 				{/* Sort Dropdown */}
