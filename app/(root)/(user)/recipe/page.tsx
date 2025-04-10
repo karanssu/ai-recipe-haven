@@ -52,6 +52,7 @@ const RecipeInfiniteScroll = () => {
 			setPage((prev) => prev + 1);
 		}
 		setIsFetching(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page, isFetching]);
 
 	useEffect(() => {
