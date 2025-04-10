@@ -20,8 +20,9 @@ export async function GET(req: Request) {
 		const skip = page > 1 ? (page - 1) * limit : 0;
 
 		const tag = searchParams.get("filter");
+		const sortBy = searchParams.get("sort");
 
-		const recipes = await fetchRecipeCardData(limit, skip, tag);
+		const recipes = await fetchRecipeCardData(limit, skip, tag, sortBy);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
@@ -31,17 +32,41 @@ export async function GET(req: Request) {
 const fetchRecipeCardData = async (
 	limit: number,
 	skip: number,
-	tag: string | null
+	tag: string | null,
+	sortBy: string | null
 ) => {
 	await connectMongoDB();
 
 	const query = tag ? { tags: tag } : {};
 
-	const recipes = await RecipeModel.find(query)
-		.skip(skip)
-		.limit(limit)
-		.populate("ratings")
-		.lean();
+	let recipes;
+	if (sortBy === "time") {
+		recipes = await RecipeModel.aggregate([
+			{ $match: query },
+			{
+				$addFields: {
+					totalTime: { $add: ["$cookingMinutes", "$preparationMinutes"] },
+				},
+			},
+			{ $sort: { totalTime: 1 } },
+			{ $skip: skip },
+			{ $limit: limit },
+		]);
+	} else if (sortBy === "rating") {
+		recipes = await RecipeModel.find(query)
+			.sort({ createdAt: 1 }) // adjust this sorting if you have an average rating field calculated
+			.skip(skip)
+			.limit(limit)
+			.populate("ratings")
+			.lean();
+	} else {
+		recipes = await RecipeModel.find(query)
+			.sort({ createdAt: -1 })
+			.skip(skip)
+			.limit(limit)
+			.populate("ratings")
+			.lean();
+	}
 
 	const recipeCardData = recipes.map((recipe) => ({
 		_id: recipe._id,
