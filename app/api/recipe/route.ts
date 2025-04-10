@@ -19,16 +19,25 @@ export async function GET(req: Request) {
 		const limit = Number(searchParams.get("limit")) || 12;
 		const skip = page > 1 ? (page - 1) * limit : 0;
 
-		const recipes = await fetchRecipeCardData(limit, skip);
+		const tag = searchParams.get("filter");
+
+		const recipes = await fetchRecipeCardData(limit, skip, tag);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
 	}
 }
 
-const fetchRecipeCardData = async (limit: number, skip: number) => {
+const fetchRecipeCardData = async (
+	limit: number,
+	skip: number,
+	tag: string | null
+) => {
 	await connectMongoDB();
-	const recipes = await RecipeModel.find({})
+
+	const query = tag ? { tags: tag } : {};
+
+	const recipes = await RecipeModel.find(query)
 		.skip(skip)
 		.limit(limit)
 		.populate("ratings")

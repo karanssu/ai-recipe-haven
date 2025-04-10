@@ -11,6 +11,7 @@ const RecipeInfiniteScroll = () => {
 	const [hasMore, setHasMore] = useState(true);
 	const [isFetching, setIsFetching] = useState(false);
 	const loaderRef = useRef<HTMLDivElement>(null);
+	const [tagOptions, setTagOptions] = useState<string[]>([]);
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filter, setFilter] = useState("");
@@ -52,6 +53,19 @@ const RecipeInfiniteScroll = () => {
 		}
 		setIsFetching(false);
 	}, [page, isFetching]);
+
+	useEffect(() => {
+		const fetchTags = async () => {
+			try {
+				const res = await fetch("/api/recipe/tag");
+				const data = await res.json();
+				setTagOptions(data.tags || []);
+			} catch (err) {
+				console.error("Failed to fetch tags", err);
+			}
+		};
+		fetchTags();
+	}, []);
 
 	// Reset recipes if search, filter, or sort options change.
 	useEffect(() => {
@@ -103,9 +117,11 @@ const RecipeInfiniteScroll = () => {
 					className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-primaryBg"
 				>
 					<option value="">All Diets</option>
-					<option value="vegetarian">Vegetarian</option>
-					<option value="vegan">Vegan</option>
-					<option value="gluten-free">Gluten-Free</option>
+					{tagOptions.map((tag) => (
+						<option key={tag} value={tag}>
+							{tag}
+						</option>
+					))}
 				</select>
 
 				{/* Sort Dropdown */}
