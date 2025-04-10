@@ -53,7 +53,7 @@ const RecipeInfiniteScroll = () => {
 		}
 		setIsFetching(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [page, isFetching]);
+	}, [page, isFetching, searchQuery, filter, sortBy]);
 
 	useEffect(() => {
 		const fetchTags = async () => {
