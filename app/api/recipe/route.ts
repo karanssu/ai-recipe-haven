@@ -19,10 +19,11 @@ export async function GET(req: Request) {
 		const limit = Number(searchParams.get("limit")) || 12;
 		const skip = page > 1 ? (page - 1) * limit : 0;
 
+		const search = searchParams.get("search");
 		const tag = searchParams.get("filter");
 		const sortBy = searchParams.get("sort");
 
-		const recipes = await fetchRecipeCardData(limit, skip, tag, sortBy);
+		const recipes = await fetchRecipeCardData(limit, skip, tag, sortBy, search);
 		return Response.json({ recipes: recipes }, { status: 200 });
 	} catch (err) {
 		return Response.json({ error: err }, { status: 500 });
@@ -33,11 +34,19 @@ const fetchRecipeCardData = async (
 	limit: number,
 	skip: number,
 	tag: string | null,
-	sortBy: string | null
+	sortBy: string | null,
+	search: string | null
 ) => {
 	await connectMongoDB();
 
-	const query = tag ? { tags: tag } : {};
+	const query: { tags?: string; name?: { $regex: string; $options: string } } =
+		{};
+	if (tag) {
+		query.tags = tag;
+	}
+	if (search) {
+		query.name = { $regex: search, $options: "i" };
+	}
 
 	let recipes;
 	if (sortBy === "time") {
