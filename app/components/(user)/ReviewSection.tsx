@@ -24,9 +24,11 @@ const ReviewSection = ({
 	recipeId: string;
 }) => {
 	const [recipeReviews, setRecipeReviews] = useState([] as RecipeReview[]);
+	const [reviewText, setReviewText] = useState("");
+	const [reviewCount, setReviewCount] = useState(0);
 
 	const handleSubmitReview = async (formData: FormData) => {
-		const response = await fetch(
+		await fetch(
 			`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/review`,
 			{
 				method: "POST",
@@ -39,28 +41,34 @@ const ReviewSection = ({
 			}
 		);
 
-		if (response.ok) {
-			const newReview: RecipeReview = await response.json();
-			setRecipeReviews([...recipeReviews, newReview]);
-		} else {
-			console.error("Failed to submit review");
-		}
+		setReviewCount((prevCount) => prevCount + 1);
+		setReviewText("");
 	};
 
 	useEffect(() => {
 		const fetchReviews = async () => {
 			const reviews = await getRecipeReviews(recipeId);
 			setRecipeReviews(reviews);
+			setReviewCount(reviews.length);
 		};
 		fetchReviews();
-	}, [recipeId]);
+	}, [recipeId, reviewCount]);
 
 	return (
 		<>
 			{user && (
-				<form onSubmit={() => handleSubmitReview} className="mb-6 space-y-4">
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						const formData = new FormData(e.currentTarget);
+						handleSubmitReview(formData);
+					}}
+					className="mb-6 space-y-4"
+				>
 					<textarea
 						name="review"
+						value={reviewText}
+						onChange={(e) => setReviewText(e.target.value)}
 						required
 						rows={3}
 						placeholder="Write your review..."
@@ -106,7 +114,7 @@ const ReviewSection = ({
 						</div>
 						<p className="text-gray-700 mt-2">{review.review}</p>
 						<div className="text-gray-500 text-sm mt-2">
-							Likes: {review.likes.length}
+							Likes: {review.likes?.length}
 						</div>
 					</div>
 				))}
