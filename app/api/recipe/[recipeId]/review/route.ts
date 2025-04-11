@@ -4,11 +4,10 @@ import { Review } from "@/app/models/review.model";
 
 export async function GET(
 	req: Request,
-	{ params }: { params: { recipeId: string } }
+	{ params }: { params: Promise<{ recipeId: string }> }
 ) {
 	await connectMongoDB();
-	const param = await params;
-	const recipeId = await param.recipeId;
+	const recipeId = (await params).recipeId;
 
 	// Find all reviews for the given recipe, sorted by most recent
 	const reviews = await Review.find({ recipeId: recipeId })
@@ -19,13 +18,11 @@ export async function GET(
 
 export async function POST(
 	req: Request,
-	{ params }: { params: { recipeId: string } }
+	{ params }: { params: Promise<{ recipeId: string }> }
 ) {
 	await connectMongoDB();
 	const body = await req.json();
-
-	const param = await params;
-	const recipeId = await param.recipeId;
+	const recipeId = (await params).recipeId;
 
 	// Body should include userId and review text.
 	const reviewDoc = await Review.create({
