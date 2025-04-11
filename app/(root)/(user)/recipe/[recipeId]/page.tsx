@@ -34,24 +34,15 @@ const RecipeDescription = (text: string) => {
 };
 
 const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
-	const recipeReviews: RecipeReview[] = [
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/review`,
 		{
-			_id: recipeId + "1",
-			userId: "1",
-			review: "This is a very good recipe. I loved it.",
-			likes: [{ _id: "1", userId: "2" }],
-			date: new Date(),
-		},
-		{
-			_id: "2",
-			userId: "2",
-			review: "I tried this recipe and it was amazing!!!",
-			likes: [],
-			date: new Date(),
-		},
-	];
-
-	return recipeReviews;
+			method: "GET",
+			headers: { "Content-Type": "application/json" },
+		}
+	);
+	const data = await res.json();
+	return data.reviews || [];
 };
 
 const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
@@ -158,6 +149,41 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</ol>
 				</div>
 			</div>
+
+			{user && (
+				<form
+					action={async (formData: FormData) => {
+						"use server";
+						await fetch(
+							`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/review`,
+							{
+								method: "POST",
+								headers: { "Content-Type": "application/json" },
+								body: JSON.stringify({
+									userId: user._id,
+									review: formData.get("review")?.toString(),
+									date: new Date(),
+								}),
+							}
+						);
+					}}
+					className="mb-6 space-y-4"
+				>
+					<textarea
+						name="review"
+						required
+						rows={3}
+						placeholder="Write your review..."
+						className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:border-primaryBg"
+					/>
+					<button
+						type="submit"
+						className="px-6 py-2 bg-primaryBg text-white font-semibold rounded-md hover:bg-primaryBgHover transition"
+					>
+						Submit Review
+					</button>
+				</form>
+			)}
 
 			{/* Reviews Section */}
 			<div className="bg-white p-6 rounded-lg shadow-lg">
