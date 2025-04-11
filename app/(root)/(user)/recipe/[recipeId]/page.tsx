@@ -136,42 +136,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 				</div>
 			</div>
 
-			{user && (
-				<form
-					action={async (formData: FormData) => {
-						"use server";
-						await fetch(
-							`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/review`,
-							{
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({
-									userId: user._id,
-									review: formData.get("review")?.toString(),
-									date: new Date(),
-								}),
-							}
-						);
-					}}
-					className="mb-6 space-y-4"
-				>
-					<textarea
-						name="review"
-						required
-						rows={3}
-						placeholder="Write your review..."
-						className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:border-primaryBg"
-					/>
-					<button
-						type="submit"
-						className="px-6 py-2 bg-primaryBg text-white font-semibold rounded-md hover:bg-primaryBgHover transition"
-					>
-						Submit Review
-					</button>
-				</form>
-			)}
-
-			<ReviewSection recipeId={recipeId} />
+			<ReviewSection recipeId={recipeId} user={user} />
 		</div>
 	);
 };
