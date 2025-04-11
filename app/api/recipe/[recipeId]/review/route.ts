@@ -19,7 +19,6 @@ export async function GET(
 		return { ...rest, user: userId };
 	});
 
-	console.log("Reviews:", processedReviews);
 	return NextResponse.json({ reviews: processedReviews });
 }
 
