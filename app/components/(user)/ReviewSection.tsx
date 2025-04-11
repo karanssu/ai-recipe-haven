@@ -1,5 +1,6 @@
 "use client";
 
+import { ThumbsUpIcon as LikeOpenIcon } from "hugeicons-react";
 import { RecipeReview, SessionUser } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -14,6 +15,52 @@ const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
 	);
 	const data = await res.json();
 	return data.reviews || [];
+};
+
+const isReviewLiked = (
+	likes: string[] | undefined,
+	userId: string | number | undefined
+) => {
+	if (!likes || !userId) return false;
+	return likes.some((like) => like === userId);
+};
+
+const updateLikes = (
+	reviewId: string | number,
+	userId: string,
+	setRecipeReviews: React.Dispatch<React.SetStateAction<RecipeReview[]>>
+) => {
+	setRecipeReviews((prevReviews) =>
+		prevReviews.map((review) => {
+			if (review._id === reviewId) {
+				const liked = review.likes.includes(userId);
+				const updatedLikes = liked
+					? review.likes.filter((id) => id !== userId)
+					: [...review.likes, userId];
+				return { ...review, likes: updatedLikes };
+			}
+			return review;
+		})
+	);
+};
+
+const handleLikeReview = async (
+	reviewId: string | number,
+	userId: string | number | undefined,
+	setRecipeReviews: React.Dispatch<React.SetStateAction<RecipeReview[]>>
+) => {
+	if (!userId) return;
+
+	await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${reviewId}/like`,
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ userId }),
+		}
+	);
+
+	updateLikes(reviewId, userId.toString(), setRecipeReviews);
 };
 
 const ReviewSection = ({
@@ -113,8 +160,26 @@ const ReviewSection = ({
 							</div>
 						</div>
 						<p className="text-gray-700 mt-2">{review.review}</p>
-						<div className="text-gray-500 text-sm mt-2">
-							Likes: {review.likes?.length}
+						<div className="flex text-gray-500 text-sm mt-2 items-center">
+							{isReviewLiked(review.likes, user?._id) ? (
+								<LikeOpenIcon
+									fill="true"
+									className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer"
+									onClick={() =>
+										handleLikeReview(review._id, user?._id, setRecipeReviews)
+									}
+								/>
+							) : (
+								<LikeOpenIcon
+									fill="false"
+									className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer"
+									onClick={() =>
+										handleLikeReview(review._id, user?._id, setRecipeReviews)
+									}
+								/>
+							)}
+
+							<div className="ml-2">{review.likes?.length}</div>
 						</div>
 					</div>
 				))}

@@ -101,11 +101,6 @@ type Ingredient = {
 	unit?: string;
 };
 
-type Like = {
-	_id: string | number;
-	userId: string | number;
-};
-
 export type RecipeReview = {
 	_id: string | number;
 	userId: mongoose.Types.ObjectId | string | number;
@@ -114,7 +109,7 @@ export type RecipeReview = {
 		profileImage?: string;
 	};
 	review: string;
-	likes: Like[];
+	likes: string[];
 	date: Date;
 };
 
