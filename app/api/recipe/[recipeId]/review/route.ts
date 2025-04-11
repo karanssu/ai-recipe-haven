@@ -9,11 +9,18 @@ export async function GET(
 	await connectMongoDB();
 	const recipeId = (await params).recipeId;
 
-	// Find all reviews for the given recipe, sorted by most recent
 	const reviews = await Review.find({ recipeId: recipeId })
+		.populate("userId", "name profileImage")
 		.sort({ date: -1 })
 		.lean();
-	return NextResponse.json({ reviews });
+
+	const processedReviews = reviews.map((review) => {
+		const { userId, ...rest } = review;
+		return { ...rest, user: userId };
+	});
+
+	console.log("Reviews:", processedReviews);
+	return NextResponse.json({ reviews: processedReviews });
 }
 
 export async function POST(
@@ -24,7 +31,6 @@ export async function POST(
 	const body = await req.json();
 	const recipeId = (await params).recipeId;
 
-	// Body should include userId and review text.
 	const reviewDoc = await Review.create({
 		recipeId: recipeId,
 		userId: body.userId,

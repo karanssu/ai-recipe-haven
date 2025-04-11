@@ -194,10 +194,10 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<div key={review._id} className="border-t border-gray-200 py-4">
 						<div className="flex items-center space-x-4">
 							<div className="w-10 h-10 rounded-full overflow-hidden">
-								{user?.profileImage ? (
+								{review.user?.profileImage ? (
 									<Image
-										src={user.profileImage}
-										alt={user.name || "User"}
+										src={review.user.profileImage}
+										alt={review.user.name || "User"}
 										width={40}
 										height={40}
 										className="object-cover"
@@ -208,7 +208,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 							</div>
 							<div>
 								<p className="text-gray-800 font-semibold">
-									{user?.name || "Anonymous"}
+									{review.user?.name || "Anonymous"}
 								</p>
 								<p className="text-gray-500 text-sm">
 									{new Date(review.date).toLocaleDateString()}

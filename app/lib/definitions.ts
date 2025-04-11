@@ -109,6 +109,10 @@ type Like = {
 export type RecipeReview = {
 	_id: string | number;
 	userId: mongoose.Types.ObjectId | string | number;
+	user?: {
+		name: string;
+		profileImage?: string;
+	};
 	review: string;
 	likes: Like[];
 	date: Date;
