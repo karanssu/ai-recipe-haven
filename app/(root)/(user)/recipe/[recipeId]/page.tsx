@@ -3,7 +3,6 @@ import ReviewSection from "@/app/components/(user)/ReviewSection";
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, SessionUser } from "@/app/lib/definitions";
 import {
-	calculateRecipeRating,
 	getDisplayTimeWithUnit,
 	parseHTMLTextToHtml,
 } from "@/app/lib/recipeUtils";
@@ -61,14 +60,10 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<div className="text-gray-600 mt-4">
 						{RecipeDescription(recipe.description || "")}
 					</div>
-					<div className="mt-4 flex items-center space-x-4">
-						<div className="text-primaryBgHover font-semibold">
-							Rating: {calculateRecipeRating(recipe.ratings)}
-						</div>
-						<div className="text-gray-500">({recipe.ratings?.length || 0})</div>
-					</div>
 					<div className="mt-4">
-						{user && <RatingSection recipeId={recipeId} user={user} />}
+						{user && (
+							<RatingSection recipeId={recipeId} user={user} recipe={recipe} />
+						)}
 					</div>
 					<div className="mt-4 space-y-1 text-gray-700">
 						<div>

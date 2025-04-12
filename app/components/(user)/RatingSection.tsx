@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { StarIcon as StarIcon } from "hugeicons-react";
-import { SessionUser } from "@/app/lib/definitions";
+import { Recipe, SessionUser } from "@/app/lib/definitions";
+import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 
 interface RatingSectionProps {
 	recipeId: string;
 	user: SessionUser | null;
+	recipe: Recipe;
 }
 
-const RatingSection = ({ recipeId, user }: RatingSectionProps) => {
-	const [rating, setRating] = useState(0);
+const RatingSection = ({ recipeId, user, recipe }: RatingSectionProps) => {
+	const [recipeRatings, setRecipeRatings] = useState(recipe.ratings || []);
+	const [userRating, setUserRating] = useState(0);
 	const [hoverRating, setHoverRating] = useState(0);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -42,13 +45,27 @@ const RatingSection = ({ recipeId, user }: RatingSectionProps) => {
 	};
 
 	const handleStarClick = (star: number) => {
-		setRating(star);
+		setUserRating(star);
+		setRecipeRatings((prevRatings) => {
+			const existingRatingIndex = prevRatings.findIndex(
+				(rating) => rating.userId === user?._id
+			);
+			if (existingRatingIndex !== -1) {
+				const updatedRatings = [...prevRatings];
+				updatedRatings[existingRatingIndex].rating = star;
+				return updatedRatings;
+			} else if (user?._id) {
+				return [...prevRatings, { userId: user._id, rating: star }];
+			}
+			return prevRatings;
+		});
+
 		submitRating(star);
 	};
 
 	useEffect(() => {
 		if (user) {
-			const fetchRating = async () => {
+			const fetchUserRating = async () => {
 				try {
 					const res = await fetch(
 						`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/rating/${user._id}`
@@ -56,7 +73,7 @@ const RatingSection = ({ recipeId, user }: RatingSectionProps) => {
 					if (res.ok) {
 						const data = await res.json();
 						if (data.rating) {
-							setRating(data.rating.rating);
+							setUserRating(data.rating.rating);
 						}
 					} else {
 						console.error("Failed to fetch rating");
@@ -65,31 +82,39 @@ const RatingSection = ({ recipeId, user }: RatingSectionProps) => {
 					console.error("Error fetching rating", error);
 				}
 			};
-			fetchRating();
+			fetchUserRating();
 		}
 	}, [user, recipeId]);
 
 	return (
-		<div className="flex items-center space-x-1 my-4">
-			{[1, 2, 3, 4, 5].map((star) => (
-				<button
-					key={star}
-					onMouseEnter={() => setHoverRating(star)}
-					onMouseLeave={() => setHoverRating(0)}
-					onClick={() => handleStarClick(star)}
-					disabled={!user || isSubmitting}
-					className="focus:outline-none bg-transparent hover:bg-transparent"
-				>
-					<StarIcon
-						className={`w-6 h-6 ${
-							(hoverRating || rating) >= star
-								? "text-yellow-500 fill-yellow-500"
-								: "text-gray-300"
-						}`}
-					/>
-				</button>
-			))}
-		</div>
+		<>
+			<div className="mt-4 flex items-center space-x-4">
+				<div className="text-primaryBgHover font-semibold">
+					Rating: {calculateRecipeRating(recipeRatings)}
+				</div>
+				<div className="text-gray-500">({recipeRatings.length || 0})</div>
+			</div>
+			<div className="flex items-center space-x-1 my-4">
+				{[1, 2, 3, 4, 5].map((star) => (
+					<button
+						key={star}
+						onMouseEnter={() => setHoverRating(star)}
+						onMouseLeave={() => setHoverRating(0)}
+						onClick={() => handleStarClick(star)}
+						disabled={!user || isSubmitting}
+						className="focus:outline-none bg-transparent hover:bg-transparent"
+					>
+						<StarIcon
+							className={`w-6 h-6 ${
+								(hoverRating || userRating) >= star
+									? "text-yellow-500 fill-yellow-500"
+									: "text-gray-300"
+							}`}
+						/>
+					</button>
+				))}
+			</div>
+		</>
 	);
 };
 
