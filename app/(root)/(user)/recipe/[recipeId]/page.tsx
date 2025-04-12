@@ -1,3 +1,4 @@
+import RatingSection from "@/app/components/(user)/RatingSection";
 import ReviewSection from "@/app/components/(user)/ReviewSection";
 import { verifySession } from "@/app/lib/dal";
 import { Recipe, SessionUser } from "@/app/lib/definitions";
@@ -65,6 +66,9 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 							Rating: {calculateRecipeRating(recipe.ratings)}
 						</div>
 						<div className="text-gray-500">({recipe.ratings?.length || 0})</div>
+					</div>
+					<div className="mt-4">
+						{user && <RatingSection recipeId={recipeId} user={user} />}
 					</div>
 					<div className="mt-4 space-y-1 text-gray-700">
 						<div>
