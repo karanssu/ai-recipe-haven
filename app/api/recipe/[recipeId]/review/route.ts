@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Review } from "@/app/models/review.model";
+import "@/app/models/user.model";
 
 export async function GET(
 	req: Request,
