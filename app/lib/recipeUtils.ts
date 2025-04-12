@@ -63,7 +63,7 @@ export const getDisplayTimeWithUnit = (timeMinutes: number): string => {
 		unit = "hour";
 	}
 
-	time = parseFloat(time.toFixed(1));
+	time = parseFloat(time?.toFixed(1));
 
 	if (time !== 1) {
 		unit += "s";
