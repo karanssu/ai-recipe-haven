@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Recipe } from "@/app/models/recipe.model";
 import { Rating } from "@/app/models/rating.model";
-import { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 
 export async function POST(
 	req: NextRequest,
@@ -10,7 +10,7 @@ export async function POST(
 ) {
 	try {
 		await connectMongoDB();
-		const recipeId = (await params).recipeId;
+		const { recipeId } = await params;
 		const { userId, rating } = await req.json();
 
 		// Validate rating value
@@ -29,33 +29,29 @@ export async function POST(
 			);
 		}
 
-		// check if rating already exists in recipe.rating list for this user and recipe
+		// Find the recipe and populate ratings
 		const recipe = await Recipe.findById(recipeId).populate("ratings");
 		if (!recipe) {
 			return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
 		}
 
-		const existingRating = recipe.ratings.find(
-			(rating: { userId: ObjectId }) =>
-				rating.userId.toString() === userId.toString()
+		const userIdObj = new Types.ObjectId(userId);
+		const alreadyRated = recipe.ratings.some((r: { userId: Types.ObjectId }) =>
+			r.userId.equals(userIdObj)
 		);
 
-		if (existingRating) {
-			return NextResponse.json(
-				{ error: "User has already rated this recipe" },
-				{ status: 400 }
+		// if already rated then update the rating
+		if (alreadyRated) {
+			const existingRating = recipe.ratings.find(
+				(r: { userId: Types.ObjectId }) => r.userId.equals(userIdObj)
 			);
+			existingRating.rating = rating;
+			await existingRating.save();
+			return NextResponse.json({ rating: existingRating }, { status: 200 });
 		}
 
-		// Create the new rating document
-		const newRating = await Rating.create({
-			userId: new Types.ObjectId(userId),
-			rating,
-			// date: new Date() is set automatically if your schema uses timestamps
-		});
-
-		// Avoid duplicates if necessary (depends on your requirements).
-		// For now, we simply push the rating
+		// If not rated then create the new rating document and update the recipe
+		const newRating = await Rating.create({ userId: userIdObj, rating });
 		recipe.ratings.push(newRating._id);
 		await recipe.save();
 
