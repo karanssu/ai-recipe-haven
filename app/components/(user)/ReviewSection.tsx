@@ -111,7 +111,7 @@ const ReviewSection = ({
 						const formData = new FormData(e.currentTarget);
 						handleSubmitReview(formData);
 					}}
-					className="mb-6 space-y-4"
+					className="mb-8 space-y-4"
 				>
 					<textarea
 						name="review"
@@ -120,36 +120,34 @@ const ReviewSection = ({
 						required
 						rows={3}
 						placeholder="Write your review..."
-						className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:border-primaryBg"
+						className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primaryBg transition-all duration-200 resize-none"
 					/>
 					<button
 						type="submit"
-						className="px-6 py-2 bg-primaryBg text-white font-semibold rounded-md hover:bg-primaryBgHover transition"
+						className="inline-block px-6 py-2 rounded-lg bg-primaryBg hover:bg-primaryBgHover text-gray-900 font-semibold transition-colors duration-200 shadow-md"
 					>
 						Submit Review
 					</button>
 				</form>
 			)}
 
-			<div className="bg-white p-6 rounded-lg shadow-lg">
-				<h2 className="text-2xl font-bold text-gray-800 mb-4">
+			<div className="bg-white p-6 rounded-xl shadow-xl">
+				<h2 className="text-2xl font-bold text-gray-800 mb-6">
 					Reviews ({recipeReviews?.length || 0})
 				</h2>
 				{recipeReviews?.map((review) => (
-					<div key={review._id} className="border-t border-gray-200 py-4">
+					<div key={review._id} className="border-t border-gray-200 py-6">
 						<div className="flex items-center space-x-4">
-							<div className="w-10 h-10 rounded-full overflow-hidden">
+							<div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
 								{review.user?.profileImage ? (
 									<Image
 										src={review.user.profileImage}
 										alt={review.user.name || "User"}
 										width={40}
 										height={40}
-										className="object-cover"
+										className="object-cover w-full h-full"
 									/>
-								) : (
-									<div className="bg-gray-300 w-full h-full" />
-								)}
+								) : null}
 							</div>
 							<div>
 								<p className="text-gray-800 font-semibold">
@@ -160,12 +158,14 @@ const ReviewSection = ({
 								</p>
 							</div>
 						</div>
-						<p className="text-gray-700 mt-4">{review.review}</p>
-						<div className="flex text-gray-500 text-sm mt-2 items-center">
+						<p className="text-gray-700 mt-4 leading-relaxed">
+							{review.review}
+						</p>
+						<div className="flex items-center text-gray-500 text-sm mt-3">
 							{isReviewLiked(review.likes, user?._id.toString()) ? (
 								<LikeIcon
 									fill="true"
-									className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer"
+									className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
 									onClick={() =>
 										handleLikeReview(review._id, user?._id, setRecipeReviews)
 									}
@@ -173,13 +173,12 @@ const ReviewSection = ({
 							) : (
 								<LikeIcon
 									fill="false"
-									className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer"
+									className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
 									onClick={() =>
 										handleLikeReview(review._id, user?._id, setRecipeReviews)
 									}
 								/>
 							)}
-
 							<div className="ml-2">{review.likes?.length}</div>
 						</div>
 					</div>
