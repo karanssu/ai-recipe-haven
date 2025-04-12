@@ -109,7 +109,7 @@ export type RecipeReview = {
 		profileImage?: string;
 	};
 	review: string;
-	likes: string[];
+	likes: { _id: string }[];
 	date: Date;
 };
 

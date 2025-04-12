@@ -1,6 +1,6 @@
 "use client";
 
-import { ThumbsUpIcon as LikeOpenIcon } from "hugeicons-react";
+import { ThumbsUpIcon as LikeIcon } from "hugeicons-react";
 import { RecipeReview, SessionUser } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -18,11 +18,11 @@ const getRecipeReviews = async (recipeId: string): Promise<RecipeReview[]> => {
 };
 
 const isReviewLiked = (
-	likes: string[] | undefined,
+	likes: { _id: string }[] | undefined,
 	userId: string | number | undefined
 ) => {
 	if (!likes || !userId) return false;
-	return likes.some((like) => like === userId);
+	return likes.some((like) => like._id?.toString() === userId);
 };
 
 const updateLikes = (
@@ -33,10 +33,11 @@ const updateLikes = (
 	setRecipeReviews((prevReviews) =>
 		prevReviews.map((review) => {
 			if (review._id === reviewId) {
-				const liked = review.likes.includes(userId);
+				const liked = review.likes.some((like) => like._id === userId);
+
 				const updatedLikes = liked
-					? review.likes.filter((id) => id !== userId)
-					: [...review.likes, userId];
+					? review.likes.filter((like) => like._id !== userId)
+					: [...review.likes, { _id: userId }];
 				return { ...review, likes: updatedLikes };
 			}
 			return review;
@@ -60,7 +61,7 @@ const handleLikeReview = async (
 		}
 	);
 
-	updateLikes(reviewId, userId.toString(), setRecipeReviews);
+	updateLikes(reviewId.toString(), userId.toString(), setRecipeReviews);
 };
 
 const ReviewSection = ({
@@ -161,8 +162,8 @@ const ReviewSection = ({
 						</div>
 						<p className="text-gray-700 mt-2">{review.review}</p>
 						<div className="flex text-gray-500 text-sm mt-2 items-center">
-							{isReviewLiked(review.likes, user?._id) ? (
-								<LikeOpenIcon
+							{isReviewLiked(review.likes, user?._id.toString()) ? (
+								<LikeIcon
 									fill="true"
 									className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer"
 									onClick={() =>
@@ -170,7 +171,7 @@ const ReviewSection = ({
 									}
 								/>
 							) : (
-								<LikeOpenIcon
+								<LikeIcon
 									fill="false"
 									className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer"
 									onClick={() =>
