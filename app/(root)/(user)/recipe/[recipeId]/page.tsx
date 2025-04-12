@@ -65,30 +65,70 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 							<RatingSection recipeId={recipeId} user={user} recipe={recipe} />
 						)}
 					</div>
-					<div className="mt-4 space-y-1 text-gray-700">
-						<div>
-							<span className="font-medium">Total Time: </span>
-							{getDisplayTimeWithUnit(
-								recipe.preparationMinutes + recipe.cookingMinutes
-							)}
-						</div>
-						<div>
-							<span className="font-medium">Preparation: </span>
-							{getDisplayTimeWithUnit(recipe.preparationMinutes)}
-						</div>
-						<div>
-							<span className="font-medium">Cooking: </span>
-							{getDisplayTimeWithUnit(recipe.cookingMinutes)}
-						</div>
-						<div>
-							<span className="font-medium">Serving:</span> {recipe.serving}
+					<div className="mt-4 space-y-1">
+						<div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
+							<h3 className="text-lg font-bold text-gray-800 mb-3">
+								Recipe Info
+							</h3>
+							<div className="grid grid-cols-2 gap-4">
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Total Time:</span>
+									<span className="ml-1">
+										{getDisplayTimeWithUnit(
+											recipe.preparationMinutes + recipe.cookingMinutes
+										)}
+									</span>
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Preparation:</span>
+									<span className="ml-1">
+										{getDisplayTimeWithUnit(recipe.preparationMinutes)}
+									</span>
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Cooking:</span>
+									<span className="ml-1">
+										{getDisplayTimeWithUnit(recipe.cookingMinutes)}
+									</span>
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Serving:</span>
+									<span className="ml-1">{recipe.serving}</span>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div className="mt-4 text-gray-700">
-						<span className="font-medium">Nutrition:</span> {recipe.calories}{" "}
-						Calories, {recipe.fatGrams}g Fat, {recipe.carbsGrams}g Carbs,{" "}
-						{recipe.fiberGrams}g Fiber, {recipe.sugarGrams}g Sugar,{" "}
-						{recipe.proteinGrams}g Protein
+					<div className="mt-4">
+						<div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
+							<h3 className="text-lg font-bold text-gray-800 mb-3">
+								Nutrition
+							</h3>
+							<div className="grid grid-cols-2 gap-4">
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Calories:</span>{" "}
+									{recipe.calories}
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Fat:</span> {recipe.fatGrams}g
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Carbs:</span>{" "}
+									{recipe.carbsGrams}g
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Fiber:</span>{" "}
+									{recipe.fiberGrams}g
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Sugar:</span>{" "}
+									{recipe.sugarGrams}g
+								</div>
+								<div className="text-sm text-gray-700">
+									<span className="font-medium">Protein:</span>{" "}
+									{recipe.proteinGrams}g
+								</div>
+							</div>
+						</div>
 					</div>
 					{recipe.tags && (
 						<div className="mt-4">
