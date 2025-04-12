@@ -11,7 +11,7 @@ const adminRoutes = [
 ];
 const superAdminRoutes = ["/admin/signup"];
 // const publicRoutes = ["/", "/recipe", ...authRoutes];
-const userRoutes = ["/dashboard", "/profile", "/mealplan", "/recipe/new"];
+const userRoutes = ["/profile", "/mealplan", "/recipe/new"];
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
@@ -34,19 +34,19 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
-	// Redirect to /dashboard if the user is authenticated
+	// Redirect to /recipe if the user is authenticated
 	if (session?.userId && isAuthRoute) {
 		if (session.role === "user") {
-			return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+			return NextResponse.redirect(new URL("/recipe", request.nextUrl));
 		} else {
 			return NextResponse.redirect(new URL("/admin", request.nextUrl));
 		}
 	}
 
-	// Redirect to /dashboard if the user is authenticated and tries to access other role routes
+	// Redirect to /recipe if the user is authenticated and tries to access other role routes
 	if (session?.userId) {
 		if (session.role === "user" && (isAdminRoute || isSuperAdminRoute)) {
-			return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+			return NextResponse.redirect(new URL("/recipe", request.nextUrl));
 		} else if (session.role === "admin" && (isUserRoute || isSuperAdminRoute)) {
 			return NextResponse.redirect(new URL("/admin", request.nextUrl));
 		} else if (session.role === "superadmin" && isUserRoute) {

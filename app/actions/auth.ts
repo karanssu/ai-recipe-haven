@@ -75,7 +75,7 @@ export async function login(state: LoginFormState, formData: FormData) {
 			user.profileImage,
 			user.role
 		);
-		redirect("/dashboard");
+		redirect("/recipe");
 	} else {
 		return {
 			user: { usernameEmail: usernameEmail, password: password },

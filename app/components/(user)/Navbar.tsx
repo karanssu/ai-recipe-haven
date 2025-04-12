@@ -23,9 +23,7 @@ const Navbar = async () => {
 			<div className="flex space-x-4 text-sm">
 				{user && user?._id ? (
 					<>
-						<div>
-							<Link href="/profile">Hello, {user?.name as string}</Link>
-						</div>
+						<div>Hello, {user?.name as string}</div>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipes</Link>
 						<Link href="/mealplan">Meal Plan</Link>
