@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon as StarIcon } from "hugeicons-react";
 import { SessionUser } from "@/app/lib/definitions";
 
@@ -45,6 +45,29 @@ const RatingSection = ({ recipeId, user }: RatingSectionProps) => {
 		setRating(star);
 		submitRating(star);
 	};
+
+	useEffect(() => {
+		if (user) {
+			const fetchRating = async () => {
+				try {
+					const res = await fetch(
+						`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}/rating/${user._id}`
+					);
+					if (res.ok) {
+						const data = await res.json();
+						if (data.rating) {
+							setRating(data.rating.rating);
+						}
+					} else {
+						console.error("Failed to fetch rating");
+					}
+				} catch (error) {
+					console.error("Error fetching rating", error);
+				}
+			};
+			fetchRating();
+		}
+	}, [user, recipeId]);
 
 	return (
 		<div className="flex items-center space-x-1 my-4">
