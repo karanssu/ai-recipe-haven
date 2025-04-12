@@ -160,7 +160,7 @@ const ReviewSection = ({
 								</p>
 							</div>
 						</div>
-						<p className="text-gray-700 mt-2">{review.review}</p>
+						<p className="text-gray-700 mt-4">{review.review}</p>
 						<div className="flex text-gray-500 text-sm mt-2 items-center">
 							{isReviewLiked(review.likes, user?._id.toString()) ? (
 								<LikeIcon
