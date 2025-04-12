@@ -63,12 +63,31 @@ const fetchRecipeCardData = async (
 			{ $limit: limit },
 		]);
 	} else if (sortBy === "rating") {
-		recipes = await RecipeModel.find(query)
-			.sort({ createdAt: 1 }) // adjust this sorting if you have an average rating field calculated
-			.skip(skip)
-			.limit(limit)
-			.populate("ratings")
-			.lean();
+		recipes = await RecipeModel.aggregate([
+			{ $match: query },
+			{
+				$lookup: {
+					from: "ratings",
+					localField: "ratings",
+					foreignField: "_id",
+					as: "ratingObjects",
+				},
+			},
+			{
+				$addFields: {
+					avgRating: {
+						$cond: [
+							{ $gt: [{ $size: "$ratingObjects" }, 0] },
+							{ $avg: "$ratingObjects.rating" },
+							0,
+						],
+					},
+				},
+			},
+			{ $sort: { avgRating: -1 } },
+			{ $skip: skip },
+			{ $limit: limit },
+		]);
 	} else {
 		recipes = await RecipeModel.find(query)
 			.sort({ createdAt: -1 })

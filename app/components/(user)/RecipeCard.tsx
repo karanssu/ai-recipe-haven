@@ -31,7 +31,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.tags?.slice(0, 3).map((tag) => (
 						<div
 							key={tag}
-							className="bg-primaryBg px-3 py-1 text-sm font-bold font-menu whitespace-nowrap"
+							className="bg-primaryBg px-3 py-1 text-sm font-bold rounded-lg font-menu whitespace-nowrap"
 						>
 							{tag}
 						</div>
@@ -63,7 +63,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.ratings && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<RatingIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
+								<RatingIcon
+									fill="true"
+									className="text-primaryBg fill-primaryBg w-5 h-5 inline-block stroke-2"
+								/>
 							</span>
 							<span>{calculateRecipeRating(recipe.ratings)}</span>
 						</div>
@@ -71,7 +74,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.serving && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<PeopleIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
+								<PeopleIcon
+									fill="true"
+									className="text-primaryBg fill-primaryBg w-5 h-5 inline-block stroke-2"
+								/>
 							</span>
 							<span>{recipe.serving}</span>
 						</div>
@@ -79,7 +85,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 					{recipe.calories && (
 						<div className="flex justify-center items-center">
 							<span className="mr-2 flex justify-center items-center">
-								<CaloriesIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
+								<CaloriesIcon
+									fill="true"
+									className="text-primaryBg fill-primaryBg w-5 h-5 inline-block stroke-2"
+								/>
 							</span>
 							<span className="mr-1">
 								{getDisplayCaloriesWithUnit(recipe.calories).calories}
