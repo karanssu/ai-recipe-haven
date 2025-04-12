@@ -89,12 +89,14 @@ const RatingSection = ({ recipeId, user, recipe }: RatingSectionProps) => {
 	return (
 		<>
 			<div className="mt-4 flex items-center space-x-4">
-				<div className="text-primaryBgHover font-semibold">
+				<div className="text-primaryBgHover font-semibold text-lg transition-colors duration-200">
 					Rating: {calculateRecipeRating(recipeRatings)}
 				</div>
-				<div className="text-gray-500">({recipeRatings.length || 0})</div>
+				<div className="text-gray-500 text-sm">
+					({recipeRatings.length || 0})
+				</div>
 			</div>
-			<div className="flex items-center space-x-1 my-4">
+			<div className="flex items-center space-x-2 my-4">
 				{[1, 2, 3, 4, 5].map((star) => (
 					<button
 						key={star}
@@ -102,10 +104,10 @@ const RatingSection = ({ recipeId, user, recipe }: RatingSectionProps) => {
 						onMouseLeave={() => setHoverRating(0)}
 						onClick={() => handleStarClick(star)}
 						disabled={!user || isSubmitting}
-						className="focus:outline-none bg-transparent hover:bg-transparent"
+						className="focus:outline-none transition-colors duration-150 bg-transparent hover:bg-transparent"
 					>
 						<StarIcon
-							className={`w-6 h-6 ${
+							className={`w-6 h-6 transition-transform duration-200 transform hover:scale-110 ${
 								(hoverRating || userRating) >= star
 									? "text-yellow-500 fill-yellow-500"
 									: "text-gray-300"
