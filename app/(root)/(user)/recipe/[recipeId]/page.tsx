@@ -43,21 +43,24 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const recipe = await getRecipe(recipeId);
 
 	return (
-		<div className="container mx-auto px-4 py-8 space-y-12">
+		<div className="max-w-7xl mx-auto px-6 py-10 space-y-12">
 			{/* Recipe Header */}
-			<div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
-				<div className="relative w-full md:w-1/2 h-96 md:h-auto max-h-screen">
+			<div className="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden">
+				<div className="group relative w-full md:w-1/2 h-96 md:h-[450px] max-h-screen overflow-hidden">
 					<Image
 						src={recipe.imageUrl}
 						alt={recipe.name}
 						layout="fill"
 						objectFit="cover"
 						objectPosition="center"
+						className="transition-transform duration-500 ease-in-out group-hover:scale-105"
 					/>
 				</div>
-				<div className="w-full md:w-1/2 p-6">
-					<h1 className="text-4xl font-bold text-gray-800">{recipe.name}</h1>
-					<div className="text-gray-600 mt-4">
+				<div className="w-full md:w-1/2 p-8">
+					<h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+						{recipe.name}
+					</h1>
+					<div className="mt-4 text-base text-gray-600">
 						{RecipeDescription(recipe.description || "")}
 					</div>
 					<div className="mt-4">
@@ -66,8 +69,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						)}
 					</div>
 					<div className="mt-4 space-y-1">
-						<div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
-							<h3 className="text-lg font-bold text-gray-800 mb-3">
+						<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
+							<h3 className="text-lg font-bold text-gray-900 mb-3">
 								Recipe Info
 							</h3>
 							<div className="grid grid-cols-2 gap-4">
@@ -99,8 +102,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						</div>
 					</div>
 					<div className="mt-4">
-						<div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
-							<h3 className="text-lg font-bold text-gray-800 mb-3">
+						<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
+							<h3 className="text-lg font-bold text-gray-900 mb-3">
 								Nutrition
 							</h3>
 							<div className="grid grid-cols-2 gap-4">
@@ -136,7 +139,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 								{recipe.tags.map((tag) => (
 									<span
 										key={tag}
-										className="mr-2 mb-2 px-3 py-1 bg-primaryBg text-primaryText text-sm font-menu font-semibold"
+										className="mr-2 mb-2 px-3 py-1 bg-primaryBg text-primaryText text-sm font-menu rounded-lg font-semibold"
 									>
 										{tag}
 									</span>
@@ -150,8 +153,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			{/* Ingredients & Cooking Steps */}
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 				{/* Ingredients */}
-				<div className="bg-white p-6 rounded-lg shadow-lg">
-					<h2 className="text-2xl font-bold text-gray-800 mb-4">Ingredients</h2>
+				<div className="bg-white p-8 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-bold text-gray-900 mb-4">Ingredients</h2>
 					<ul className="list-disc list-inside text-gray-700 space-y-2">
 						{recipe.ingredients?.map((ingredient) => (
 							<li key={ingredient.name}>
@@ -161,8 +164,8 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					</ul>
 				</div>
 				{/* Cooking Steps */}
-				<div className="bg-white p-6 rounded-lg shadow-lg">
-					<h2 className="text-2xl font-bold text-gray-800 mb-4">
+				<div className="bg-white p-8 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-bold text-gray-900 mb-4">
 						Cooking Steps
 					</h2>
 					<ol className="list-decimal list-inside text-gray-700 space-y-3">
