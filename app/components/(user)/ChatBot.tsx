@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChatBotIcon } from "hugeicons-react";
 import { PlayIcon as SendIcon } from "hugeicons-react";
 import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
@@ -13,9 +13,18 @@ interface IMessage {
 	text: string;
 }
 
-const ChatBody = ({ messages }: { messages: IMessage[] }) => {
+const ChatBody = ({
+	messages,
+	chatBodyRef,
+}: {
+	messages: IMessage[];
+	chatBodyRef: React.RefObject<HTMLDivElement | null>;
+}) => {
 	return (
-		<div className="flex flex-col gap-2 overflow-y-scroll mt-4 h-[100%]">
+		<div
+			ref={chatBodyRef}
+			className="flex flex-col gap-2 overflow-y-scroll mt-4 h-full"
+		>
 			{messages.map((msg: IMessage) => (
 				<div
 					key={msg.id}
@@ -37,27 +46,83 @@ const ChatBody = ({ messages }: { messages: IMessage[] }) => {
 const ChatBot = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleIsOpen = () => setIsOpen(!isOpen);
-	const messages: IMessage[] = [
+
+	// Maintain messages state (pre-populate with initial sample messages if needed)
+	const [messages, setMessages] = useState<IMessage[]>([
 		{
 			id: "1",
 			type: "system",
-			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
+			text: "Hello, how can I help you today?",
 		},
-		{
-			id: "2",
-			type: "user",
-			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
-		},
-	];
+	]);
 
-	const handleMessageSend = () => {
-		// get message from input field (phone or desktop chat)
-		// clear input field and store
-		// update messages state with new message
-		// send message to server and get response
-		// update messages state with response message
-		// scroll to bottom of chat body
-		// if failed anything, show return error message as response and reset input field
+	// Controlled input value for the chat message
+	const [inputMessage, setInputMessage] = useState("");
+
+	// Use a ref to the chat body for scrolling
+	const chatBodyRef = useRef<HTMLDivElement>(null);
+
+	// Function to send the message and update state, scrolling to the bottom after updating.
+	const handleMessageSend = async () => {
+		// Do not send if input is empty
+		if (!inputMessage.trim()) return;
+
+		// Create user message object
+		const newUserMessage: IMessage = {
+			id: Date.now().toString(),
+			type: "user",
+			text: inputMessage,
+		};
+
+		// Clear the input field immediately
+		setInputMessage("");
+
+		// Append the user message to messages state
+		setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+
+		try {
+			// Send the message to the server; adjust endpoint as needed.
+			const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ message: newUserMessage.text }),
+			});
+
+			if (!res.ok) {
+				throw new Error("Failed to get a response from server");
+			}
+
+			const data = await res.json();
+
+			// Create system response message (assuming the server response includes a "message" field)
+			const newSystemMessage: IMessage = {
+				id: Date.now().toString() + "-sys",
+				type: "system",
+				text: data.message || "Sorry, something went wrong.",
+			};
+
+			// Append system message to messages state
+			setMessages((prevMessages) => [...prevMessages, newSystemMessage]);
+		} catch (error) {
+			// Append error message in case of failure
+			const errorMessage: IMessage = {
+				id: Date.now().toString() + "-err",
+				type: "system",
+				text: "Error: Could not send your message. Please try again.",
+			};
+			console.error("Error sending message:", error);
+			setMessages((prevMessages) => [...prevMessages, errorMessage]);
+		} finally {
+			// Scroll the chat body to the bottom
+			setTimeout(() => {
+				if (chatBodyRef.current) {
+					chatBodyRef.current.scrollTo({
+						top: chatBodyRef.current.scrollHeight,
+						behavior: "smooth",
+					});
+				}
+			}, 100);
+		}
 	};
 
 	return (
@@ -94,8 +159,8 @@ const ChatBot = () => {
 								<h2 className="text-xl font-bold">Chat with AI</h2>
 							</div>
 							{/* Chat Body */}
-							<div className="h-[100%]">
-								<ChatBody messages={messages} />
+							<div className="h-full">
+								<ChatBody messages={messages} chatBodyRef={chatBodyRef} />
 							</div>
 						</div>
 						{/* Chat Input Area */}
@@ -103,11 +168,13 @@ const ChatBot = () => {
 							<input
 								type="text"
 								placeholder="Type your message..."
+								value={inputMessage}
+								onChange={(e) => setInputMessage(e.target.value)}
 								className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 							/>
 							<button
 								className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
-								onClick={() => handleMessageSend()}
+								onClick={handleMessageSend}
 							>
 								<SendIcon />
 							</button>
@@ -140,7 +207,7 @@ const ChatBot = () => {
 						</div>
 						{/* Chat Body */}
 						<div className="h-[80%]">
-							<ChatBody messages={messages} />
+							<ChatBody messages={messages} chatBodyRef={chatBodyRef} />
 						</div>
 					</div>
 					{/* Chat Input Area */}
@@ -148,11 +215,13 @@ const ChatBot = () => {
 						<input
 							type="text"
 							placeholder="Type your message..."
+							value={inputMessage}
+							onChange={(e) => setInputMessage(e.target.value)}
 							className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 						/>
 						<button
 							className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
-							onClick={() => handleMessageSend()}
+							onClick={handleMessageSend}
 						>
 							<SendIcon />
 						</button>
