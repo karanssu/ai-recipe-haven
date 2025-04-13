@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChatBotIcon } from "hugeicons-react";
 import { PlayIcon as SendIcon } from "hugeicons-react";
 import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
@@ -20,6 +20,12 @@ const ChatBody = ({
 	messages: IMessage[];
 	chatBodyRef: React.RefObject<HTMLDivElement | null>;
 }) => {
+	useEffect(() => {
+		if (chatBodyRef.current) {
+			chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+		}
+	});
+
 	return (
 		<div
 			ref={chatBodyRef}
@@ -124,6 +130,12 @@ const ChatBot = () => {
 			}, 100);
 		}
 	};
+
+	useEffect(() => {
+		if (chatBodyRef.current) {
+			chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+		}
+	}, [messages]);
 
 	return (
 		<>
