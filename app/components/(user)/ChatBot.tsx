@@ -54,13 +54,7 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 	const toggleIsOpen = () => setIsOpen(!isOpen);
 
 	// Maintain messages state (pre-populate with initial sample messages if needed)
-	const [messages, setMessages] = useState<IMessage[]>([
-		{
-			id: "1",
-			type: "system",
-			text: "Hello, how can I help you today?",
-		},
-	]);
+	const [messages, setMessages] = useState<IMessage[]>([]);
 
 	// Controlled input value for the chat message
 	const [inputMessage, setInputMessage] = useState("");
@@ -132,10 +126,31 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 	};
 
 	useEffect(() => {
-		if (chatBodyRef.current) {
-			chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-		}
-	}, [messages]);
+		const fetchInitialMessages = async () => {
+			try {
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_APP_URL}/api/chat?chatId=${userId}`,
+					{
+						method: "GET",
+						headers: { "Content-Type": "application/json" },
+					}
+				);
+
+				if (!res.ok) {
+					throw new Error("Failed to fetch initial messages");
+				}
+
+				const data = await res.json();
+				setMessages(data.messages || []);
+				if (chatBodyRef.current) {
+					chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+				}
+			} catch (error) {
+				console.error("Error fetching initial messages:", error);
+			}
+		};
+		fetchInitialMessages();
+	}, [userId]);
 
 	return (
 		<>
