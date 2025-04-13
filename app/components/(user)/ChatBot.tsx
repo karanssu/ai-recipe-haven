@@ -7,87 +7,16 @@ import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import Image from "next/image";
 
-// Helper component to render chat messages
-const ChatBody = () => {
-	// Sample messages
-	const messages = [
-		{
-			id: "1",
-			type: "system",
-			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
-		},
-		{
-			id: "2",
-			type: "user",
-			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
-		},
-		{
-			id: "3",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "4", type: "user", text: "It is #12345." },
-		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
-		{ id: "6", type: "user", text: "I need help with my order." },
-		{
-			id: "7",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "8", type: "user", text: "It is #12345." },
-		{
-			id: "1",
-			type: "system",
-			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
-		},
-		{
-			id: "2",
-			type: "user",
-			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
-		},
-		{
-			id: "3",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "4", type: "user", text: "It is #12345." },
-		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
-		{ id: "6", type: "user", text: "I need help with my order." },
-		{
-			id: "7",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "8", type: "user", text: "It is #12345." },
-		{
-			id: "1",
-			type: "system",
-			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
-		},
-		{
-			id: "2",
-			type: "user",
-			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
-		},
-		{
-			id: "3",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "4", type: "user", text: "It is #12345." },
-		{ id: "5", type: "system", text: "Hello, how can I help you today?" },
-		{ id: "6", type: "user", text: "I need help with my order." },
-		{
-			id: "7",
-			type: "system",
-			text: "Sure, please provide your order number.",
-		},
-		{ id: "8", type: "user", text: "It is #12345." },
-	];
+interface IMessage {
+	id: string;
+	type: "system" | "user";
+	text: string;
+}
 
+const ChatBody = ({ messages }: { messages: IMessage[] }) => {
 	return (
 		<div className="flex flex-col gap-2 overflow-y-scroll mt-4 h-[100%]">
-			{messages.map((msg) => (
+			{messages.map((msg: IMessage) => (
 				<div
 					key={msg.id}
 					className={`max-w-[80%] p-2 rounded-md ${
@@ -108,6 +37,28 @@ const ChatBody = () => {
 const ChatBot = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleIsOpen = () => setIsOpen(!isOpen);
+	const messages: IMessage[] = [
+		{
+			id: "1",
+			type: "system",
+			text: "Hello, how can I help you today?Hello, how can I help you todayHello, how can I help you today??",
+		},
+		{
+			id: "2",
+			type: "user",
+			text: "askldfjaslkdjflaksdjflkasdjflkasdjflkasdjflaskdjflaskdfjlaksdjflasdkfjasldkfj",
+		},
+	];
+
+	const handleMessageSend = () => {
+		// get message from input field (phone or desktop chat)
+		// clear input field and store
+		// update messages state with new message
+		// send message to server and get response
+		// update messages state with response message
+		// scroll to bottom of chat body
+		// if failed anything, show return error message as response and reset input field
+	};
 
 	return (
 		<>
@@ -144,7 +95,7 @@ const ChatBot = () => {
 							</div>
 							{/* Chat Body */}
 							<div className="h-[100%]">
-								<ChatBody />
+								<ChatBody messages={messages} />
 							</div>
 						</div>
 						{/* Chat Input Area */}
@@ -154,7 +105,10 @@ const ChatBot = () => {
 								placeholder="Type your message..."
 								className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 							/>
-							<button className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2">
+							<button
+								className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
+								onClick={() => handleMessageSend()}
+							>
 								<SendIcon />
 							</button>
 						</div>
@@ -186,7 +140,7 @@ const ChatBot = () => {
 						</div>
 						{/* Chat Body */}
 						<div className="h-[80%]">
-							<ChatBody />
+							<ChatBody messages={messages} />
 						</div>
 					</div>
 					{/* Chat Input Area */}
@@ -196,7 +150,10 @@ const ChatBot = () => {
 							placeholder="Type your message..."
 							className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 						/>
-						<button className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2">
+						<button
+							className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
+							onClick={() => handleMessageSend()}
+						>
 							<SendIcon />
 						</button>
 					</div>
