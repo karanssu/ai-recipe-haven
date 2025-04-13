@@ -49,7 +49,7 @@ const ChatBody = ({
 	);
 };
 
-const ChatBot = () => {
+const ChatBot = ({ userId }: { userId: string | number }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleIsOpen = () => setIsOpen(!isOpen);
 
@@ -91,7 +91,7 @@ const ChatBot = () => {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ message: newUserMessage.text }),
+				body: JSON.stringify({ chatId: userId, text: newUserMessage.text }),
 			});
 
 			if (!res.ok) {
