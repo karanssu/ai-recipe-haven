@@ -17,15 +17,17 @@ interface IMessage {
 const ChatBody = ({
 	messages,
 	chatBodyRef,
+	isTyping,
 }: {
 	messages: IMessage[];
 	chatBodyRef: React.RefObject<HTMLDivElement | null>;
+	isTyping: boolean;
 }) => {
 	useEffect(() => {
 		if (chatBodyRef.current) {
 			chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
 		}
-	});
+	}, [messages, isTyping, chatBodyRef]);
 
 	return (
 		<div
@@ -46,6 +48,13 @@ const ChatBody = ({
 					</p>
 				</div>
 			))}
+			{isTyping && (
+				<div className="max-w-[80%] p-2 rounded-md bg-gray-200 self-start">
+					<p className="text-sm text-gray-800 break-words text-left px-2 animate-pulse">
+						Typing...
+					</p>
+				</div>
+			)}
 		</div>
 	);
 };
@@ -56,6 +65,7 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	const [inputMessage, setInputMessage] = useState("");
 	const chatBodyRef = useRef<HTMLDivElement>(null);
+	const [isTyping, setIsTyping] = useState(false);
 
 	useEffect(() => {
 		const fetchInitialMessages = async () => {
@@ -96,8 +106,8 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 		};
 
 		setInputMessage("");
-
 		setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+		setIsTyping(true);
 
 		try {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat`, {
@@ -131,6 +141,7 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 			console.error("Error sending message:", error);
 			setMessages((prevMessages) => [...prevMessages, errorMessage]);
 		} finally {
+			setIsTyping(false);
 			// Scroll the chat body to the bottom
 			setTimeout(() => {
 				if (chatBodyRef.current) {
@@ -178,7 +189,11 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 							</div>
 							{/* Chat Body */}
 							<div className="h-full">
-								<ChatBody messages={messages} chatBodyRef={chatBodyRef} />
+								<ChatBody
+									messages={messages}
+									chatBodyRef={chatBodyRef}
+									isTyping={isTyping}
+								/>
 							</div>
 						</div>
 						{/* Chat Input Area */}
@@ -225,7 +240,11 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 						</div>
 						{/* Chat Body */}
 						<div className="h-[80%]">
-							<ChatBody messages={messages} chatBodyRef={chatBodyRef} />
+							<ChatBody
+								messages={messages}
+								chatBodyRef={chatBodyRef}
+								isTyping={isTyping}
+							/>
 						</div>
 					</div>
 					{/* Chat Input Area */}
