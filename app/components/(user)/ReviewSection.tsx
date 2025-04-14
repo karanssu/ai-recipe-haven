@@ -147,7 +147,15 @@ const ReviewSection = ({
 										height={40}
 										className="object-cover w-full h-full"
 									/>
-								) : null}
+								) : (
+									<Image
+										src={"/default-profile.svg"}
+										alt={"Default profile image"}
+										width={40}
+										height={40}
+										className="object-cover w-full h-full p-2"
+									/>
+								)}
 							</div>
 							<div>
 								<p className="text-gray-800 font-semibold">
