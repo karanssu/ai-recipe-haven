@@ -57,6 +57,33 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 	const [inputMessage, setInputMessage] = useState("");
 	const chatBodyRef = useRef<HTMLDivElement>(null);
 
+	useEffect(() => {
+		const fetchInitialMessages = async () => {
+			try {
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_APP_URL}/api/chat?chatId=${userId}`,
+					{
+						method: "GET",
+						headers: { "Content-Type": "application/json" },
+					}
+				);
+
+				if (!res.ok) {
+					throw new Error("Failed to fetch initial messages");
+				}
+
+				const data = await res.json();
+				setMessages(data.messages || []);
+				if (chatBodyRef.current) {
+					chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+				}
+			} catch (error) {
+				console.error("Error fetching initial messages:", error);
+			}
+		};
+		fetchInitialMessages();
+	}, [userId]);
+
 	const handleMessageSend = async () => {
 		if (!inputMessage.trim()) return;
 
@@ -115,33 +142,6 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 			}, 100);
 		}
 	};
-
-	useEffect(() => {
-		const fetchInitialMessages = async () => {
-			try {
-				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_APP_URL}/api/chat?chatId=${userId}`,
-					{
-						method: "GET",
-						headers: { "Content-Type": "application/json" },
-					}
-				);
-
-				if (!res.ok) {
-					throw new Error("Failed to fetch initial messages");
-				}
-
-				const data = await res.json();
-				setMessages(data.messages || []);
-				if (chatBodyRef.current) {
-					chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-				}
-			} catch (error) {
-				console.error("Error fetching initial messages:", error);
-			}
-		};
-		fetchInitialMessages();
-	}, [userId]);
 
 	return (
 		<>
