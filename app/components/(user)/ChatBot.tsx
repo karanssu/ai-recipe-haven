@@ -41,7 +41,7 @@ const ChatBody = ({
 							: "bg-green-300 self-end"
 					}`}
 				>
-					<p className="text-sm text-gray-800 break-words text-left pl-2">
+					<p className="text-sm text-gray-800 break-words text-left px-2">
 						{msg.text}
 					</p>
 				</div>
