@@ -13,17 +13,17 @@ export async function POST(req: NextRequest) {
 		);
 	}
 
-	await ChatMessage.create({ chatId, text, type: "user" });
+	const userMessage = await ChatMessage.create({ chatId, text, type: "user" });
 
-	const responseMessage = `ChatBot Response: You said, "${text}"`;
+	const responseMessageText = `ChatBot Response: You said, "${text}"`;
 
-	await ChatMessage.create({
+	const responseMessage = await ChatMessage.create({
 		chatId,
-		text: responseMessage,
+		text: responseMessageText,
 		type: "system",
 	});
 
-	return NextResponse.json({ message: responseMessage }, { status: 201 });
+	return NextResponse.json({ userMessage, responseMessage }, { status: 201 });
 }
 
 export async function GET(req: NextRequest) {

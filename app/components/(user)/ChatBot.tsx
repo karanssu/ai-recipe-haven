@@ -8,7 +8,8 @@ import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import Image from "next/image";
 
 interface IMessage {
-	id: string;
+	_id: string;
+	chatId: string;
 	type: "system" | "user";
 	text: string;
 }
@@ -33,7 +34,7 @@ const ChatBody = ({
 		>
 			{messages.map((msg: IMessage) => (
 				<div
-					key={msg.id}
+					key={msg._id}
 					className={`max-w-[80%] p-2 rounded-md ${
 						msg.type === "system"
 							? "bg-gray-200 self-start"
@@ -52,40 +53,30 @@ const ChatBody = ({
 const ChatBot = ({ userId }: { userId: string | number }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleIsOpen = () => setIsOpen(!isOpen);
-
-	// Maintain messages state (pre-populate with initial sample messages if needed)
 	const [messages, setMessages] = useState<IMessage[]>([]);
-
-	// Controlled input value for the chat message
 	const [inputMessage, setInputMessage] = useState("");
-
-	// Use a ref to the chat body for scrolling
 	const chatBodyRef = useRef<HTMLDivElement>(null);
 
-	// Function to send the message and update state, scrolling to the bottom after updating.
 	const handleMessageSend = async () => {
-		// Do not send if input is empty
 		if (!inputMessage.trim()) return;
 
-		// Create user message object
+		const userMessageText = inputMessage.trim();
 		const newUserMessage: IMessage = {
-			id: Date.now().toString(),
+			_id: Date.now().toString() + "-user",
+			chatId: userId.toString(),
 			type: "user",
-			text: inputMessage,
+			text: userMessageText,
 		};
 
-		// Clear the input field immediately
 		setInputMessage("");
 
-		// Append the user message to messages state
 		setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
 		try {
-			// Send the message to the server; adjust endpoint as needed.
 			const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ chatId: userId, text: newUserMessage.text }),
+				body: JSON.stringify({ chatId: userId, text: userMessageText }),
 			});
 
 			if (!res.ok) {
@@ -93,20 +84,20 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 			}
 
 			const data = await res.json();
+			const { userMessage, responseMessage } = data;
 
-			// Create system response message (assuming the server response includes a "message" field)
-			const newSystemMessage: IMessage = {
-				id: Date.now().toString() + "-sys",
-				type: "system",
-				text: data.message || "Sorry, something went wrong.",
-			};
-
-			// Append system message to messages state
-			setMessages((prevMessages) => [...prevMessages, newSystemMessage]);
+			setMessages((prevMessages) =>
+				prevMessages.filter((msg) => msg._id !== newUserMessage._id)
+			);
+			setMessages((prevMessages) => [
+				...prevMessages,
+				userMessage,
+				responseMessage,
+			]);
 		} catch (error) {
-			// Append error message in case of failure
 			const errorMessage: IMessage = {
-				id: Date.now().toString() + "-err",
+				_id: Date.now().toString() + "-err",
+				chatId: userId.toString(),
 				type: "system",
 				text: "Error: Could not send your message. Please try again.",
 			};
