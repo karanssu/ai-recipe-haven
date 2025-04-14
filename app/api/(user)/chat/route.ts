@@ -3,6 +3,16 @@ import { connectMongoDB } from "@/app/lib/mongodb";
 import { ChatMessage } from "@/app/models/chatmessage.model";
 
 export async function POST(req: NextRequest) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	await connectMongoDB();
 	const { chatId, text } = await req.json();
 
@@ -27,6 +37,16 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	await connectMongoDB();
 	const { searchParams } = new URL(req.url);
 	const chatId = searchParams.get("chatId");
