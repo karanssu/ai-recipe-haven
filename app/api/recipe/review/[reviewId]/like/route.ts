@@ -7,6 +7,16 @@ export async function POST(
 	req: NextRequest,
 	{ params }: { params: Promise<{ reviewId: string }> }
 ) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	try {
 		await connectMongoDB();
 		const reviewId = (await params).reviewId;

@@ -7,6 +7,16 @@ export async function GET(
 	req: Request,
 	{ params }: { params: Promise<{ recipeId: string }> }
 ) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	await connectMongoDB();
 	const recipeId = (await params).recipeId;
 
@@ -27,6 +37,16 @@ export async function POST(
 	req: Request,
 	{ params }: { params: Promise<{ recipeId: string }> }
 ) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
 	await connectMongoDB();
 	const body = await req.json();
 	const recipeId = (await params).recipeId;
