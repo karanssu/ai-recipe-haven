@@ -103,6 +103,19 @@ export default function Page() {
 		setShowSuggestions(false);
 	};
 
+	const handleTagSubmit = () => {
+		const val = getTitleCase(tagInput.trim());
+		if (val && !selectedTags.includes(val)) {
+			setSelectedTags((prev) => [...prev, val]);
+
+			if (!tagOptions.includes(val)) {
+				setTagOptions((prev) => [...prev, val]);
+			}
+		}
+		setTagInput("");
+		setTagShowSuggestions(false);
+	};
+
 	const addIngredient = () =>
 		setIngredients((prev) => [
 			...prev,
@@ -264,21 +277,17 @@ export default function Page() {
 							onKeyDown={(e) => {
 								if (e.key === "Enter" || e.key === ",") {
 									e.preventDefault();
-									const val = getTitleCase(tagInput.trim());
-									if (val && !selectedTags.includes(val)) {
-										setSelectedTags((prev) => [...prev, val]);
-										// also add to master list so user can select it again
-										if (!tagOptions.includes(val)) {
-											setTagOptions((prev) => [...prev, val]);
-										}
-									}
-									setTagInput("");
-									setTagShowSuggestions(false);
+
+									handleTagSubmit();
 								}
 							}}
 							placeholder="Type to add a tag"
 							className="flex-1 min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
 						/>
+
+						<div className="cursor-pointer w-8" onClick={handleTagSubmit}>
+							<AddIcon className="h-full w-full hover:text-primaryBgHover" />
+						</div>
 					</div>
 
 					{/* suggestions dropdown */}
