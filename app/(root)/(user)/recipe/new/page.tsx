@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
+import { Delete01Icon as TrashIcon } from "hugeicons-react";
 
 interface Ingredient {
 	id: string;
@@ -25,13 +27,41 @@ export default function Page() {
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
 	const [serving, setServing] = useState(1);
-	const [tags, setTags] = useState<string>("");
+
+	const [tagOptions, setTagOptions] = useState<string[]>([]);
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [tagInput, setTagInput] = useState("");
+	const [suggestions, setSuggestions] = useState<string[]>([]);
+	const [showSuggestions, setShowSuggestions] = useState(false);
+
 	const [ingredients, setIngredients] = useState<Ingredient[]>([
 		{ id: crypto.randomUUID(), ingredientId: "", quantity: 1, unit: "" },
 	]);
 	const [steps, setSteps] = useState<CookingStep[]>([
 		{ id: crypto.randomUUID(), number: 1, step: "" },
 	]);
+
+	useEffect(() => {
+		fetch("/api/recipe/tag")
+			.then((res) => res.json())
+			.then((data) => setTagOptions(data.tags || []))
+			.catch(console.error);
+	}, []);
+
+	useEffect(() => {
+		if (!tagInput) {
+			setSuggestions([]);
+		} else {
+			const lower = tagInput.toLowerCase();
+			setSuggestions(
+				tagOptions
+					.filter(
+						(t) => t.toLowerCase().includes(lower) && !selectedTags.includes(t)
+					)
+					.slice(0, 10)
+			);
+		}
+	}, [tagInput, tagOptions, selectedTags]);
 
 	const addIngredient = () =>
 		setIngredients((prev) => [
@@ -49,6 +79,13 @@ export default function Page() {
 	const removeStep = (id: string) =>
 		setSteps((prev) => prev.filter((s) => s.id !== id));
 
+	const getTitleCase = (str: string) =>
+		str
+			.toLowerCase()
+			.split(" ")
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(" ");
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const payload = {
@@ -58,10 +95,7 @@ export default function Page() {
 			preparationMinutes,
 			cookingMinutes,
 			serving,
-			tags: tags
-				.split(",")
-				.map((t) => t.trim())
-				.filter(Boolean),
+			tags: selectedTags,
 			ingredients: ingredients.map(({ ingredientId, quantity, unit }) => ({
 				ingredientId,
 				quantity,
@@ -156,31 +190,83 @@ export default function Page() {
 				</div>
 
 				{/* Tags */}
-				<div>
-					<label className="block font-semibold mb-1">
-						Tags (comma‑separated)
-					</label>
-					<input
-						type="text"
-						required
-						value={tags}
-						onChange={(e) => setTags(e.target.value)}
-						placeholder="e.g. vegan, gluten-free"
-						className="w-full border border-gray-300 rounded-lg px-3 py-2"
-					/>
+				<div className="relative">
+					<label className="block font-semibold mb-1">Tags</label>
+					<div className="flex flex-wrap gap-2 mb-1">
+						{/* show added tags */}
+						{selectedTags.map((tag) => (
+							<span
+								key={tag}
+								className="flex items-center bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm"
+							>
+								{tag}
+								<button
+									type="button"
+									onClick={() =>
+										setSelectedTags((prev) => prev.filter((t) => t !== tag))
+									}
+									className="ml-2 text-green-600 hover:text-green-800"
+								>
+									×
+								</button>
+							</span>
+						))}
+
+						{/* input for new tags */}
+						<input
+							type="text"
+							value={tagInput}
+							onChange={(e) => {
+								setTagInput(e.target.value);
+								setShowSuggestions(true);
+							}}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" || e.key === ",") {
+									e.preventDefault();
+									const val = getTitleCase(tagInput.trim());
+									if (val && !selectedTags.includes(val)) {
+										setSelectedTags((prev) => [...prev, val]);
+										// also add to master list so user can select it again
+										if (!tagOptions.includes(val)) {
+											setTagOptions((prev) => [...prev, val]);
+										}
+									}
+									setTagInput("");
+									setShowSuggestions(false);
+								}
+							}}
+							placeholder="Type to add a tag"
+							className="flex-1 min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+						/>
+					</div>
+
+					{/* suggestions dropdown */}
+					{showSuggestions && suggestions.length > 0 && (
+						<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+							{suggestions.map((s) => (
+								<li
+									key={s}
+									onClick={() => {
+										setSelectedTags((prev) => [...prev, s]);
+										setTagInput("");
+										setShowSuggestions(false);
+									}}
+									className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+								>
+									{s}
+								</li>
+							))}
+						</ul>
+					)}
 				</div>
 
 				{/* Ingredients */}
 				<div className="space-y-2">
 					<div className="flex justify-between items-center">
 						<h2 className="font-semibold">Ingredients</h2>
-						<button
-							type="button"
-							onClick={addIngredient}
-							className="text-green-600 hover:underline"
-						>
-							+ Add
-						</button>
+						<div className="cursor-pointer" onClick={addIngredient}>
+							<AddIcon className="w-6 h-6 hover:text-primaryBgHover" />
+						</div>
 					</div>
 					{ingredients.map((ing) => (
 						<div key={ing.id} className="grid grid-cols-5 gap-2 items-end">
@@ -228,13 +314,12 @@ export default function Page() {
 									}
 									className="border rounded-lg px-2 py-1"
 								/>
-								<button
-									type="button"
+								<div
 									onClick={() => removeIngredient(ing.id)}
-									className="text-red-500 hover:underline text-sm"
+									className="cursor-pointer"
 								>
-									Remove
-								</button>
+									<TrashIcon className="w-6 h-6 hover:text-red-500" />
+								</div>
 							</div>
 						</div>
 					))}
@@ -244,13 +329,9 @@ export default function Page() {
 				<div className="space-y-2">
 					<div className="flex justify-between items-center">
 						<h2 className="font-semibold">Cooking Steps</h2>
-						<button
-							type="button"
-							onClick={addStep}
-							className="text-green-600 hover:underline"
-						>
-							+ Add
-						</button>
+						<div onClick={addStep} className="cursor-pointer">
+							<AddIcon className="w-6 h-6 hover:text-primaryBgHover" />
+						</div>
 					</div>
 					{steps.map((st) => (
 						<div key={st.id} className="flex gap-2 items-center">
@@ -269,13 +350,9 @@ export default function Page() {
 								}
 								className="flex-1 border rounded-lg px-2 py-1"
 							/>
-							<button
-								type="button"
-								onClick={() => removeStep(st.id)}
-								className="text-red-500 hover:underline text-sm"
-							>
-								Remove
-							</button>
+							<div onClick={() => removeStep(st.id)} className="cursor-pointer">
+								<TrashIcon className="w-6 h-6 hover:text-red-500" />
+							</div>
 						</div>
 					))}
 				</div>
