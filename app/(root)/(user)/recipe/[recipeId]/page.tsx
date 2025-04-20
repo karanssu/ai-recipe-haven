@@ -115,38 +115,60 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 							</div>
 						</div>
 					</div>
-					<div className="mt-4">
-						<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
-							<h3 className="text-lg font-bold text-gray-900 mb-3">
-								Nutrition
-							</h3>
-							<div className="grid grid-cols-2 gap-4">
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Calories:</span>{" "}
-									{recipe.calories}
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Fat:</span> {recipe.fatGrams}g
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Carbs:</span>{" "}
-									{recipe.carbsGrams}g
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Fiber:</span>{" "}
-									{recipe.fiberGrams}g
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Sugar:</span>{" "}
-									{recipe.sugarGrams}g
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Protein:</span>{" "}
-									{recipe.proteinGrams}g
+					{[
+						recipe.calories,
+						recipe.fatGrams,
+						recipe.carbsGrams,
+						recipe.fiberGrams,
+						recipe.sugarGrams,
+						recipe.proteinGrams,
+					].some((v) => v != null) && (
+						<div className="mt-4">
+							<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
+								<h3 className="text-lg font-bold text-gray-900 mb-3">
+									Nutrition
+								</h3>
+								<div className="grid grid-cols-2 gap-4">
+									{recipe.calories != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Calories:</span>{" "}
+											{recipe.calories}
+										</div>
+									)}
+									{recipe.fatGrams != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Fat:</span>{" "}
+											{recipe.fatGrams}g
+										</div>
+									)}
+									{recipe.carbsGrams != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Carbs:</span>{" "}
+											{recipe.carbsGrams}g
+										</div>
+									)}
+									{recipe.fiberGrams != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Fiber:</span>{" "}
+											{recipe.fiberGrams}g
+										</div>
+									)}
+									{recipe.sugarGrams != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Sugar:</span>{" "}
+											{recipe.sugarGrams}g
+										</div>
+									)}
+									{recipe.proteinGrams != null && (
+										<div className="text-sm text-gray-700">
+											<span className="font-medium">Protein:</span>{" "}
+											{recipe.proteinGrams}g
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 					{recipe.tags && (
 						<div className="mt-8">
 							<div className="flex flex-wrap mt-1">
