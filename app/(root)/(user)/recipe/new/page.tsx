@@ -5,9 +5,14 @@ import { useRouter } from "next/navigation";
 import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 
+interface IngredientOption {
+	id: string;
+	name: string;
+}
+
 interface Ingredient {
 	id: string;
-	ingredientId: string;
+	name: string;
 	quantity: number;
 	unit: string;
 }
@@ -31,12 +36,18 @@ export default function Page() {
 	const [tagOptions, setTagOptions] = useState<string[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [tagInput, setTagInput] = useState("");
+	const [tagSuggestions, setTagSuggestions] = useState<string[]>([]);
+	const [showTagSuggestions, setTagShowSuggestions] = useState(false);
+
+	const [ingredientOptions, setIngredientOptions] = useState<
+		IngredientOption[]
+	>([]);
+	const [ingredients, setIngredients] = useState<Ingredient[]>([
+		{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
+	]);
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [showSuggestions, setShowSuggestions] = useState(false);
 
-	const [ingredients, setIngredients] = useState<Ingredient[]>([
-		{ id: crypto.randomUUID(), ingredientId: "", quantity: 1, unit: "" },
-	]);
 	const [steps, setSteps] = useState<CookingStep[]>([
 		{ id: crypto.randomUUID(), number: 1, step: "" },
 	]);
@@ -49,11 +60,18 @@ export default function Page() {
 	}, []);
 
 	useEffect(() => {
+		fetch("/api/recipe/ingredient")
+			.then((res) => res.json())
+			.then((data) => setIngredientOptions(data.ingredients || []))
+			.catch(console.error);
+	}, []);
+
+	useEffect(() => {
 		if (!tagInput) {
-			setSuggestions([]);
+			setTagSuggestions([]);
 		} else {
 			const lower = tagInput.toLowerCase();
-			setSuggestions(
+			setTagSuggestions(
 				tagOptions
 					.filter(
 						(t) => t.toLowerCase().includes(lower) && !selectedTags.includes(t)
@@ -63,13 +81,33 @@ export default function Page() {
 		}
 	}, [tagInput, tagOptions, selectedTags]);
 
+	const handleIngredientNameChange = (id: string, value: string) => {
+		setIngredients((prev) =>
+			prev.map((ing) => (ing.id === id ? { ...ing, name: value } : ing))
+		);
+
+		const lower = value.toLowerCase();
+		const matched = ingredientOptions
+			.filter((opt) => opt.name.toLowerCase().includes(lower))
+			.map((opt) => opt.name)
+			.slice(0, 10);
+
+		setSuggestions(matched);
+		setShowSuggestions(true);
+	};
+
+	const handleSuggestionClick = (id: string, name: string) => {
+		setIngredients((prev) =>
+			prev.map((ing) => (ing.id === id ? { ...ing, name } : ing))
+		);
+		setShowSuggestions(false);
+	};
+
 	const addIngredient = () =>
 		setIngredients((prev) => [
 			...prev,
-			{ id: crypto.randomUUID(), ingredientId: "", quantity: 1, unit: "" },
+			{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
 		]);
-	const removeIngredient = (id: string) =>
-		setIngredients((prev) => prev.filter((i) => i.id !== id));
 
 	const addStep = () =>
 		setSteps((prev) => [
@@ -96,8 +134,8 @@ export default function Page() {
 			cookingMinutes,
 			serving,
 			tags: selectedTags,
-			ingredients: ingredients.map(({ ingredientId, quantity, unit }) => ({
-				ingredientId,
+			ingredients: ingredients.map(({ name, quantity, unit }) => ({
+				name,
 				quantity,
 				unit,
 			})),
@@ -218,7 +256,7 @@ export default function Page() {
 							value={tagInput}
 							onChange={(e) => {
 								setTagInput(e.target.value);
-								setShowSuggestions(true);
+								setTagShowSuggestions(true);
 							}}
 							onKeyDown={(e) => {
 								if (e.key === "Enter" || e.key === ",") {
@@ -232,7 +270,7 @@ export default function Page() {
 										}
 									}
 									setTagInput("");
-									setShowSuggestions(false);
+									setTagShowSuggestions(false);
 								}
 							}}
 							placeholder="Type to add a tag"
@@ -241,15 +279,15 @@ export default function Page() {
 					</div>
 
 					{/* suggestions dropdown */}
-					{showSuggestions && suggestions.length > 0 && (
+					{showTagSuggestions && tagSuggestions.length > 0 && (
 						<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-							{suggestions.map((s) => (
+							{tagSuggestions.map((s) => (
 								<li
 									key={s}
 									onClick={() => {
 										setSelectedTags((prev) => [...prev, s]);
 										setTagInput("");
-										setShowSuggestions(false);
+										setTagShowSuggestions(false);
 									}}
 									className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
 								>
@@ -269,27 +307,32 @@ export default function Page() {
 						</div>
 					</div>
 					{ingredients.map((ing) => (
-						<div key={ing.id} className="grid grid-cols-5 gap-2 items-end">
+						<div key={ing.id} className="relative">
 							<input
 								type="text"
-								required
-								placeholder="Ingredient ID"
-								value={ing.ingredientId}
+								value={ing.name}
 								onChange={(e) =>
-									setIngredients((prev) =>
-										prev.map((x) =>
-											x.id === ing.id
-												? { ...x, ingredientId: e.target.value }
-												: x
-										)
-									)
+									handleIngredientNameChange(ing.id, e.target.value)
 								}
-								className="col-span-2 border rounded-lg px-2 py-1"
+								placeholder="Ingredient name"
+								className="border rounded px-2 py-1"
 							/>
+							{showSuggestions && suggestions.length > 0 && (
+								<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+									{suggestions.map((s) => (
+										<li
+											key={s}
+											onClick={() => handleSuggestionClick(ing.id, s)}
+											className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+										>
+											{s}
+										</li>
+									))}
+								</ul>
+							)}
 							<input
 								type="number"
 								min={0}
-								placeholder="Qty"
 								value={ing.quantity}
 								onChange={(e) =>
 									setIngredients((prev) =>
@@ -298,29 +341,22 @@ export default function Page() {
 										)
 									)
 								}
-								className="border rounded-lg px-2 py-1"
+								placeholder="Quantity"
+								className="border rounded px-2 py-1 ml-2"
 							/>
-							<div className="flex gap-2">
-								<input
-									type="text"
-									placeholder="Unit"
-									value={ing.unit}
-									onChange={(e) =>
-										setIngredients((prev) =>
-											prev.map((x) =>
-												x.id === ing.id ? { ...x, unit: e.target.value } : x
-											)
+							<input
+								type="text"
+								value={ing.unit}
+								onChange={(e) =>
+									setIngredients((prev) =>
+										prev.map((x) =>
+											x.id === ing.id ? { ...x, unit: e.target.value } : x
 										)
-									}
-									className="border rounded-lg px-2 py-1"
-								/>
-								<div
-									onClick={() => removeIngredient(ing.id)}
-									className="cursor-pointer"
-								>
-									<TrashIcon className="w-6 h-6 hover:text-red-500" />
-								</div>
-							</div>
+									)
+								}
+								placeholder="Unit (optional)"
+								className="border rounded px-2 py-1 ml-2"
+							/>
 						</div>
 					))}
 				</div>
