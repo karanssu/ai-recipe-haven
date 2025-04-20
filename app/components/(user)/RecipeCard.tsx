@@ -18,12 +18,21 @@ const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
 			className="w-80 min-w-72 max-w-80 h-fit rounded-lg shadow-lg cursor-pointer overflow-hidden"
 		>
 			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center">
-				<Image
-					src={recipe.imageUrl}
-					alt={recipe.name}
-					fill={true}
-					className="object-cover object-center"
-				/>
+				{recipe.imageUrl !== "" ? (
+					<Image
+						src={recipe.imageUrl}
+						alt={recipe.name}
+						fill={true}
+						className="object-cover object-center"
+					/>
+				) : (
+					<Image
+						src={"/default-recipe-image.jpg"}
+						alt={recipe.name}
+						fill={true}
+						className="object-cover object-center"
+					/>
+				)}
 			</div>
 
 			<div className="p-4">
