@@ -1,6 +1,64 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Rating as RatingModel } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
+import { NextResponse } from "next/server";
+
+export async function POST(req: Request) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
+	try {
+		await connectMongoDB();
+
+		const {
+			name,
+			apiId,
+			imageUrl,
+			description,
+			preparationMinutes,
+			cookingMinutes,
+			serving,
+			tags,
+			ingredients,
+			cookingSteps,
+		} = await req.json();
+
+		if (!name || typeof name !== "string") {
+			return NextResponse.json(
+				{ error: "Recipe name is required" },
+				{ status: 400 }
+			);
+		}
+
+		const newRecipe = await RecipeModel.create({
+			name,
+			apiId: apiId || "",
+			imageUrl: imageUrl || "",
+			description: description || "",
+			preparationMinutes: preparationMinutes ?? 0,
+			cookingMinutes: cookingMinutes ?? 0,
+			serving: serving ?? 1,
+			tags: Array.isArray(tags) ? tags : [],
+			ingredients: Array.isArray(ingredients) ? ingredients : [],
+			cookingSteps: Array.isArray(cookingSteps) ? cookingSteps : [],
+		});
+
+		return NextResponse.json({ recipe: newRecipe }, { status: 201 });
+	} catch (err) {
+		console.error("[CREATE_RECIPE_ERROR]", err);
+		return NextResponse.json(
+			{ error: "Failed to create recipe" },
+			{ status: 500 }
+		);
+	}
+}
 
 export async function GET(req: Request) {
 	// only Frontend can access this route
