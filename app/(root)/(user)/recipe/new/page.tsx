@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
+import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 
 interface IngredientOption {
 	id: string;
@@ -251,18 +252,18 @@ export default function Page() {
 						{selectedTags.map((tag) => (
 							<span
 								key={tag}
-								className="flex items-center bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm"
+								className="flex items-center bg-green-100 text-green-800 rounded-full px-4 py-1 text-sm"
 							>
 								{tag}
-								<button
-									type="button"
+
+								<div
+									className="cursor-pointer"
 									onClick={() =>
 										setSelectedTags((prev) => prev.filter((t) => t !== tag))
 									}
-									className="ml-2 text-green-600 hover:text-green-800"
 								>
-									×
-								</button>
+									<CloseIcon className="ml-2 w-4 h-4 stroke-2 text-green-600 hover:text-green-800" />
+								</div>
 							</span>
 						))}
 
