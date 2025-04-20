@@ -13,21 +13,25 @@ const AdminNavbar = async () => {
 	}
 
 	return (
-		<nav className="px-16 flex justify-between items-center sm:max-w-screen-sm md:max-w-full">
+		<nav
+			className="
+     fixed bottom-0 left-0 right-0 bg-primaryBg md:relative md:bg-primaryBg 
+     container mx-auto px-2 md:px-16 
+     flex justify-center md:justify-between items-center 
+     z-50 shadow-lg md:shadow-none
+   "
+		>
 			<div>
 				<Link href="/admin">
 					<Image src="/logo.png" alt="logo" width={80} height={80} />
 				</Link>
 			</div>
 
-			<div className="flex space-x-4 text-sm">
+			<div className="flex ml-5 md:ml-0 space-x-5 text-xs md:text-sm">
 				{user && user?._id ? (
 					<>
-						<div>
-							<Link href="/admin">Hello, {user?.name as string}</Link>
-						</div>
-						<Link href="/admin/dashboard">Dashboard</Link>
-						<Link href="/admin/recipe/spoonacular/new">Add Recipes</Link>
+						<div>Hello, {user?.name as string}</div>
+						<Link href="/admin/recipe/spoonacular/new">Fetch Recipes</Link>
 						<Link href="/admin/user">Manage Users</Link>
 						{user?.role === "superadmin" && (
 							<Link href="/admin/signup">Admin Signup</Link>

@@ -27,7 +27,7 @@ const Navbar = async () => {
 				</Link>
 			</div>
 
-			<div className="flex ml-5 md:ml-0 space-x-5 text-sm">
+			<div className="flex ml-5 md:ml-0 space-x-5 text-xs md:text-sm">
 				{user && user?._id ? (
 					<>
 						<div>Hello, {user?.name as string}</div>
