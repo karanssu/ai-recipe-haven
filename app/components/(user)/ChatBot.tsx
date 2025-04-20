@@ -159,7 +159,7 @@ const ChatBot = ({ userId }: { userId: string | number }) => {
 			{/* Chat Button */}
 			<div
 				onClick={() => toggleIsOpen()}
-				className="fixed bottom-8 right-8 w-14 h-14 bg-primaryBg text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition cursor-pointer flex items-center justify-center z-50"
+				className="fixed bottom-20 md:bottom-8 right-8 w-14 h-14 bg-primaryBg text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition cursor-pointer flex items-center justify-center z-50"
 			>
 				<ChatBotIcon className="text-primaryText w-8 h-8" />
 			</div>

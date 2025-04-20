@@ -13,7 +13,14 @@ const Navbar = async () => {
 	}
 
 	return (
-		<nav className="container mx-auto px-2 md:px-16 flex justify-center md:justify-between items-center">
+		<nav
+			className="
+     fixed bottom-0 left-0 right-0 bg-primaryBg md:relative md:bg-primaryBg 
+     container mx-auto px-2 md:px-16 
+     flex justify-center md:justify-between items-center 
+     z-50 shadow-lg md:shadow-none
+   "
+		>
 			<div>
 				<Link href="/recipe">
 					<Image src="/logo.png" alt="logo" width={80} height={80} />
