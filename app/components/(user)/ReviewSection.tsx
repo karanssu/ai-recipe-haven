@@ -139,23 +139,15 @@ const ReviewSection = ({
 					<div key={review._id} className="border-t border-gray-200 py-6">
 						<div className="flex items-center space-x-4">
 							<div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
-								{review.user?.profileImage ? (
-									<Image
-										src={review.user.profileImage}
-										alt={review.user.name || "User"}
-										width={40}
-										height={40}
-										className="object-cover w-full h-full"
-									/>
-								) : (
-									<Image
-										src={"/default-profile.svg"}
-										alt={"Default profile image"}
-										width={40}
-										height={40}
-										className="object-cover w-full h-full p-2"
-									/>
-								)}
+								<Image
+									src={review.user?.profileImage || "/default-profile.svg"}
+									alt={review.user?.name || "Default profile image"}
+									width={40}
+									height={40}
+									className={`object-cover w-full h-full${
+										!review.user?.profileImage ? " p-2" : ""
+									}`}
+								/>
 							</div>
 							<div>
 								<p className="text-gray-800 font-semibold">

@@ -48,25 +48,18 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 			{/* Recipe Header */}
 			<div className="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden">
 				<div className="group relative w-full md:w-1/2 h-96 md:h-[450px] max-h-screen overflow-hidden">
-					{recipe.imageUrl !== "" ? (
-						<Image
-							src={recipe.imageUrl}
-							alt={recipe.name}
-							layout="fill"
-							objectFit="cover"
-							objectPosition="center"
-							className="transition-transform duration-500 ease-in-out group-hover:scale-105"
-						/>
-					) : (
-						<Image
-							src={"/default-recipe-image.jpg"}
-							alt={recipe.name}
-							layout="fill"
-							objectFit="cover"
-							objectPosition="center"
-							className="transition-transform duration-500 ease-in-out group-hover:scale-105"
-						/>
-					)}
+					<Image
+						src={
+							recipe.imageUrl && recipe.imageUrl !== ""
+								? recipe.imageUrl
+								: "/default-recipe-image.jpg"
+						}
+						alt={recipe.name}
+						layout="fill"
+						objectFit="cover"
+						objectPosition="center"
+						className="transition-transform duration-500 ease-in-out group-hover:scale-105"
+					/>
 				</div>
 				<div className="w-full md:w-1/2 p-8">
 					<h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
