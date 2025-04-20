@@ -109,6 +109,9 @@ export default function Page() {
 			{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
 		]);
 
+	const removeIngredient = (id: string) =>
+		setIngredients((prev) => prev.filter((i) => i.id !== id));
+
 	const addStep = () =>
 		setSteps((prev) => [
 			...prev,
@@ -307,15 +310,16 @@ export default function Page() {
 						</div>
 					</div>
 					{ingredients.map((ing) => (
-						<div key={ing.id} className="relative">
+						<div key={ing.id} className="grid grid-cols-5 gap-2 items-end">
 							<input
 								type="text"
+								required
 								value={ing.name}
 								onChange={(e) =>
 									handleIngredientNameChange(ing.id, e.target.value)
 								}
 								placeholder="Ingredient name"
-								className="border rounded px-2 py-1"
+								className="col-span-2 border rounded-lg px-2 py-1"
 							/>
 							{showSuggestions && suggestions.length > 0 && (
 								<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
@@ -332,7 +336,7 @@ export default function Page() {
 							)}
 							<input
 								type="number"
-								min={0}
+								min={1}
 								value={ing.quantity}
 								onChange={(e) =>
 									setIngredients((prev) =>
@@ -342,21 +346,30 @@ export default function Page() {
 									)
 								}
 								placeholder="Quantity"
-								className="border rounded px-2 py-1 ml-2"
+								className="border rounded-lg px-2 py-1"
 							/>
-							<input
-								type="text"
-								value={ing.unit}
-								onChange={(e) =>
-									setIngredients((prev) =>
-										prev.map((x) =>
-											x.id === ing.id ? { ...x, unit: e.target.value } : x
+
+							<div className="flex gap-2">
+								<input
+									type="text"
+									value={ing.unit}
+									onChange={(e) =>
+										setIngredients((prev) =>
+											prev.map((x) =>
+												x.id === ing.id ? { ...x, unit: e.target.value } : x
+											)
 										)
-									)
-								}
-								placeholder="Unit (optional)"
-								className="border rounded px-2 py-1 ml-2"
-							/>
+									}
+									placeholder="Unit (optional)"
+									className="border rounded px-2 py-1 ml-2"
+								/>
+								<div
+									onClick={() => removeIngredient(ing.id)}
+									className="cursor-pointer"
+								>
+									<TrashIcon className="w-6 h-6 hover:text-red-500" />
+								</div>
+							</div>
 						</div>
 					))}
 				</div>
