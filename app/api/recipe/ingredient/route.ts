@@ -1,8 +1,8 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Ingredient } from "@/app/models/ingredient.model";
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
-export async function GET(req: Request, res: NextApiResponse) {
+export async function GET(req: Request) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
 
@@ -18,9 +18,12 @@ export async function GET(req: Request, res: NextApiResponse) {
 
 		const ingredients = await Ingredient.find({}, "_id name").lean();
 
-		return res.status(200).json(ingredients);
+		return NextResponse.json({ ingredients: ingredients });
 	} catch (error) {
 		console.error("Error fetching ingredients:", error);
-		return res.status(500).json({ message: "Internal Server Error" });
+		return NextResponse.json(
+			{ error: "Internal Server Error" },
+			{ status: 500 }
+		);
 	}
 }
