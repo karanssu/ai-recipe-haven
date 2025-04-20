@@ -310,7 +310,10 @@ export default function Page() {
 						</div>
 					</div>
 					{ingredients.map((ing) => (
-						<div key={ing.id} className="grid grid-cols-5 gap-2 items-end">
+						<div
+							key={ing.id}
+							className="grid grid-cols-1 md:grid-cols-5 gap-2 items-end pb-5 md:pb-0"
+						>
 							<input
 								type="text"
 								required
@@ -349,7 +352,7 @@ export default function Page() {
 								className="border rounded-lg px-2 py-1"
 							/>
 
-							<div className="flex gap-2">
+							<div className="flex flex-row md:flex-row gap-2">
 								<input
 									type="text"
 									value={ing.unit}
