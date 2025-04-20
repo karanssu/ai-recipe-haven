@@ -13,14 +13,14 @@ const Navbar = async () => {
 	}
 
 	return (
-		<nav className="container mx-auto px-2 md:px-16 flex justify-between items-center">
+		<nav className="container mx-auto px-2 md:px-16 flex justify-center md:justify-between items-center">
 			<div>
 				<Link href="/recipe">
 					<Image src="/logo.png" alt="logo" width={80} height={80} />
 				</Link>
 			</div>
 
-			<div className="flex md:gap-5 text-sm">
+			<div className="flex ml-5 md:ml-0 space-x-5 text-sm">
 				{user && user?._id ? (
 					<>
 						<div>Hello, {user?.name as string}</div>
