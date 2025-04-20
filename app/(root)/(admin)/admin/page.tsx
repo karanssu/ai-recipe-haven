@@ -103,7 +103,7 @@ const Page = () => {
 		if (confirm("Are you sure you want to delete this recipe?")) {
 			try {
 				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe`,
+					`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${id}`,
 					{
 						method: "DELETE",
 						headers: { "Content-Type": "application/json" },

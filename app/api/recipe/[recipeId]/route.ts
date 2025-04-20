@@ -2,6 +2,42 @@ import { connectMongoDB } from "@/app/lib/mongodb";
 import { Ingredient } from "@/app/models/ingredient.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 
+import { NextRequest, NextResponse } from "next/server";
+import { Types } from "mongoose";
+
+export async function DELETE(
+	req: NextRequest,
+	{ params }: { params: Promise<{ recipeId: string }> }
+) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
+	await connectMongoDB();
+
+	const { recipeId } = await params;
+
+	if (!Types.ObjectId.isValid(recipeId)) {
+		return NextResponse.json(
+			{ error: "Invalid recipeId format" },
+			{ status: 400 }
+		);
+	}
+
+	await RecipeModel.findByIdAndDelete(recipeId);
+
+	return NextResponse.json(
+		{ message: "Recipe deleted successfully" },
+		{ status: 200 }
+	);
+}
+
 export async function GET(req: Request) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
