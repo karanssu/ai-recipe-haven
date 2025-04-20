@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Rating as RatingModel } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
+import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -16,10 +17,8 @@ export async function POST(req: Request) {
 
 	try {
 		await connectMongoDB();
-
 		const {
 			name,
-			apiId,
 			imageUrl,
 			description,
 			preparationMinutes,
@@ -30,27 +29,34 @@ export async function POST(req: Request) {
 			cookingSteps,
 		} = await req.json();
 
-		if (!name || typeof name !== "string") {
-			return NextResponse.json(
-				{ error: "Recipe name is required" },
-				{ status: 400 }
-			);
+		// Ensure all ingredients exist
+		const ingredientIds = [];
+		for (const ing of ingredients) {
+			let ingredient = await IngredientModel.findOne({ name: ing.name });
+			if (!ingredient) {
+				ingredient = await IngredientModel.create({ name: ing.name });
+			}
+			ingredientIds.push({
+				ingredientId: ingredient._id,
+				quantity: ing.quantity,
+				unit: ing.unit,
+			});
 		}
 
-		const newRecipe = await RecipeModel.create({
+		// Create the recipe
+		const recipe = await RecipeModel.create({
 			name,
-			apiId: apiId || "",
-			imageUrl: imageUrl || "",
-			description: description || "",
-			preparationMinutes: preparationMinutes ?? 0,
-			cookingMinutes: cookingMinutes ?? 0,
-			serving: serving ?? 1,
-			tags: Array.isArray(tags) ? tags : [],
-			ingredients: Array.isArray(ingredients) ? ingredients : [],
-			cookingSteps: Array.isArray(cookingSteps) ? cookingSteps : [],
+			imageUrl,
+			description,
+			preparationMinutes,
+			cookingMinutes,
+			serving,
+			tags,
+			ingredients: ingredientIds,
+			cookingSteps,
 		});
 
-		return NextResponse.json({ recipe: newRecipe }, { status: 201 });
+		return NextResponse.json({ recipe: recipe }, { status: 201 });
 	} catch (err) {
 		console.error("[CREATE_RECIPE_ERROR]", err);
 		return NextResponse.json(
