@@ -83,7 +83,7 @@ export default function Page() {
 	};
 
 	return (
-		<div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-xl mt-10">
+		<div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-xl my-10">
 			<h1 className="text-3xl font-bold text-center mb-6">Create New Recipe</h1>
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Name & Image */}
@@ -113,6 +113,7 @@ export default function Page() {
 				<div>
 					<label className="block font-semibold mb-1">Description</label>
 					<textarea
+						required
 						rows={4}
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
@@ -161,6 +162,7 @@ export default function Page() {
 					</label>
 					<input
 						type="text"
+						required
 						value={tags}
 						onChange={(e) => setTags(e.target.value)}
 						placeholder="e.g. vegan, gluten-free"
@@ -184,6 +186,7 @@ export default function Page() {
 						<div key={ing.id} className="grid grid-cols-5 gap-2 items-end">
 							<input
 								type="text"
+								required
 								placeholder="Ingredient ID"
 								value={ing.ingredientId}
 								onChange={(e) =>
@@ -254,6 +257,7 @@ export default function Page() {
 							<span className="font-semibold">{st.number}.</span>
 							<input
 								type="text"
+								required
 								placeholder="Describe this step..."
 								value={st.step}
 								onChange={(e) =>
