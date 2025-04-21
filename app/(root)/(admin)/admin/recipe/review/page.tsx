@@ -123,18 +123,16 @@ const ManageReviewsPage = () => {
 						className="bg-white p-4 rounded-lg shadow-md flex flex-col md:flex-row md:items-center justify-between"
 					>
 						<div className="flex items-start">
-							<div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-								{rev.user?.profileImage ? (
-									<Image
-										src={rev.user.profileImage}
-										width={48}
-										height={48}
-										alt={rev.user.name}
-										className="object-cover"
-									/>
-								) : (
-									<div className="bg-gray-200 w-full h-full" />
-								)}
+							<div className="w-12 h-12 rounded-full overflow-hidden mr-4 bg-gray-200">
+								<Image
+									src={rev.user?.profileImage || "/default-profile.svg"}
+									alt={rev.user?.name || "Default profile image"}
+									width={48}
+									height={48}
+									className={`object-cover w-full h-full${
+										!rev.user?.profileImage ? " p-2" : ""
+									}`}
+								/>
 							</div>
 							<div>
 								<div className="font-semibold">
