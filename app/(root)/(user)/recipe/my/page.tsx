@@ -4,6 +4,7 @@ import { verifySession } from "@/app/lib/dal";
 import { useEffect, useState, useRef, useCallback } from "react";
 import RecipeCard from "@/app/components/(user)/RecipeCard";
 import { RecipeCardDef } from "@/app/lib/definitions";
+import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import Image from "next/image";
 
 const Page = () => {
@@ -107,6 +108,28 @@ const Page = () => {
 		};
 	}, [loadMoreRecipes, hasMore]);
 
+	const handleDelete = async (id: string | number) => {
+		if (confirm("Are you sure you want to delete this recipe?")) {
+			try {
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${id}`,
+					{
+						method: "DELETE",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ id }),
+					}
+				);
+				if (res.ok) {
+					setRecipes((prev) => prev.filter((recipe) => recipe._id !== id));
+				} else {
+					alert("Failed to delete the recipe.");
+				}
+			} catch (error) {
+				console.error("Error deleting recipe:", error);
+			}
+		}
+	};
+
 	return (
 		<div className="p-10">
 			{/* Search, Filter, and Sort Controls */}
@@ -156,6 +179,16 @@ const Page = () => {
 						className="flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
 					>
 						<RecipeCard recipe={recipe} />
+
+						<div className="flex justify-end pb-4 pr-4">
+							{/* Delete Button */}
+							<button
+								onClick={() => handleDelete(recipe._id)}
+								className="bg-transparent hover:bg-red-500 text-red-500 hover:text-white"
+							>
+								<TrashIcon size={20} />
+							</button>
+						</div>
 					</div>
 				))}
 			</div>

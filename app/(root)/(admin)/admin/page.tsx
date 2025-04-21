@@ -167,7 +167,7 @@ const Page = () => {
 				{recipes.map((recipe) => (
 					<div
 						key={recipe._id}
-						className="relative flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg overflow-hidden"
+						className="relative flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
 					>
 						{/* Delete Button */}
 						<button
