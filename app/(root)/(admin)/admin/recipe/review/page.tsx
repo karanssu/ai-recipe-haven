@@ -4,20 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import Image from "next/image";
-
-interface Review {
-	_id: string;
-	recipeId: string;
-	userId: string;
-	review: string;
-	likes: { userId: string }[];
-	date: string;
-	user?: { name: string; profileImage?: string };
-	recipe?: { name: string };
-}
+import { RecipeReview } from "@/app/lib/definitions";
 
 const ManageReviewsPage = () => {
-	const [reviews, setReviews] = useState<Review[]>([]);
+	const [reviews, setReviews] = useState<RecipeReview[]>([]);
 	const [page, setPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
@@ -34,12 +24,13 @@ const ManageReviewsPage = () => {
 					cache: "no-store",
 				}
 			);
-			const data = await res.json();
-			if (data.reviews.length === 0) {
+			const { reviews: newReviews, hasMore: more } = await res.json();
+			if (newReviews.length === 0) {
 				setHasMore(false);
 			} else {
-				setReviews((prev) => [...prev, ...data.reviews]);
+				setReviews((prev) => [...prev, ...newReviews]);
 				setPage((prev) => prev + 1);
+				setHasMore(more);
 			}
 		} catch (err) {
 			console.error("Failed to load reviews", err);
@@ -69,7 +60,7 @@ const ManageReviewsPage = () => {
 	}, [fetchReviews]);
 
 	// Delete handler
-	const handleDelete = async (id: string) => {
+	const handleDelete = async (id: string | number) => {
 		if (!confirm("Are you sure you want to delete this review?")) return;
 		try {
 			const res = await fetch(
@@ -83,10 +74,10 @@ const ManageReviewsPage = () => {
 	};
 
 	// Edit state
-	const [editingId, setEditingId] = useState<string | null>(null);
+	const [editingId, setEditingId] = useState<string | number | null>(null);
 	const [editText, setEditText] = useState("");
 
-	const startEdit = (id: string, current: string) => {
+	const startEdit = (id: string | number, current: string) => {
 		setEditingId(id);
 		setEditText(current);
 	};
