@@ -26,7 +26,7 @@ const Page = () => {
 
 		const userId = session.userId;
 		const url = new URL(
-			`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${userId}`
+			`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/my/${userId}`
 		);
 		url.searchParams.append("page", page.toString());
 		if (searchQuery) url.searchParams.append("search", searchQuery);
