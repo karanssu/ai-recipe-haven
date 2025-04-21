@@ -41,7 +41,7 @@ export async function DELETE(
 
 export async function PUT(
 	req: Request,
-	{ params }: { params: { recipeId: string } }
+	{ params }: { params: Promise<{ recipeId: string }> }
 ) {
 	// only Frontend can access this route
 	const referer = req.headers.get("referer");
@@ -55,7 +55,7 @@ export async function PUT(
 
 	try {
 		await connectMongoDB();
-		const { recipeId } = params;
+		const { recipeId } = await params;
 		const {
 			name,
 			userId,
