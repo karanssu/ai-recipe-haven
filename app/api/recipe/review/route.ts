@@ -43,10 +43,7 @@ export async function GET(req: NextRequest) {
 				profileImage: populatedUser.profileImage,
 			},
 			review: r.review,
-			likes: (r.likes || []).map((l: { userId: Types.ObjectId }) => {
-				const oid = l.userId != null ? l.userId : l;
-				return { _id: oid.toString() };
-			}),
+			likes: r.likes,
 			date: r.date,
 		};
 	});

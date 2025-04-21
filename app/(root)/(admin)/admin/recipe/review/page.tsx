@@ -133,9 +133,9 @@ const ManageReviewsPage = () => {
 		userId: string | number | undefined
 	) => {
 		if (!likes || !userId) {
-			console.error("Likes or userId is undefined");
 			return false;
 		}
+
 		return likes.some((like) => like._id?.toString() === userId);
 	};
 
