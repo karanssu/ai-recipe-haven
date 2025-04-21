@@ -7,6 +7,7 @@ const adminRoutes = [
 	"/admin/home",
 	"/admin/user",
 	"/admin/recipe/spoonacular/new",
+	"/admin/recipe/new",
 	"/admin/recipe/edit",
 ];
 const superAdminRoutes = ["/admin/signup"];
