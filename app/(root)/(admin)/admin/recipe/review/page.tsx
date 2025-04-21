@@ -22,7 +22,7 @@ const ManageReviewsPage = () => {
 		setIsLoading(true);
 		try {
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review?page=${page}&limit=3`,
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review?page=${page}&limit=5`,
 				{
 					cache: "no-store",
 				}
@@ -53,7 +53,8 @@ const ManageReviewsPage = () => {
 	// Initial load
 	useEffect(() => {
 		fetchReviews();
-	});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		const fetchUser = async () => {
