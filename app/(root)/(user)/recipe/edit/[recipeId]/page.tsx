@@ -385,12 +385,15 @@ export default function EditRecipePage() {
 							)}
 							<input
 								type="number"
-								min={1}
+								min={0.01}
+								step={0.01}
 								value={ing.quantity}
 								onChange={(e) =>
 									setIngredients((prev) =>
 										prev.map((x) =>
-											x.id === ing.id ? { ...x, quantity: +e.target.value } : x
+											x.id === ing.id
+												? { ...x, quantity: parseFloat(e.target.value) }
+												: x
 										)
 									)
 								}
