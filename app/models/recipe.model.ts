@@ -13,6 +13,7 @@ export interface IRecipeIngredient {
 
 export interface IRecipe extends Document {
 	name: string;
+	userId?: Types.ObjectId;
 	apiId: string;
 	imageUrl?: string;
 	description?: string;
@@ -56,6 +57,7 @@ const RecipeIngredientSchema = new Schema<IRecipeIngredient>(
 const RecipeSchema = new Schema<IRecipe>(
 	{
 		name: { type: String, required: true, trim: true, index: true },
+		userId: { type: Schema.Types.ObjectId, required: false, index: true },
 		apiId: { type: String, required: false, index: true },
 		imageUrl: { type: String, trim: true },
 		description: { type: String, trim: true, default: "" },

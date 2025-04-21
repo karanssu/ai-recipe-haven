@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
+import { verifySession } from "@/app/lib/dal";
 
 interface IngredientOption {
 	id: string;
@@ -143,8 +144,12 @@ export default function Page() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		const session = await verifySession();
+		const userId = session?.userId;
+
 		const payload = {
 			name,
+			userId,
 			imageUrl,
 			description,
 			preparationMinutes,

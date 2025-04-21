@@ -19,6 +19,7 @@ export async function POST(req: Request) {
 		await connectMongoDB();
 		const {
 			name,
+			userId,
 			imageUrl,
 			description,
 			preparationMinutes,
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
 		// Create the recipe
 		const recipe = await RecipeModel.create({
 			name,
+			userId,
 			imageUrl,
 			description,
 			preparationMinutes,
