@@ -5,7 +5,9 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import RecipeCard from "@/app/components/(user)/RecipeCard";
 import { RecipeCardDef } from "@/app/lib/definitions";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
+import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
 	const [recipes, setRecipes] = useState<RecipeCardDef[]>([]);
@@ -18,6 +20,8 @@ const Page = () => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filter, setFilter] = useState("");
 	const [sortBy, setSortBy] = useState("newest");
+
+	const router = useRouter();
 
 	const fetchRecipes = async (page: number): Promise<RecipeCardDef[]> => {
 		const session = await verifySession();
@@ -180,7 +184,15 @@ const Page = () => {
 					>
 						<RecipeCard recipe={recipe} />
 
-						<div className="flex justify-end pb-4 pr-4">
+						<div className="flex justify-end gap-2 pb-4 pr-4">
+							{/* Edit Button */}
+							<button
+								onClick={() => router.push(`/recipe/edit/${recipe._id}`)}
+								className="p-1 bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white"
+							>
+								<EditIcon size={20} />
+							</button>
+
 							{/* Delete Button */}
 							<button
 								onClick={() => handleDelete(recipe._id)}
