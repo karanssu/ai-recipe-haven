@@ -33,6 +33,7 @@ const Navbar = async () => {
 						<div>Hello, {user?.name as string}</div>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipe</Link>
+						<Link href="/recipe/my">My Recipes</Link>
 						<Link href="/profile">Profile</Link>
 						<form
 							action={async () => {

@@ -6,7 +6,7 @@ const authRoutes = ["/login", "/signup", "/admin/login"];
 const adminRoutes = ["/admin", "/admin/user", "/admin/recipe/spoonacular/new"];
 const superAdminRoutes = ["/admin/signup"];
 // const publicRoutes = ["/", "/recipe", ...authRoutes];
-const userRoutes = ["/profile", "/recipe/new"];
+const userRoutes = ["/profile", "/recipe/new", "/recipe/my"];
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
