@@ -3,18 +3,29 @@ import { decrypt, updateSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 
 const authRoutes = ["/login", "/signup", "/admin/login"];
-const adminRoutes = ["/admin", "/admin/user", "/admin/recipe/spoonacular/new"];
+const adminRoutes = [
+	"/admin",
+	"/admin/user",
+	"/admin/recipe/spoonacular/new",
+	"/admin/recipe/edit",
+];
 const superAdminRoutes = ["/admin/signup"];
 // const publicRoutes = ["/", "/recipe", ...authRoutes];
-const userRoutes = ["/profile", "/recipe/new", "/recipe/my"];
+const userRoutes = ["/profile", "/recipe/new", "/recipe/my", "/recipe/edit"];
 
 export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
-	const isUserRoute = userRoutes.includes(path);
+	const isUserRoute = userRoutes.some(
+		(route) => path === route || path.startsWith(`${route}/`)
+	);
 	// const isPublicRoute = publicRoutes.includes(path);
 	const isAuthRoute = authRoutes.includes(path);
-	const isAdminRoute = adminRoutes.includes(path);
-	const isSuperAdminRoute = superAdminRoutes.includes(path);
+	const isAdminRoute = adminRoutes.some(
+		(route) => path === route || path.startsWith(`${route}/`)
+	);
+	const isSuperAdminRoute = superAdminRoutes.some(
+		(route) => path === route || path.startsWith(`${route}/`)
+	);
 
 	const cookie = (await cookies()).get("session")?.value;
 	const session = await decrypt(cookie);
