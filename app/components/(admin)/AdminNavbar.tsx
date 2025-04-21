@@ -33,9 +33,10 @@ const AdminNavbar = async () => {
 						<div>Hello, {user?.name as string}</div>
 						<Link href="/admin/recipe/new">Create Recipe</Link>
 						<Link href="/admin/recipe/spoonacular/new">Fetch Recipes</Link>
+						<Link href="/admin/home">Manage Recipes</Link>
 						<Link href="/admin/user">Manage Users</Link>
 						{user?.role === "superadmin" && (
-							<Link href="/admin/signup">Admin Signup</Link>
+							<Link href="/admin/signup">Add Admin</Link>
 						)}
 
 						<form
