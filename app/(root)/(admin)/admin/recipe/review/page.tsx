@@ -3,10 +3,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
+import { ThumbsUpIcon as LikeIcon } from "hugeicons-react";
 import Image from "next/image";
-import { RecipeReview } from "@/app/lib/definitions";
+import { RecipeReview, SessionUser } from "@/app/lib/definitions";
+import { verifySession } from "@/app/lib/dal";
 
 const ManageReviewsPage = () => {
+	const [user, setUser] = useState<SessionUser | null>(null);
 	const [reviews, setReviews] = useState<RecipeReview[]>([]);
 	const [page, setPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
@@ -51,6 +54,14 @@ const ManageReviewsPage = () => {
 	useEffect(() => {
 		fetchReviews();
 	});
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			const session = await verifySession();
+			if (session) setUser({ ...session, _id: session.userId });
+		};
+		fetchUser();
+	}, []);
 
 	// Infinite scroll observer
 	useEffect(() => {
@@ -113,6 +124,53 @@ const ManageReviewsPage = () => {
 		}
 	};
 
+	const isReviewLiked = (
+		likes: { _id: string }[] | undefined,
+		userId: string | number | undefined
+	) => {
+		if (!likes || !userId) return false;
+		return likes.some((like) => like._id?.toString() === userId);
+	};
+
+	const updateLikes = (
+		reviewId: string | number,
+		userId: string,
+		setRecipeReviews: React.Dispatch<React.SetStateAction<RecipeReview[]>>
+	) => {
+		setRecipeReviews((prevReviews) =>
+			prevReviews.map((review) => {
+				if (review._id === reviewId) {
+					const liked = review.likes.some((like) => like._id === userId);
+
+					const updatedLikes = liked
+						? review.likes.filter((like) => like._id !== userId)
+						: [...review.likes, { _id: userId }];
+					return { ...review, likes: updatedLikes };
+				}
+				return review;
+			})
+		);
+	};
+
+	const handleLikeReview = async (
+		reviewId: string | number,
+		userId: string | number | undefined,
+		setRecipeReviews: React.Dispatch<React.SetStateAction<RecipeReview[]>>
+	) => {
+		if (!userId) return;
+
+		await fetch(
+			`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${reviewId}/like`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ userId }),
+			}
+		);
+
+		updateLikes(reviewId.toString(), userId.toString(), setRecipeReviews);
+	};
+
 	return (
 		<div className="p-8">
 			<h1 className="text-3xl font-bold mb-6">Manage Reviews</h1>
@@ -151,6 +209,27 @@ const ManageReviewsPage = () => {
 									) : (
 										<p className="text-gray-800">{rev.review}</p>
 									)}
+								</div>
+
+								<div className="flex items-center text-gray-500 text-sm mt-3">
+									{isReviewLiked(rev.likes, user?._id.toString()) ? (
+										<LikeIcon
+											fill="true"
+											className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
+											onClick={() =>
+												handleLikeReview(rev._id, user?._id, setReviews)
+											}
+										/>
+									) : (
+										<LikeIcon
+											fill="false"
+											className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
+											onClick={() =>
+												handleLikeReview(rev._id, user?._id, setReviews)
+											}
+										/>
+									)}
+									<div className="ml-2">{rev.likes?.length}</div>
 								</div>
 							</div>
 						</div>
