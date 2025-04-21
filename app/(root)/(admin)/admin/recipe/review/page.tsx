@@ -19,7 +19,7 @@ const ManageReviewsPage = () => {
 		setIsLoading(true);
 		try {
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review?page=${page}&limit=10`,
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review?page=${page}&limit=3`,
 				{
 					cache: "no-store",
 				}
@@ -28,7 +28,15 @@ const ManageReviewsPage = () => {
 			if (newReviews.length === 0) {
 				setHasMore(false);
 			} else {
-				setReviews((prev) => [...prev, ...newReviews]);
+				setReviews((prev) => {
+					const merged = [...prev, ...newReviews];
+					const seen = new Set<string>();
+					return merged.filter((msg) => {
+						if (seen.has(msg._id)) return false;
+						seen.add(msg._id);
+						return true;
+					});
+				});
 				setPage((prev) => prev + 1);
 				setHasMore(more);
 			}
