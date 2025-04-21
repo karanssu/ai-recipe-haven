@@ -182,7 +182,7 @@ const Page = () => {
 						key={recipe._id}
 						className="flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
 					>
-						<RecipeCard recipe={recipe} />
+						<RecipeCard recipe={recipe} redirectUrl={`/recipe/${recipe._id}`} />
 
 						<div className="flex justify-end gap-2 pb-4 pr-4">
 							{/* Edit Button */}

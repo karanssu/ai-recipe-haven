@@ -11,10 +11,16 @@ import {
 	getDisplayTotalCookingTimeWithUnit,
 } from "@/app/lib/recipeUtils";
 
-const RecipeCard = ({ recipe }: { recipe: RecipeCardDef }) => {
+const RecipeCard = ({
+	recipe,
+	redirectUrl,
+}: {
+	recipe: RecipeCardDef;
+	redirectUrl: string;
+}) => {
 	return (
 		<Link
-			href={`/recipe/${recipe._id}`}
+			href={redirectUrl}
 			className="w-80 min-w-72 max-w-80 h-fit rounded-lg shadow-lg cursor-pointer overflow-hidden"
 		>
 			<div className="relative w-full h-[200px] overflow-hidden flex items-center justify-center">

@@ -40,7 +40,10 @@ const Page = async ({
 							key={recipe._id}
 							className="flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
 						>
-							<RecipeCard recipe={recipe} />
+							<RecipeCard
+								recipe={recipe}
+								redirectUrl={`/admin/recipe/${recipe._id}`}
+							/>
 						</div>
 					))}
 				</div>
