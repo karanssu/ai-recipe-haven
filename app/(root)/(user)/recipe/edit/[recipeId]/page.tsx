@@ -188,11 +188,14 @@ export default function EditRecipePage() {
 			cookingSteps: steps.map(({ number, step }) => ({ number, step })),
 		};
 
-		const res = await fetch(`/api/recipe/${recipeId}`, {
-			method: "PUT",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(payload),
-		});
+		const res = await fetch(
+			`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/${recipeId}`,
+			{
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(payload),
+			}
+		);
 		if (res.ok) router.push("/recipe/my");
 		else alert("Failed to update recipe");
 	};

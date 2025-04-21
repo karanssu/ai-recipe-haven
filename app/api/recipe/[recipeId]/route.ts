@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Ingredient } from "@/app/models/ingredient.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
+import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
@@ -36,6 +37,92 @@ export async function DELETE(
 		{ message: "Recipe deleted successfully" },
 		{ status: 200 }
 	);
+}
+
+export async function PUT(
+	req: Request,
+	{ params }: { params: { recipeId: string } }
+) {
+	// only Frontend can access this route
+	const referer = req.headers.get("referer");
+
+	if (
+		!referer ||
+		!referer.startsWith(process.env.NEXT_PUBLIC_APP_URL as string)
+	) {
+		return Response.json({ error: "Unauthorized" }, { status: 403 });
+	}
+
+	try {
+		await connectMongoDB();
+		const { recipeId } = params;
+		const {
+			name,
+			userId,
+			imageUrl,
+			description,
+			preparationMinutes,
+			cookingMinutes,
+			serving,
+			tags,
+			ingredients,
+			cookingSteps,
+			calories,
+			fatGrams,
+			carbsGrams,
+			fiberGrams,
+			sugarGrams,
+			proteinGrams,
+		} = await req.json();
+
+		// Find the existing recipe
+		const recipe = await RecipeModel.findById(recipeId);
+		if (!recipe) {
+			return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
+		}
+
+		// Ensure all ingredients exist (find or create) and build the sub‐docs
+		const ingredientIds: typeof recipe.ingredients = [];
+		for (const ing of ingredients) {
+			let ingredient = await IngredientModel.findOne({ name: ing.name });
+			if (!ingredient) {
+				ingredient = await IngredientModel.create({ name: ing.name });
+			}
+			ingredientIds.push({
+				ingredientId: ingredient._id,
+				quantity: ing.quantity,
+				unit: ing.unit,
+			});
+		}
+
+		// Assign only the updatable fields
+		recipe.name = name ?? recipe.name;
+		recipe.userId = userId ?? recipe.userId;
+		recipe.imageUrl = imageUrl ?? recipe.imageUrl;
+		recipe.description = description ?? recipe.description;
+		recipe.preparationMinutes = preparationMinutes ?? recipe.preparationMinutes;
+		recipe.cookingMinutes = cookingMinutes ?? recipe.cookingMinutes;
+		recipe.serving = serving ?? recipe.serving;
+		recipe.tags = tags ?? recipe.tags;
+		recipe.ingredients = ingredientIds;
+		recipe.cookingSteps = cookingSteps ?? recipe.cookingSteps;
+		recipe.calories = calories ?? recipe.calories;
+		recipe.fatGrams = fatGrams ?? recipe.fatGrams;
+		recipe.carbsGrams = carbsGrams ?? recipe.carbsGrams;
+		recipe.fiberGrams = fiberGrams ?? recipe.fiberGrams;
+		recipe.sugarGrams = sugarGrams ?? recipe.sugarGrams;
+		recipe.proteinGrams = proteinGrams ?? recipe.proteinGrams;
+
+		await recipe.save();
+
+		return NextResponse.json({ recipe }, { status: 200 });
+	} catch (err) {
+		console.error("[UPDATE_RECIPE_ERROR]", err);
+		return NextResponse.json(
+			{ error: "Failed to update recipe" },
+			{ status: 500 }
+		);
+	}
 }
 
 export async function GET(req: Request) {
