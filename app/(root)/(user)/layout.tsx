@@ -15,7 +15,7 @@ export default async function Layout({
 	}
 
 	return (
-		<div className="pb-20 md:pb-0">
+		<div className="pt-20">
 			<Navbar />
 			{user && <ChatBot userId={user._id} />}
 			{children}

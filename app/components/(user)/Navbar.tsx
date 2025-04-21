@@ -15,7 +15,7 @@ const Navbar = async () => {
 	return (
 		<nav
 			className="
-     fixed bottom-0 left-0 right-0 bg-primaryBg md:relative md:bg-primaryBg 
+     fixed top-0 left-0 right-0 bg-primaryBg md:bg-primaryBg 
      container mx-auto px-2 md:px-16 
      flex justify-center md:justify-between items-center 
      z-50 shadow-lg md:shadow-none
