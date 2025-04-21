@@ -3,13 +3,7 @@ import { decrypt, updateSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 
 const authRoutes = ["/login", "/signup", "/admin/login"];
-const adminRoutes = [
-	"/admin/home",
-	"/admin/user",
-	"/admin/recipe/spoonacular/new",
-	"/admin/recipe/new",
-	"/admin/recipe/edit",
-];
+const adminRoutes = ["/admin/home", "/admin/user", "/admin/recipe"];
 const superAdminRoutes = ["/admin/signup"];
 // const publicRoutes = ["/", "/recipe", ...authRoutes];
 const userRoutes = ["/profile", "/recipe/new", "/recipe/my", "/recipe/edit"];
