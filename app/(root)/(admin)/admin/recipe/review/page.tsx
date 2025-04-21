@@ -16,8 +16,17 @@ const ManageReviewsPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const loaderRef = useRef<HTMLDivElement>(null);
 
+	useEffect(() => {
+		const fetchUser = async () => {
+			const session = await verifySession();
+			if (session) setUser({ ...session, _id: session.userId });
+		};
+		fetchUser();
+	}, []);
+
 	// Fetch reviews
 	const fetchReviews = useCallback(async () => {
+		if (!user) return;
 		if (isLoading || !hasMore) return;
 		setIsLoading(true);
 		try {
@@ -48,21 +57,15 @@ const ManageReviewsPage = () => {
 		} finally {
 			setIsLoading(false);
 		}
-	}, [page, isLoading, hasMore]);
+	}, [page, isLoading, hasMore, user]);
 
 	// Initial load
 	useEffect(() => {
-		fetchReviews();
+		if (user) {
+			fetchReviews();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		const fetchUser = async () => {
-			const session = await verifySession();
-			if (session) setUser({ ...session, _id: session.userId });
-		};
-		fetchUser();
-	}, []);
+	}, [user]);
 
 	// Infinite scroll observer
 	useEffect(() => {
@@ -129,7 +132,10 @@ const ManageReviewsPage = () => {
 		likes: { _id: string }[] | undefined,
 		userId: string | number | undefined
 	) => {
-		if (!likes || !userId) return false;
+		if (!likes || !userId) {
+			console.error("Likes or userId is undefined");
+			return false;
+		}
 		return likes.some((like) => like._id?.toString() === userId);
 	};
 
