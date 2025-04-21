@@ -167,17 +167,19 @@ const Page = () => {
 				{recipes.map((recipe) => (
 					<div
 						key={recipe._id}
-						className="relative flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
+						className="flex-1 min-w-[300px] max-w-72 rounded-lg shadow-lg cursor-pointer overflow-hidden"
 					>
-						{/* Delete Button */}
-						<button
-							onClick={() => handleDelete(recipe._id)}
-							className="absolute bottom-2 right-2 z-10 p-1 bg-transparent hover:bg-red-500 text-red-500 hover:text-white"
-						>
-							<TrashIcon size={20} />
-						</button>
-
 						<RecipeCard recipe={recipe} />
+
+						<div className="flex justify-end pb-4 pr-4">
+							{/* Delete Button */}
+							<button
+								onClick={() => handleDelete(recipe._id)}
+								className="p-1 bg-transparent hover:bg-red-500 text-red-500 hover:text-white"
+							>
+								<TrashIcon size={20} />
+							</button>
+						</div>
 					</div>
 				))}
 			</div>
