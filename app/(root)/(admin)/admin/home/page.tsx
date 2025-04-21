@@ -178,7 +178,7 @@ const Page = () => {
 						<div className="flex justify-end gap-2 pb-4 pr-4">
 							{/* Edit Button */}
 							<button
-								onClick={() => router.push(`/recipe/edit/${recipe._id}`)}
+								onClick={() => router.push(`/admin/recipe/edit/${recipe._id}`)}
 								className="p-1 bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white"
 							>
 								<EditIcon size={20} />

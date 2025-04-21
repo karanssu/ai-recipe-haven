@@ -119,7 +119,7 @@ export async function adminSignup(state: FormState, formData: FormData) {
 	});
 
 	if (savedUser.ok) {
-		redirect("/admin");
+		redirect("/admin/home");
 	} else {
 		const data = await savedUser.json();
 		return {
@@ -153,7 +153,7 @@ export async function adminLogin(state: LoginFormState, formData: FormData) {
 			user.profileImage,
 			user.role
 		);
-		redirect("/admin");
+		redirect("/admin/home");
 	} else {
 		return {
 			user: { usernameEmail: usernameEmail, password: password },

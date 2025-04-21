@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 const authRoutes = ["/login", "/signup", "/admin/login"];
 const adminRoutes = [
-	"/admin",
+	"/admin/home",
 	"/admin/user",
 	"/admin/recipe/spoonacular/new",
 	"/admin/recipe/edit",
@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
 		if (session.role === "user") {
 			return NextResponse.redirect(new URL("/recipe", request.nextUrl));
 		} else {
-			return NextResponse.redirect(new URL("/admin", request.nextUrl));
+			return NextResponse.redirect(new URL("/admin/home", request.nextUrl));
 		}
 	}
 
@@ -54,9 +54,9 @@ export async function middleware(request: NextRequest) {
 		if (session.role === "user" && (isAdminRoute || isSuperAdminRoute)) {
 			return NextResponse.redirect(new URL("/recipe", request.nextUrl));
 		} else if (session.role === "admin" && (isUserRoute || isSuperAdminRoute)) {
-			return NextResponse.redirect(new URL("/admin", request.nextUrl));
+			return NextResponse.redirect(new URL("/admin/home", request.nextUrl));
 		} else if (session.role === "superadmin" && isUserRoute) {
-			return NextResponse.redirect(new URL("/admin", request.nextUrl));
+			return NextResponse.redirect(new URL("/admin/home", request.nextUrl));
 		}
 	}
 

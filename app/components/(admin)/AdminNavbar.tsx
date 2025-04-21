@@ -22,7 +22,7 @@ const AdminNavbar = async () => {
    "
 		>
 			<div>
-				<Link href="/admin">
+				<Link href="/admin/home">
 					<Image src="/logo.png" alt="logo" width={80} height={80} />
 				</Link>
 			</div>
