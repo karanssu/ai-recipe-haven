@@ -163,8 +163,15 @@ export default function EditRecipePage() {
 			...prev,
 			{ id: crypto.randomUUID(), number: prev.length + 1, step: "" },
 		]);
+
 	const removeStep = (id: string) =>
-		setSteps((prev) => prev.filter((s) => s.id !== id));
+		setSteps((prev) => {
+			const filtered = prev.filter((s) => s.id !== id);
+			return filtered.map((s, idx) => ({
+				...s,
+				number: idx + 1,
+			}));
+		});
 
 	// submit update
 	const handleSubmit = async (e: React.FormEvent) => {
