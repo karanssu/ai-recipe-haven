@@ -28,9 +28,12 @@ const ManageReviewsPage = () => {
 		if (isLoading || !hasMore) return;
 		setIsLoading(true);
 		try {
-			const res = await fetch(`/api/admin/reviews?page=${page}&limit=10`, {
-				cache: "no-store",
-			});
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review?page=${page}&limit=10`,
+				{
+					cache: "no-store",
+				}
+			);
 			const data = await res.json();
 			if (data.reviews.length === 0) {
 				setHasMore(false);
@@ -48,7 +51,7 @@ const ManageReviewsPage = () => {
 	// Initial load
 	useEffect(() => {
 		fetchReviews();
-	}, []);
+	});
 
 	// Infinite scroll observer
 	useEffect(() => {
@@ -69,7 +72,10 @@ const ManageReviewsPage = () => {
 	const handleDelete = async (id: string) => {
 		if (!confirm("Are you sure you want to delete this review?")) return;
 		try {
-			const res = await fetch(`/api/admin/reviews/${id}`, { method: "DELETE" });
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${id}`,
+				{ method: "DELETE" }
+			);
 			if (res.ok) setReviews((prev) => prev.filter((r) => r._id !== id));
 		} catch (err) {
 			console.error("Delete failed", err);
@@ -87,11 +93,14 @@ const ManageReviewsPage = () => {
 	const saveEdit = async () => {
 		if (!editingId) return;
 		try {
-			const res = await fetch(`/api/admin/reviews/${editingId}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ review: editText }),
-			});
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${editingId}`,
+				{
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ review: editText }),
+				}
+			);
 			if (res.ok) {
 				setReviews((prev) =>
 					prev.map((r) =>
