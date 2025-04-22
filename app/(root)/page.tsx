@@ -6,11 +6,11 @@ export default function Home() {
 		<div className="bg-white font-sans">
 			<header className="relative h-[80vh]">
 				<Image
-					src="/hero-food.webp"
+					src="/hero-food.jpg"
 					alt="Delicious dishes image"
-					layout="fill"
-					objectFit="cover"
-					className="object-center"
+					fill
+					priority
+					className="object-center object-cover"
 				/>
 				<div className="absolute inset-0 bg-black opacity-70"></div>
 				<div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
