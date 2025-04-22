@@ -47,8 +47,11 @@ export default function Page() {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([
 		{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
 	]);
-	const [suggestions, setSuggestions] = useState<string[]>([]);
-	const [showSuggestions, setShowSuggestions] = useState(false);
+	const [ingredientSuggestions, setIngredientSuggestions] = useState<string[]>(
+		[]
+	);
+	const [showIngredientSuggestions, setShowIngredientSuggestions] =
+		useState(false);
 
 	const [steps, setSteps] = useState<CookingStep[]>([
 		{ id: crypto.randomUUID(), number: 1, step: "" },
@@ -94,15 +97,15 @@ export default function Page() {
 			.map((opt) => opt.name)
 			.slice(0, 10);
 
-		setSuggestions(matched);
-		setShowSuggestions(true);
+		setIngredientSuggestions(matched);
+		setShowIngredientSuggestions(true);
 	};
 
 	const handleSuggestionClick = (id: string, name: string) => {
 		setIngredients((prev) =>
 			prev.map((ing) => (ing.id === id ? { ...ing, name } : ing))
 		);
-		setShowSuggestions(false);
+		setShowIngredientSuggestions(false);
 	};
 
 	const handleTagSubmit = () => {
@@ -347,19 +350,20 @@ export default function Page() {
 									placeholder="Ingredient name"
 									className="w-full border rounded-lg px-2 py-1"
 								/>
-								{showSuggestions && suggestions.length > 0 && (
-									<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-										{suggestions.map((s) => (
-											<li
-												key={s}
-												onClick={() => handleSuggestionClick(ing.id, s)}
-												className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-											>
-												{s}
-											</li>
-										))}
-									</ul>
-								)}
+								{showIngredientSuggestions &&
+									ingredientSuggestions.length > 0 && (
+										<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+											{ingredientSuggestions.map((s) => (
+												<li
+													key={s}
+													onClick={() => handleSuggestionClick(ing.id, s)}
+													className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+												>
+													{s}
+												</li>
+											))}
+										</ul>
+									)}
 							</div>
 							<input
 								type="number"
