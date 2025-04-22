@@ -74,6 +74,51 @@ const ReviewSection = ({
 	const [recipeReviews, setRecipeReviews] = useState([] as RecipeReview[]);
 	const [reviewText, setReviewText] = useState("");
 	const [reviewCount, setReviewCount] = useState(0);
+	const [editingId, setEditingId] = useState<string | number | null>(null);
+	const [editText, setEditText] = useState("");
+
+	const startEdit = (id: string | number, current: string) => {
+		setEditingId(id);
+		setEditText(current);
+	};
+
+	const saveEdit = async () => {
+		try {
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${editingId}`,
+				{
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ review: editText }),
+				}
+			);
+			if (res.ok) {
+				setRecipeReviews((prev) =>
+					prev.map((r) =>
+						r._id === editingId ? { ...r, review: editText } : r
+					)
+				);
+				setEditingId(null);
+			}
+		} catch (err) {
+			console.error("Edit failed", err);
+		}
+	};
+
+	const handleDelete = async (reviewId: string | number) => {
+		if (!confirm("Are you sure you want to delete this review?")) return;
+		try {
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_APP_URL}/api/recipe/review/${reviewId}`,
+				{ method: "DELETE" }
+			);
+			if (res.ok) {
+				setRecipeReviews((prev) => prev.filter((r) => r._id !== reviewId));
+			}
+		} catch (err) {
+			console.error("Delete failed", err);
+		}
+	};
 
 	const handleSubmitReview = async (formData: FormData) => {
 		await fetch(
@@ -96,6 +141,8 @@ const ReviewSection = ({
 	useEffect(() => {
 		const fetchReviews = async () => {
 			const reviews = await getRecipeReviews(recipeId);
+
+			console.log("Fetched reviews:", reviews);
 			setRecipeReviews(reviews);
 			setReviewCount(reviews.length);
 		};
@@ -158,9 +205,55 @@ const ReviewSection = ({
 								</p>
 							</div>
 						</div>
-						<p className="text-gray-700 mt-4 leading-relaxed">
-							{review.review}
-						</p>
+
+						<div className="mt-4">
+							{editingId === review._id ? (
+								<textarea
+									value={editText}
+									onChange={(e) => setEditText(e.target.value)}
+									className="w-full border rounded p-2"
+								/>
+							) : (
+								<p className="text-gray-700 leading-relaxed">{review.review}</p>
+							)}
+						</div>
+
+						{user?._id === review.user?._id && (
+							<div className="mt-3 flex space-x-2 text-sm">
+								{editingId === review._id ? (
+									<>
+										<button
+											onClick={() => saveEdit()}
+											className="px-3 py-1 bg-green-500 text-white rounded"
+										>
+											Save
+										</button>
+										<button
+											onClick={() => setEditingId(null)}
+											className="px-3 py-1 bg-gray-300 rounded"
+										>
+											Cancel
+										</button>
+									</>
+								) : (
+									<>
+										<button
+											onClick={() => startEdit(review._id, review.review)}
+											className="px-3 py-1 bg-blue-500 text-white rounded"
+										>
+											Edit
+										</button>
+										<button
+											onClick={() => handleDelete(review._id)}
+											className="px-3 py-1 bg-red-500 text-white rounded"
+										>
+											Delete
+										</button>
+									</>
+								)}
+							</div>
+						)}
+
 						<div className="flex items-center text-gray-500 text-sm mt-3">
 							{isReviewLiked(review.likes, user?._id.toString()) ? (
 								<LikeIcon

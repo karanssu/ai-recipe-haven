@@ -105,6 +105,7 @@ export type RecipeReview = {
 	_id: string | number;
 	userId: mongoose.Types.ObjectId | string | number;
 	user?: {
+		_id: string | number;
 		name: string;
 		profileImage?: string;
 	};
