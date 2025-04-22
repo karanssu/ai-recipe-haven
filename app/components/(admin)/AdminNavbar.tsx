@@ -3,6 +3,7 @@ import { deleteSession } from "@/app/lib/session";
 import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
+import AdminMobileMenu from "./AdminMobileMenu";
 
 interface AdminNavbarProps {
 	user: SessionUser | null;
@@ -12,29 +13,29 @@ const AdminNavbar = async ({ user }: AdminNavbarProps) => {
 	return (
 		<nav
 			className="
-     fixed bottom-0 left-0 right-0 bg-primaryBg md:relative md:bg-primaryBg 
-     container mx-auto px-2 md:px-16 
-     flex justify-center md:justify-between items-center 
-     z-50 shadow-lg md:shadow-none
-   "
+      fixed top-0 left-0 right-0 z-50
+      bg-primaryBg
+      container mx-auto px-8 md:px-16
+      flex items-center justify-between
+      shadow-md
+    "
 		>
-			<div>
-				<Link href="/admin/home">
-					<div className="w-16 h-16 md:w-20 md:h-20 relative">
-						<Image
-							src="/logo.png"
-							alt="logo"
-							priority
-							fill
-							sizes="(max-width: 768px) 40px, 80px"
-							className="object-contain"
-						/>
-					</div>
-				</Link>
-			</div>
+			<Link href="/admin/home">
+				<div className="w-16 h-16 md:w-20 md:h-20 relative">
+					<Image
+						src="/logo.png"
+						alt="logo"
+						priority
+						fill
+						sizes="(max-width: 768px) 40px, 80px"
+						className="object-contain"
+					/>
+				</div>
+			</Link>
 
-			<div className="flex ml-5 md:ml-0 space-x-5 text-xs md:text-sm">
-				{user && user?._id ? (
+			{/* Desktop Links */}
+			<div className="hidden md:flex space-x-6 text-sm">
+				{user?._id ? (
 					<>
 						<div>Hello, {user?.name as string}</div>
 						<Link href="/admin/recipe/new">Create Recipe</Link>
@@ -68,6 +69,8 @@ const AdminNavbar = async ({ user }: AdminNavbarProps) => {
 					</>
 				)}
 			</div>
+
+			<AdminMobileMenu user={user} />
 		</nav>
 	);
 };
