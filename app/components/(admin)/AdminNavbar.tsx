@@ -1,17 +1,14 @@
-import { verifySession } from "@/app/lib/dal";
 import { SessionUser } from "@/app/lib/definitions";
 import { deleteSession } from "@/app/lib/session";
 import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
-const AdminNavbar = async () => {
-	let user: SessionUser | null = null;
-	const session = await verifySession();
-	if (session) {
-		user = { ...session, _id: session.userId };
-	}
+interface AdminNavbarProps {
+	user: SessionUser | null;
+}
 
+const AdminNavbar = async ({ user }: AdminNavbarProps) => {
 	return (
 		<nav
 			className="
