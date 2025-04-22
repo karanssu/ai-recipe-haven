@@ -3,27 +3,34 @@ import { deleteSession } from "@/app/lib/session";
 import { signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
+import MobileMenu from "./MobileMenu";
 
-const Navbar = async ({ user }: { user: SessionUser | null }) => {
+interface NavbarProps {
+	user: SessionUser | null;
+}
+
+const Navbar = async ({ user }: NavbarProps) => {
 	return (
 		<nav
 			className="
-     fixed top-0 left-0 right-0 bg-primaryBg md:bg-primaryBg 
-     container mx-auto px-2 md:px-16 
-     flex justify-center md:justify-between items-center 
-     z-50 shadow-lg md:shadow-none
-   "
+      fixed top-0 left-0 right-0 z-50
+      bg-primaryBg
+      container mx-auto px-8 md:px-16
+      flex items-center justify-between
+      shadow-md
+    "
 		>
-			<div>
-				<Link href="/recipe">
-					<Image src="/logo.png" alt="logo" width={80} height={80} />
-				</Link>
-			</div>
+			<Link href="/recipe">
+				<div className="w-16 h-16 md:w-20 md:h-20 relative">
+					<Image src="/logo.png" alt="logo" fill className="object-contain" />
+				</div>
+			</Link>
 
-			<div className="flex ml-5 md:ml-0 space-x-5 text-xs md:text-sm">
-				{user && user?._id ? (
+			{/* Desktop Links */}
+			<div className="hidden md:flex space-x-6 text-sm">
+				{user?._id ? (
 					<>
-						<div>Hello, {user?.name as string}</div>
+						<span>Hello, {user.name}</span>
 						<Link href="/recipe">All Recipes</Link>
 						<Link href="/recipe/new">Create Recipe</Link>
 						<Link href="/recipe/my">My Recipes</Link>
@@ -31,7 +38,6 @@ const Navbar = async ({ user }: { user: SessionUser | null }) => {
 						<form
 							action={async () => {
 								"use server";
-
 								await deleteSession();
 								await signOut({ redirectTo: "/" });
 							}}
@@ -51,6 +57,8 @@ const Navbar = async ({ user }: { user: SessionUser | null }) => {
 					</>
 				)}
 			</div>
+
+			<MobileMenu user={user} />
 		</nav>
 	);
 };
