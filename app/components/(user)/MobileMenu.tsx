@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SessionUser } from "@/app/lib/definitions";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import { Menu01Icon as MenuIcon } from "hugeicons-react";
+import { logout } from "@/app/actions/actions";
 
 interface MobileMenuProps {
 	user: SessionUser | null;
@@ -65,13 +66,7 @@ export default function MobileMenu({ user }: MobileMenuProps) {
 							<Link href="/profile" onClick={() => setOpen(false)}>
 								Profile
 							</Link>
-							<form
-							// action={async () => {
-							// "use server";
-							// await deleteSession();
-							// await signOut({ redirectTo: "/" });
-							// }}
-							>
+							<form action={logout}>
 								<button
 									className="font-menu font-semibold text-primaryText bg-transparent hover:bg-transparent rounded-none"
 									type="submit"
