@@ -57,6 +57,7 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 						alt={recipe.name}
 						priority
 						fill
+						sizes="(max-width: 767px) 100vw, 50vw"
 						className="object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
 					/>
 				</div>
