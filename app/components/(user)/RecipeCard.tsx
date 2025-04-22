@@ -49,7 +49,7 @@ const RecipeCard = ({
 					))}
 				</div>
 
-				{recipe?.user && (
+				{(recipe?.user || recipe?.apiId) && (
 					<div className="flex mt-3">
 						<div className="flex items-center">
 							<Image
