@@ -49,6 +49,27 @@ const RecipeCard = ({
 					))}
 				</div>
 
+				{/* {recipe.user && ( */}
+				<div className="flex mt-3">
+					<div className="flex items-center">
+						<Image
+							src={"/chatbot.png"}
+							alt={"System Profile Image"}
+							width={30}
+							height={30}
+							className={`rounded-full object-center object-cover bg-gray-200 
+								${
+									// !recipe.user?.profileImage &&
+									"p-1"
+								}`}
+						/>
+						<span className="ml-2 text-grayText font-normal">
+							AI Recipe Haven
+						</span>
+					</div>
+				</div>
+				{/* )} */}
+
 				<div className="mt-3 text-lg break-words">{recipe.name}</div>
 
 				<div className="mt-3 flex flex-wrap gap-3 text-sm justify-start items-center font-menu text-grayText font-medium">
