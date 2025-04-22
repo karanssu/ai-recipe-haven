@@ -9,6 +9,7 @@ const Page = () => {
 						src="/loading.gif"
 						width={50}
 						height={50}
+						unoptimized
 						alt="Loading..."
 						className="mx-auto mt-4"
 					/>

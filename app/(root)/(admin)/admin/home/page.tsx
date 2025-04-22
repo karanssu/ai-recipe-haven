@@ -208,6 +208,7 @@ const Page = () => {
 					<div>
 						<Image
 							src="/loading.gif"
+							unoptimized
 							width={50}
 							height={50}
 							alt="Loading..."
