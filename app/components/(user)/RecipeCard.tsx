@@ -30,8 +30,9 @@ const RecipeCard = ({
 							? recipe.imageUrl
 							: "/default-recipe-image.jpg"
 					}
+					priority
 					alt={recipe.name}
-					fill={true}
+					fill
 					className="object-cover object-center"
 				/>
 			</div>

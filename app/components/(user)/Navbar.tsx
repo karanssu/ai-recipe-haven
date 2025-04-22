@@ -22,7 +22,14 @@ const Navbar = async ({ user }: NavbarProps) => {
 		>
 			<Link href="/recipe">
 				<div className="w-16 h-16 md:w-20 md:h-20 relative">
-					<Image src="/logo.png" alt="logo" fill className="object-contain" />
+					<Image
+						src="/logo.png"
+						alt="logo"
+						priority
+						fill
+						sizes="(max-width: 768px) 40px, 80px"
+						className="object-contain"
+					/>
 				</div>
 			</Link>
 
