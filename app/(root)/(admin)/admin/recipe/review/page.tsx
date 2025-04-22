@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
+import { FloppyDiskIcon as SaveIcon } from "hugeicons-react";
 import { ThumbsUpIcon as LikeIcon } from "hugeicons-react";
 import Image from "next/image";
 import { RecipeReview, SessionUser } from "@/app/lib/definitions";
@@ -244,21 +245,21 @@ const ManageReviewsPage = () => {
 							{editingId === rev._id ? (
 								<button
 									onClick={saveEdit}
-									className="px-3 py-1 bg-green-500 text-white rounded"
+									className="p-2 bg-green-500 hover:bg-green-600 text-white rounded"
 								>
-									Save
+									<SaveIcon className="w-5 h-5" />
 								</button>
 							) : (
 								<button
 									onClick={() => startEdit(rev._id, rev.review)}
-									className="p-2 bg-blue-500 text-white rounded"
+									className="p-2 bg-blue-500 text-white hover:bg-blue-600 rounded"
 								>
 									<EditIcon className="w-5 h-5" />
 								</button>
 							)}
 							<button
 								onClick={() => handleDelete(rev._id)}
-								className="p-2 bg-red-500 text-white rounded"
+								className="p-2 bg-red-500 text-white hover:bg-red-600 rounded"
 							>
 								<TrashIcon className="w-5 h-5" />
 							</button>

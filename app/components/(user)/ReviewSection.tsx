@@ -1,6 +1,10 @@
 "use client";
 
 import { ThumbsUpIcon as LikeIcon } from "hugeicons-react";
+import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
+import { Delete01Icon as TrashIcon } from "hugeicons-react";
+import { FloppyDiskIcon as SaveIcon } from "hugeicons-react";
+import { Cancel01Icon as CancelIcon } from "hugeicons-react";
 import { RecipeReview, SessionUser } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -183,39 +187,67 @@ const ReviewSection = ({
 					Reviews ({recipeReviews?.length || 0})
 				</h2>
 				{recipeReviews?.map((review) => (
-					<div key={review._id} className="border-t border-gray-200 py-6">
-						<div className="flex items-center space-x-4">
-							<div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
-								<Image
-									src={review.user?.profileImage || "/default-profile.svg"}
-									alt={review.user?.name || "Default profile image"}
-									width={40}
-									height={40}
-									className={`object-cover w-full h-full${
-										!review.user?.profileImage ? " p-2" : ""
-									}`}
-								/>
+					<div
+						key={review._id}
+						className="border-gray-200 p-4 mt-5 rounded-lg shadow-md flex flex-col md:flex-row md:items-center justify-between"
+					>
+						<div>
+							<div className="flex items-center space-x-4">
+								<div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+									<Image
+										src={review.user?.profileImage || "/default-profile.svg"}
+										alt={review.user?.name || "Default profile image"}
+										width={40}
+										height={40}
+										className={`object-cover w-full h-full${
+											!review.user?.profileImage ? " p-2" : ""
+										}`}
+									/>
+								</div>
+								<div>
+									<p className="text-gray-800 font-semibold">
+										{review.user?.name || "Anonymous"}
+									</p>
+									<p className="text-gray-500 text-sm">
+										{new Date(review.date).toLocaleString()}
+									</p>
+								</div>
 							</div>
-							<div>
-								<p className="text-gray-800 font-semibold">
-									{review.user?.name || "Anonymous"}
-								</p>
-								<p className="text-gray-500 text-sm">
-									{new Date(review.date).toLocaleString()}
-								</p>
-							</div>
-						</div>
 
-						<div className="mt-4">
-							{editingId === review._id ? (
-								<textarea
-									value={editText}
-									onChange={(e) => setEditText(e.target.value)}
-									className="w-full border rounded p-2"
-								/>
-							) : (
-								<p className="text-gray-700 leading-relaxed">{review.review}</p>
-							)}
+							<div className="mt-4">
+								{editingId === review._id ? (
+									<textarea
+										value={editText}
+										onChange={(e) => setEditText(e.target.value)}
+										className="w-full border rounded p-2"
+									/>
+								) : (
+									<p className="text-gray-700 leading-relaxed">
+										{review.review}
+									</p>
+								)}
+							</div>
+
+							<div className="flex items-center text-gray-500 text-sm mt-3">
+								{isReviewLiked(review.likes, user?._id.toString()) ? (
+									<LikeIcon
+										fill="true"
+										className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
+										onClick={() =>
+											handleLikeReview(review._id, user?._id, setRecipeReviews)
+										}
+									/>
+								) : (
+									<LikeIcon
+										fill="false"
+										className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
+										onClick={() =>
+											handleLikeReview(review._id, user?._id, setRecipeReviews)
+										}
+									/>
+								)}
+								<div className="ml-2">{review.likes?.length}</div>
+							</div>
 						</div>
 
 						{user?._id === review.user?._id && (
@@ -224,56 +256,35 @@ const ReviewSection = ({
 									<>
 										<button
 											onClick={() => saveEdit()}
-											className="px-3 py-1 bg-green-500 text-white rounded"
+											className="p-2 bg-green-500 hover:bg-green-600 text-white rounded"
 										>
-											Save
+											<SaveIcon className="w-5 h-5" />
 										</button>
 										<button
 											onClick={() => setEditingId(null)}
-											className="px-3 py-1 bg-gray-300 rounded"
+											className="p-2 bg-gray-300 text-white hover:bg-gray-400 rounded"
 										>
-											Cancel
+											<CancelIcon className="w-5 h-5" />
 										</button>
 									</>
 								) : (
 									<>
 										<button
 											onClick={() => startEdit(review._id, review.review)}
-											className="px-3 py-1 bg-blue-500 text-white rounded"
+											className="p-2 bg-blue-500 text-white hover:bg-blue-600 rounded"
 										>
-											Edit
+											<EditIcon className="w-5 h-5" />
 										</button>
 										<button
 											onClick={() => handleDelete(review._id)}
-											className="px-3 py-1 bg-red-500 text-white rounded"
+											className="p-2 bg-red-500 text-white hover:bg-red-600 rounded"
 										>
-											Delete
+											<TrashIcon className="w-5 h-5" />
 										</button>
 									</>
 								)}
 							</div>
 						)}
-
-						<div className="flex items-center text-gray-500 text-sm mt-3">
-							{isReviewLiked(review.likes, user?._id.toString()) ? (
-								<LikeIcon
-									fill="true"
-									className="text-primaryBg fill-primaryBg w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
-									onClick={() =>
-										handleLikeReview(review._id, user?._id, setRecipeReviews)
-									}
-								/>
-							) : (
-								<LikeIcon
-									fill="false"
-									className="text-primaryBg fill-transparent w-5 h-5 cursor-pointer transition-transform duration-200 hover:scale-110"
-									onClick={() =>
-										handleLikeReview(review._id, user?._id, setRecipeReviews)
-									}
-								/>
-							)}
-							<div className="ml-2">{review.likes?.length}</div>
-						</div>
 					</div>
 				))}
 			</div>
