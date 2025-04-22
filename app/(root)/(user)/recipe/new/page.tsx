@@ -47,11 +47,12 @@ export default function Page() {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([
 		{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
 	]);
-	const [ingredientSuggestions, setIngredientSuggestions] = useState<string[]>(
-		[]
+	const [suggestionsById, setSuggestionsById] = useState<
+		Record<string, string[]>
+	>({});
+	const [activeSuggestionId, setActiveSuggestionId] = useState<string | null>(
+		null
 	);
-	const [showIngredientSuggestions, setShowIngredientSuggestions] =
-		useState(false);
 
 	const [steps, setSteps] = useState<CookingStep[]>([
 		{ id: crypto.randomUUID(), number: 1, step: "" },
@@ -91,21 +92,22 @@ export default function Page() {
 			prev.map((ing) => (ing.id === id ? { ...ing, name: value } : ing))
 		);
 
+		if (!value) {
+			setActiveSuggestionId(null);
+			return;
+		}
+
 		const lower = value.toLowerCase();
 		const matched = ingredientOptions
 			.filter((opt) => opt.name.toLowerCase().includes(lower))
 			.map((opt) => opt.name)
 			.slice(0, 10);
 
-		setIngredientSuggestions(matched);
-		setShowIngredientSuggestions(true);
-	};
-
-	const handleSuggestionClick = (id: string, name: string) => {
-		setIngredients((prev) =>
-			prev.map((ing) => (ing.id === id ? { ...ing, name } : ing))
-		);
-		setShowIngredientSuggestions(false);
+		setSuggestionsById((all) => ({
+			...all,
+			[id]: matched,
+		}));
+		setActiveSuggestionId(id);
 	};
 
 	const handleTagSubmit = () => {
@@ -350,13 +352,17 @@ export default function Page() {
 									placeholder="Ingredient name"
 									className="w-full border rounded-lg px-2 py-1"
 								/>
-								{showIngredientSuggestions &&
-									ingredientSuggestions.length > 0 && (
+								{activeSuggestionId === ing.id &&
+									suggestionsById[ing.id]?.length > 0 && (
 										<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-											{ingredientSuggestions.map((s) => (
+											{suggestionsById[ing.id]!.map((s) => (
 												<li
 													key={s}
-													onClick={() => handleSuggestionClick(ing.id, s)}
+													onClick={() => {
+														// fill the field and close only this dropdown
+														handleIngredientNameChange(ing.id, s);
+														setActiveSuggestionId(null);
+													}}
 													className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
 												>
 													{s}
@@ -365,6 +371,7 @@ export default function Page() {
 										</ul>
 									)}
 							</div>
+
 							<input
 								type="number"
 								min={0.01}
