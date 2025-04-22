@@ -122,10 +122,16 @@ export type Rating = {
 
 export type RecipeCardDef = {
 	_id: string | number;
-	apiId: string;
+	userId?: string | number;
+	apiId?: string;
 	imageUrl: string;
 	tags?: string[];
-	// user: { _id: string | number; username: string; profileImage?: string };
+	user?: {
+		_id: string | number;
+		name: string;
+		profileImage?: string;
+		role: string;
+	};
 	name: string;
 	ratings?: Rating[];
 	serving: number;
