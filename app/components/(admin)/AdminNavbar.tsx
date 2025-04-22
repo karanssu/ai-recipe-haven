@@ -33,6 +33,12 @@ const AdminNavbar = async ({ user }: AdminNavbarProps) => {
 				</div>
 			</Link>
 
+			{user?._id && (
+				<div className="flex md:hidden space-x-6 text-sm">
+					<span>Hello, {user.name}</span>
+				</div>
+			)}
+
 			{/* Desktop Links */}
 			<div className="hidden md:flex space-x-6 text-sm">
 				{user?._id ? (
