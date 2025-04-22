@@ -204,7 +204,7 @@ const ManageReviewsPage = () => {
 									{rev.user?.name || "Anonymous"}
 								</div>
 								<div className="text-gray-600 text-sm">
-									on {new Date(rev.date).toLocaleString()}
+									{new Date(rev.date).toLocaleString()}
 								</div>
 								<div className="mt-2">
 									{editingId === rev._id ? (

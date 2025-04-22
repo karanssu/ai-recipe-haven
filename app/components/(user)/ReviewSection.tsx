@@ -201,7 +201,7 @@ const ReviewSection = ({
 									{review.user?.name || "Anonymous"}
 								</p>
 								<p className="text-gray-500 text-sm">
-									{new Date(review.date).toLocaleDateString()}
+									{new Date(review.date).toLocaleString()}
 								</p>
 							</div>
 						</div>
