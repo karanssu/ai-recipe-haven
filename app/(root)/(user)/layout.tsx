@@ -15,7 +15,7 @@ export default async function Layout({
 	}
 
 	return (
-		<div className="pt-20">
+		<div className={`pt-20 ${user && "pb-20"}`}>
 			<Navbar user={user} />
 			{user && <ChatBot userId={user._id} />}
 			{children}
