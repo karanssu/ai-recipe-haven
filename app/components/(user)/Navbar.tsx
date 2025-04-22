@@ -15,7 +15,7 @@ const Navbar = async ({ user }: NavbarProps) => {
 			className="
       fixed top-0 left-0 right-0 z-50
       bg-primaryBg
-      container mx-auto px-8 md:px-16
+      mx-auto px-8 md:px-16
       flex items-center justify-between
       shadow-md
     "
