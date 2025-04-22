@@ -21,7 +21,7 @@ export async function GET(
 	const recipeId = (await params).recipeId;
 
 	const reviews = await Review.find({ recipeId: recipeId })
-		.populate("userId", "name profileImage")
+		.populate("userId", "name profileImage role")
 		.sort({ date: -1 })
 		.lean();
 

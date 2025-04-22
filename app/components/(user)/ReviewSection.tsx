@@ -250,7 +250,11 @@ const ReviewSection = ({
 							</div>
 						</div>
 
-						{user?._id === review.user?._id && (
+						{(user?.role === "superadmin" ||
+							(user?.role === "admin" &&
+								(review.user?.role === "admin" ||
+									review.user?.role === "user")) ||
+							(user?.role === "user" && user?._id === review.user?._id)) && (
 							<div className="mt-3 flex space-x-2 text-sm">
 								{editingId === review._id ? (
 									<>
