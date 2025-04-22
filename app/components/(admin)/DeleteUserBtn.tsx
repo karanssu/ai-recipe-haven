@@ -37,7 +37,7 @@ export default function DeleteUserBtn({
 				className="bg-transparent hover:bg-transparent rounded-none"
 				onClick={openModal}
 			>
-				<DeleteIcon className="text-darkGrayText hover:text-redText w-5" />
+				<DeleteIcon className="p-1 w-7 h-7 bg-transparent hover:bg-red-500 text-red-500 hover:text-white rounded" />
 			</button>
 
 			{isOpen && (
@@ -53,7 +53,7 @@ export default function DeleteUserBtn({
 							className="bg-transparent hover:bg-transparent rounded-none absolute top-3 right-3"
 							onClick={closeModal}
 						>
-							<CloseIcon className="text-grayText hover:text-darkGrayText w-5" />
+							<CloseIcon className="p-1 w-7 h-7 bg-transparent hover:bg-gray-300 text-gray-400 hover:text-white rounded" />
 						</button>
 
 						<div className="font-title font-semibold text-2xl mb-3 break-words">
@@ -86,7 +86,7 @@ export default function DeleteUserBtn({
 								{pending ? "Deleting..." : "Delete"}
 							</button>
 							<button
-								className="bg-grayText hover:bg-darkGrayText text-white px-5 py-2 rounded text"
+								className="bg-grayText hover:bg-gray-500 text-white px-5 py-2 rounded text"
 								onClick={closeModal}
 							>
 								Cancel

@@ -256,13 +256,13 @@ const ReviewSection = ({
 									<>
 										<button
 											onClick={() => saveEdit()}
-											className="p-2 bg-green-500 hover:bg-green-600 text-white rounded"
+											className="p-1 bg-green-500 hover:bg-green-600 text-white rounded"
 										>
 											<SaveIcon className="w-5 h-5" />
 										</button>
 										<button
 											onClick={() => setEditingId(null)}
-											className="p-2 bg-gray-300 text-white hover:bg-gray-400 rounded"
+											className="p-1 bg-gray-300 text-white hover:bg-gray-400 rounded"
 										>
 											<CancelIcon className="w-5 h-5" />
 										</button>
@@ -271,13 +271,13 @@ const ReviewSection = ({
 									<>
 										<button
 											onClick={() => startEdit(review._id, review.review)}
-											className="p-2 bg-blue-500 text-white hover:bg-blue-600 rounded"
+											className="p-1 bg-blue-500 text-white hover:bg-blue-600 rounded"
 										>
 											<EditIcon className="w-5 h-5" />
 										</button>
 										<button
 											onClick={() => handleDelete(review._id)}
-											className="p-2 bg-red-500 text-white hover:bg-red-600 rounded"
+											className="p-1 bg-red-500 text-white hover:bg-red-600 rounded"
 										>
 											<TrashIcon className="w-5 h-5" />
 										</button>

@@ -32,7 +32,7 @@ export default function EditUserBtn({
 				className="bg-transparent hover:bg-transparent rounded-none"
 				onClick={openModal}
 			>
-				<EditIcon className="text-darkGrayText hover:text-blueText w-5" />
+				<EditIcon className="p-1 w-7 h-7 bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white rounded" />
 			</button>
 
 			{isOpen && (
@@ -48,7 +48,7 @@ export default function EditUserBtn({
 							className="bg-transparent hover:bg-transparent rounded-none absolute top-3 right-3"
 							onClick={closeModal}
 						>
-							<CloseIcon className="text-grayText hover:text-darkGrayText w-5" />
+							<CloseIcon className="p-1 w-7 h-7 bg-transparent hover:bg-gray-300 text-gray-400 hover:text-white rounded" />
 						</button>
 
 						<EditUserForm user={user} revalidatePageAction={revalidateAction} />

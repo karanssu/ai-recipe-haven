@@ -182,7 +182,7 @@ const Page = () => {
 							{/* Edit Button */}
 							<button
 								onClick={() => router.push(`/admin/recipe/edit/${recipe._id}`)}
-								className="p-1 bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white"
+								className="p-1 bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white rounded"
 							>
 								<EditIcon size={20} />
 							</button>
@@ -190,7 +190,7 @@ const Page = () => {
 							{/* Delete Button */}
 							<button
 								onClick={() => handleDelete(recipe._id)}
-								className="p-1 bg-transparent hover:bg-red-500 text-red-500 hover:text-white"
+								className="p-1 bg-transparent hover:bg-red-500 text-red-500 hover:text-white rounded"
 							>
 								<TrashIcon size={20} />
 							</button>
