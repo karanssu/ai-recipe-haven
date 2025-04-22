@@ -47,8 +47,12 @@ export default function EditRecipePage() {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([
 		{ id: crypto.randomUUID(), name: "", quantity: 1, unit: "" },
 	]);
-	const [suggestions, setSuggestions] = useState<string[]>([]);
-	const [showSuggestions, setShowSuggestions] = useState(false);
+	const [suggestionsById, setSuggestionsById] = useState<
+		Record<string, string[]>
+	>({});
+	const [activeSuggestionId, setActiveSuggestionId] = useState<string | null>(
+		null
+	);
 
 	const [steps, setSteps] = useState<CookingStep[]>([
 		{ id: crypto.randomUUID(), number: 1, step: "" },
@@ -113,24 +117,27 @@ export default function EditRecipePage() {
 		);
 	}, [tagInput, tagOptions, selectedTags]);
 
-	// ingredient suggestion per‐row
 	const handleIngredientNameChange = (id: string, value: string) => {
 		setIngredients((prev) =>
 			prev.map((ing) => (ing.id === id ? { ...ing, name: value } : ing))
 		);
+
+		if (!value) {
+			setActiveSuggestionId(null);
+			return;
+		}
+
 		const lower = value.toLowerCase();
 		const matched = ingredientOptions
 			.filter((opt) => opt.name.toLowerCase().includes(lower))
 			.map((opt) => opt.name)
 			.slice(0, 10);
-		setSuggestions(matched);
-		setShowSuggestions(true);
-	};
-	const handleSuggestionClick = (id: string, name: string) => {
-		setIngredients((prev) =>
-			prev.map((ing) => (ing.id === id ? { ...ing, name } : ing))
-		);
-		setShowSuggestions(false);
+
+		setSuggestionsById((all) => ({
+			...all,
+			[id]: matched,
+		}));
+		setActiveSuggestionId(id);
 	};
 
 	const getTitleCase = (str: string) =>
@@ -360,29 +367,36 @@ export default function EditRecipePage() {
 							key={ing.id}
 							className="grid grid-cols-1 md:grid-cols-5 gap-2 items-end pb-5 md:pb-0"
 						>
-							<input
-								type="text"
-								required
-								value={ing.name}
-								onChange={(e) =>
-									handleIngredientNameChange(ing.id, e.target.value)
-								}
-								placeholder="Ingredient name"
-								className="col-span-2 border rounded-lg px-2 py-1"
-							/>
-							{showSuggestions && suggestions.length > 0 && (
-								<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-									{suggestions.map((s) => (
-										<li
-											key={s}
-											onClick={() => handleSuggestionClick(ing.id, s)}
-											className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-										>
-											{s}
-										</li>
-									))}
-								</ul>
-							)}
+							<div className="relative col-span-2">
+								<input
+									type="text"
+									required
+									value={ing.name}
+									onChange={(e) =>
+										handleIngredientNameChange(ing.id, e.target.value)
+									}
+									placeholder="Ingredient name"
+									className="w-full border rounded-lg px-2 py-1"
+								/>
+								{activeSuggestionId === ing.id &&
+									suggestionsById[ing.id]?.length > 0 && (
+										<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+											{suggestionsById[ing.id]!.map((s) => (
+												<li
+													key={s}
+													onClick={() => {
+														handleIngredientNameChange(ing.id, s);
+														setActiveSuggestionId(null);
+													}}
+													className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+												>
+													{s}
+												</li>
+											))}
+										</ul>
+									)}
+							</div>
+
 							<input
 								type="number"
 								min={0.01}

@@ -359,7 +359,6 @@ export default function Page() {
 												<li
 													key={s}
 													onClick={() => {
-														// fill the field and close only this dropdown
 														handleIngredientNameChange(ing.id, s);
 														setActiveSuggestionId(null);
 													}}
