@@ -109,9 +109,16 @@ export async function PUT(
 			if (!ingredient) {
 				ingredient = await IngredientModel.create({ name: formattedName });
 			}
+
+			const rawQuantity = ing.quantity || 1;
+			const roundedQuantity =
+				typeof rawQuantity === "number"
+					? Math.round(rawQuantity * 100) / 100
+					: 1;
+
 			ingredientIds.push({
 				ingredientId: ingredient._id,
-				quantity: ing.quantity,
+				quantity: roundedQuantity,
 				unit: ing.unit,
 			});
 		}
