@@ -69,12 +69,23 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 
 		const rawIngredients = rawRecipe.extendedIngredients || [];
 
-		const uniqueIngredients = rawIngredients.filter(
+		const toTitleCase = (str: string): string =>
+			str
+				.toLowerCase()
+				.split(" ")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
+
+		const titleCasedIngredients = rawIngredients.map((ing) => ({
+			...ing,
+			name: toTitleCase(ing.name.trim()),
+		}));
+
+		const uniqueIngredients = titleCasedIngredients.filter(
 			(ing, idx, arr) =>
 				idx ===
 				arr.findIndex(
-					(other) =>
-						other.name.trim().toLowerCase() === ing.name.trim().toLowerCase()
+					(other) => other.name.toLowerCase() === ing.name.toLowerCase()
 				)
 		);
 
