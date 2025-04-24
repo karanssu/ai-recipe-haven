@@ -3,6 +3,7 @@ import { Rating as RatingModel } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 import { NextResponse } from "next/server";
+import User from "@/app/models/user.model";
 
 export async function POST(req: Request) {
 	// only Frontend can access this route
@@ -169,7 +170,8 @@ const fetchRecipeCardData = async (
 		user: {
 			_id: recipe.userId,
 			name: "",
-			imageUrl: "",
+			profileImage: "",
+			role: "",
 		},
 		apiId: recipe.apiId,
 		imageUrl: recipe.imageUrl,
@@ -185,9 +187,30 @@ const fetchRecipeCardData = async (
 	for (let i = 0; i < recipeCardData.length; i++) {
 		const recipe = recipeCardData[i];
 		recipe.ratings = await RatingModel.find({ _id: { $in: recipe.ratings } });
-	}
 
-	console.log("[RECIPE_CARD_DATA]", recipeCardData[0]);
+		const ratingDocs = await RatingModel.find({
+			_id: { $in: recipe.ratings },
+		}).lean();
+		recipe.ratings = ratingDocs;
+
+		const userDoc = (await User.findById(recipe.userId)
+			.select("_id name profileImage role")
+			.lean()) as {
+			_id: string;
+			name: string;
+			profileImage?: string;
+			role: string;
+		} | null;
+
+		if (userDoc) {
+			recipe.user = {
+				_id: userDoc._id.toString(),
+				name: userDoc.name,
+				profileImage: userDoc?.profileImage || "",
+				role: userDoc.role,
+			};
+		}
+	}
 
 	return recipeCardData;
 };
