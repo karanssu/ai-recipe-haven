@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 	}
 
 	await connectMongoDB();
-	const { chatId, text } = await req.json();
+	const { chatId, text, context } = await req.json();
 
 	if (!chatId || !text) {
 		return NextResponse.json(
@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
 
 	const userMessage = await ChatMessage.create({ chatId, text, type: "user" });
 
-	const responseMessageText = await generateAIResponse(text);
+	const responseMessageText = context;
+	// const responseMessageText = await generateAIResponse(context, text);
 
 	const responseMessage = await ChatMessage.create({
 		chatId,
@@ -62,7 +63,10 @@ export async function GET(req: NextRequest) {
 	return NextResponse.json({ messages });
 }
 
-const generateAIResponse = async (text: string): Promise<string> => {
+const generateAIResponse = async (
+	context: string,
+	text: string
+): Promise<string> => {
 	const apiKey = process.env.OPENAI_API_KEY;
 	if (!apiKey) {
 		throw new Error("OPENAI_API_KEY is not set.");
