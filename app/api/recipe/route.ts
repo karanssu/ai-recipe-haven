@@ -165,6 +165,12 @@ const fetchRecipeCardData = async (
 
 	const recipeCardData = recipes.map((recipe) => ({
 		_id: recipe._id,
+		userId: recipe.userId,
+		user: {
+			_id: recipe.userId,
+			name: "",
+			imageUrl: "",
+		},
 		apiId: recipe.apiId,
 		imageUrl: recipe.imageUrl,
 		tags: recipe.tags,
@@ -180,6 +186,8 @@ const fetchRecipeCardData = async (
 		const recipe = recipeCardData[i];
 		recipe.ratings = await RatingModel.find({ _id: { $in: recipe.ratings } });
 	}
+
+	console.log("[RECIPE_CARD_DATA]", recipeCardData[0]);
 
 	return recipeCardData;
 };
