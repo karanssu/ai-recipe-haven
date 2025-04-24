@@ -146,7 +146,6 @@ const ReviewSection = ({
 		const fetchReviews = async () => {
 			const reviews = await getRecipeReviews(recipeId);
 
-			console.log("Fetched reviews:", reviews);
 			setRecipeReviews(reviews);
 			setReviewCount(reviews.length);
 		};
