@@ -6,6 +6,7 @@ import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 import User from "@/app/models/user.model";
+import { toTitleCase } from "@/app/lib/recipeUtils";
 
 export async function DELETE(
 	req: NextRequest,
@@ -82,12 +83,31 @@ export async function PUT(
 			return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
 		}
 
-		// Ensure all ingredients exist (find or create) and build the sub‐docs
+		const titleCaseTags = Array.from(
+			new Set(
+				tags.map((tag: string) => toTitleCase(tag.trim())).filter(Boolean)
+			)
+		);
+
+		const uniqueIngredients = ingredients.filter(
+			(
+				ing: { name: string; quantity: number; unit: string },
+				idx: number,
+				arr: { name: string; quantity: number; unit: string }[]
+			) =>
+				idx ===
+				arr.findIndex(
+					(other) =>
+						toTitleCase(other.name.trim()) === toTitleCase(ing.name.trim())
+				)
+		);
+
 		const ingredientIds: typeof recipe.ingredients = [];
-		for (const ing of ingredients) {
-			let ingredient = await IngredientModel.findOne({ name: ing.name });
+		for (const ing of uniqueIngredients) {
+			const formattedName = toTitleCase(ing.name.trim());
+			let ingredient = await IngredientModel.findOne({ name: formattedName });
 			if (!ingredient) {
-				ingredient = await IngredientModel.create({ name: ing.name });
+				ingredient = await IngredientModel.create({ name: formattedName });
 			}
 			ingredientIds.push({
 				ingredientId: ingredient._id,
@@ -95,7 +115,6 @@ export async function PUT(
 				unit: ing.unit,
 			});
 		}
-
 		// Assign only the updatable fields
 		recipe.name = name ?? recipe.name;
 		recipe.userId = userId ?? recipe.userId;
@@ -104,7 +123,7 @@ export async function PUT(
 		recipe.preparationMinutes = preparationMinutes ?? recipe.preparationMinutes;
 		recipe.cookingMinutes = cookingMinutes ?? recipe.cookingMinutes;
 		recipe.serving = serving ?? recipe.serving;
-		recipe.tags = tags ?? recipe.tags;
+		recipe.tags = titleCaseTags ?? recipe.tags;
 		recipe.ingredients = ingredientIds;
 		recipe.cookingSteps = cookingSteps ?? recipe.cookingSteps;
 		recipe.calories = calories ?? recipe.calories;
