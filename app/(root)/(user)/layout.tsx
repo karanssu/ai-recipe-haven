@@ -1,4 +1,3 @@
-import ChatBot from "@/app/components/(user)/ChatBot";
 import Navbar from "@/app/components/(user)/Navbar";
 import { verifySession } from "@/app/lib/dal";
 import { SessionUser } from "@/app/lib/definitions";
@@ -16,8 +15,7 @@ export default async function Layout({
 
 	return (
 		<div className={`pt-20 ${user && "pb-20"}`}>
-			<Navbar user={user} />
-			{user && <ChatBot userId={user._id} />}
+			/ <Navbar user={user} />
 			{children}
 		</div>
 	);
