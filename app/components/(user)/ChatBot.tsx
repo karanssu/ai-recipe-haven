@@ -6,6 +6,7 @@ import { PlayIcon as SendIcon } from "hugeicons-react";
 import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import Image from "next/image";
+import { parseHTMLTextToHtmlWithLinks } from "@/app/lib/recipeUtils";
 
 interface IMessage {
 	_id: string;
@@ -29,6 +30,16 @@ const ChatBody = ({
 		}
 	}, [messages, isTyping, chatBodyRef]);
 
+	const htmlToText = (html: string) => {
+		return (
+			<div
+				dangerouslySetInnerHTML={{
+					__html: parseHTMLTextToHtmlWithLinks(html),
+				}}
+			/>
+		);
+	};
+
 	return (
 		<div
 			ref={chatBodyRef}
@@ -43,9 +54,9 @@ const ChatBody = ({
 							: "bg-green-300 self-end"
 					}`}
 				>
-					<p className="text-sm text-gray-800 break-words text-left px-2">
-						{msg.text}
-					</p>
+					<div className="text-sm text-gray-800 break-words text-left px-2">
+						{htmlToText(msg.text)}
+					</div>
 				</div>
 			))}
 			{isTyping && (

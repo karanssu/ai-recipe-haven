@@ -5,7 +5,7 @@ import { Recipe, SessionUser } from "@/app/lib/definitions";
 import {
 	calculateRecipeRating,
 	getDisplayTimeWithUnit,
-	parseHTMLTextToHtml,
+	parseHTMLTextToHtmlWithoutLinks,
 } from "@/app/lib/recipeUtils";
 import Image from "next/image";
 
@@ -31,7 +31,11 @@ const getRecipe = async (recipeId: string): Promise<Recipe> => {
 
 const RecipeDescription = (text: string) => {
 	return (
-		<div dangerouslySetInnerHTML={{ __html: parseHTMLTextToHtml(text) }} />
+		<div
+			dangerouslySetInnerHTML={{
+				__html: parseHTMLTextToHtmlWithoutLinks(text),
+			}}
+		/>
 	);
 };
 

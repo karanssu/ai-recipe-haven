@@ -9,6 +9,7 @@ import { PencilEdit02Icon as EditIcon } from "hugeicons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ChatBot from "@/app/components/(user)/ChatBot";
+import { calculateRecipeRating } from "@/app/lib/recipeUtils";
 
 const Page = () => {
 	const [user, setUser] = useState<SessionUser | null>(null);
@@ -42,8 +43,33 @@ const Page = () => {
 	};
 
 	const updateContext = (recipes: RecipeCardDef[]) => {
-		const recipeNames = recipes.map((recipe) => recipe.name).join(", ");
-		setContext(`User's recipes: ${recipeNames}`);
+		setContext(generateContext(recipes));
+	};
+
+	const generateContext = (recipes: RecipeCardDef[]): string => {
+		if (recipes.length === 0) {
+			return "Context: User is on 'My Recipes' page. User haven't created there own recipes yet. So, No recipes are currently available for user's My Recipes Page.";
+		}
+
+		const intro = `Context: You are a friendly cooking assistant. User is on 'My Recipes' page. If User ask for recipe recommandation then use Tags, Average rating, servers, Author, prep time, cook time to come up with the recipe recommandation. After that you need to give little info about the recommended recipe and then give the url. THE URL MUST BE IN THIS FORMAT: '${process.env.NEXT_PUBLIC_APP_URL}/recipe/[recipeId]'. User's name is ${user?.name}, Here are the recipes they have created:`;
+
+		const body = recipes
+			.map((r, i) => {
+				const author = r.user?.name ?? "Unknown author";
+				const tags = r.tags?.length ? r.tags.join(", ") : "No tags";
+				return [
+					`Recipe ${i + 1}: ${r.name}`,
+					`  • Recipe Id: ${r._id}`,
+					`  • Author: ${author}`,
+					`  • Tags: ${tags}`,
+					`  • Prep time: ${r.preparationMinutes} min, Cook time: ${r.cookingMinutes} min`,
+					`  • Serves: ${r.serving}`,
+					`  • Average rating: ${calculateRecipeRating(r.ratings)}`,
+				].join("\n");
+			})
+			.join("\n\n");
+
+		return `${intro}\n\n${body}`;
 	};
 
 	const fetchRecipes = async (page: number): Promise<RecipeCardDef[]> => {

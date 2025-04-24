@@ -7,10 +7,38 @@ export const toTitleCase = (str: string): string =>
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ");
 
-export const parseHTMLTextToHtml = (htmlText: string) => {
+export const parseHTMLTextToHtmlWithoutLinks = (htmlText: string) => {
 	const withoutLinks = htmlText.replace(/<a[^>]*>(.*?)<\/a>/gi, "$1");
 
 	return DOMPurify.sanitize(withoutLinks);
+};
+
+export const parseHTMLTextToHtmlWithLinks = (htmlText: string) => {
+	return DOMPurify.sanitize(htmlText, {
+		ALLOWED_TAGS: [
+			"a",
+			"b",
+			"i",
+			"em",
+			"strong",
+			"p",
+			"br",
+			"ul",
+			"ol",
+			"li",
+			"span",
+		],
+		ALLOWED_ATTR: [
+			"href",
+			"title",
+			"target",
+			"rel",
+			"class",
+			"className",
+			"style",
+		],
+		USE_PROFILES: { html: true },
+	});
 };
 
 export const calculateRecipeRating = (
