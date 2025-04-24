@@ -69,7 +69,7 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 
 		const rawIngredients = rawRecipe.extendedIngredients || [];
 
-		const uniqueExt = rawIngredients.filter(
+		const uniqueIngredients = rawIngredients.filter(
 			(ing, idx, arr) =>
 				idx ===
 				arr.findIndex(
@@ -79,7 +79,7 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 		);
 
 		const recipeIngredients = await Promise.all(
-			uniqueExt.map(async (ingredient) => {
+			uniqueIngredients.map(async (ingredient) => {
 				let ingredientDoc = await Ingredient.findOne({
 					name: ingredient.name,
 				});
