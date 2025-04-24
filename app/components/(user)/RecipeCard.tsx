@@ -56,7 +56,7 @@ const RecipeCard = ({
 								src={
 									recipe.apiId
 										? "/chatbot.png"
-										: recipe.user?.profileImage || "/default-profile.png"
+										: recipe.user?.profileImage || "/default-profile.svg"
 								}
 								alt={"Recipe User Profile Image"}
 								width={30}
