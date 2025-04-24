@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/app/lib/mongodb";
 import { Rating as RatingModel } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
+import User from "@/app/models/user.model";
 
 export async function GET(
 	req: Request,
@@ -113,8 +114,12 @@ const fetchRecipeCardData = async (
 			.lean();
 	}
 
+	const user = await User.findById(userId).select("_id name profileImage role");
+
 	const recipeCardData = recipes.map((recipe) => ({
 		_id: recipe._id,
+		userId: recipe.userId,
+		user,
 		apiId: recipe.apiId,
 		imageUrl: recipe.imageUrl,
 		tags: recipe.tags,
