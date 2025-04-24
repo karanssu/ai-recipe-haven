@@ -65,6 +65,34 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 					<h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
 						{recipe.name}
 					</h1>
+
+					{(recipe?.user || recipe?.apiId) && (
+						<div className="flex mt-3">
+							<div className="flex items-center">
+								<div className="relative w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+									<Image
+										src={
+											recipe.apiId
+												? "/chatbot.png"
+												: recipe.user?.profileImage || "/default-profile.svg"
+										}
+										alt="Recipe User Profile Image"
+										fill
+										priority
+										sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+										className={`object-cover object-center ${
+											!recipe.user?.profileImage && "p-1"
+										}`}
+									/>
+								</div>
+
+								<span className="ml-2 text-grayText font-normal">
+									{recipe.apiId ? "AI Recipe Haven" : recipe.user?.name}
+								</span>
+							</div>
+						</div>
+					)}
+
 					<div className="mt-4 text-base text-gray-600">
 						{RecipeDescription(recipe.description || "")}
 					</div>
