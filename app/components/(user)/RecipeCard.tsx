@@ -52,18 +52,23 @@ const RecipeCard = ({
 				{(recipe?.user || recipe?.apiId) && (
 					<div className="flex mt-3">
 						<div className="flex items-center">
-							<Image
-								src={
-									recipe.apiId
-										? "/chatbot.png"
-										: recipe.user?.profileImage || "/default-profile.svg"
-								}
-								alt={"Recipe User Profile Image"}
-								width={30}
-								height={30}
-								className={`rounded-full object-center object-cover bg-gray-200 
-								${!recipe.user?.profileImage && "p-1"}`}
-							/>
+							<div className="relative w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+								<Image
+									src={
+										recipe.apiId
+											? "/chatbot.png"
+											: recipe.user?.profileImage || "/default-profile.svg"
+									}
+									alt="Recipe User Profile Image"
+									fill
+									priority
+									sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+									className={`object-cover object-center ${
+										!recipe.user?.profileImage && "p-1"
+									}`}
+								/>
+							</div>
+
 							<span className="ml-2 text-grayText font-normal">
 								{recipe.apiId ? "AI Recipe Haven" : recipe.user?.name}
 							</span>
