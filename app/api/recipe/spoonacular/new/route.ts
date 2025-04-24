@@ -67,26 +67,37 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 			userId: superAdminId,
 		});
 
-		const recipeIngredients = rawRecipe.extendedIngredients
-			? await Promise.all(
-					rawRecipe.extendedIngredients.map(async (ingredient) => {
-						let ingredientDoc = await Ingredient.findOne({
-							name: ingredient.name,
-						});
-						if (!ingredientDoc) {
-							ingredientDoc = await Ingredient.create({
-								name: ingredient.name,
-							});
-						}
-						return {
-							ingredientId: ingredientDoc._id,
-							name: ingredient.name,
-							quantity: ingredient.measures.us.amount || 1,
-							unit: ingredient.measures.us.unitShort || "",
-						};
-					})
-			  )
-			: [];
+		const rawIngredients = rawRecipe.extendedIngredients || [];
+
+		const uniqueExt = rawIngredients.filter(
+			(ing, idx, arr) =>
+				idx ===
+				arr.findIndex(
+					(other) =>
+						other.name.trim().toLowerCase() === ing.name.trim().toLowerCase()
+				)
+		);
+
+		const recipeIngredients = await Promise.all(
+			uniqueExt.map(async (ingredient) => {
+				let ingredientDoc = await Ingredient.findOne({
+					name: ingredient.name,
+				});
+
+				if (!ingredientDoc) {
+					ingredientDoc = await Ingredient.create({
+						name: ingredient.name,
+					});
+				}
+
+				return {
+					ingredientId: ingredientDoc._id,
+					name: ingredient.name,
+					quantity: ingredient.measures.us.amount || 1,
+					unit: ingredient.measures.us.unitShort || "",
+				};
+			})
+		);
 
 		const cookingSteps =
 			rawRecipe.analyzedInstructions[0]?.steps.map((step) => ({
