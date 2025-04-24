@@ -116,9 +116,13 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 				step: step.step,
 			})) || [];
 
-		const tags = rawRecipe.cuisines.concat(
+		const rawTags = rawRecipe.cuisines.concat(
 			rawRecipe.dishTypes,
 			rawRecipe.diets
+		);
+
+		const tags = Array.from(
+			new Set(rawTags.map((t) => toTitleCase(t)).filter(Boolean))
 		);
 
 		const recipeObj: Recipe = {
