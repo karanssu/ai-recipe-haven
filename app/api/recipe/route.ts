@@ -4,6 +4,7 @@ import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 import { NextResponse } from "next/server";
 import User from "@/app/models/user.model";
+import { toTitleCase } from "@/app/lib/recipeUtils";
 
 export async function POST(req: Request) {
 	// only Frontend can access this route
@@ -31,12 +32,31 @@ export async function POST(req: Request) {
 			cookingSteps,
 		} = await req.json();
 
-		// Ensure all ingredients exist
+		const titleCaseTags = Array.from(
+			new Set(
+				tags.map((tag: string) => toTitleCase(tag.trim())).filter(Boolean)
+			)
+		);
+
+		const uniqueIngredients = ingredients.filter(
+			(
+				ing: { name: string; quantity: number; unit: string },
+				idx: number,
+				arr: { name: string; quantity: number; unit: string }[]
+			) =>
+				idx ===
+				arr.findIndex(
+					(other: { name: string }) =>
+						toTitleCase(other.name.trim()) === toTitleCase(ing.name.trim())
+				)
+		);
+
 		const ingredientIds = [];
-		for (const ing of ingredients) {
-			let ingredient = await IngredientModel.findOne({ name: ing.name });
+		for (const ing of uniqueIngredients) {
+			const formattedName = toTitleCase(ing.name.trim());
+			let ingredient = await IngredientModel.findOne({ name: formattedName });
 			if (!ingredient) {
-				ingredient = await IngredientModel.create({ name: ing.name });
+				ingredient = await IngredientModel.create({ name: formattedName });
 			}
 			ingredientIds.push({
 				ingredientId: ingredient._id,
@@ -54,7 +74,7 @@ export async function POST(req: Request) {
 			preparationMinutes,
 			cookingMinutes,
 			serving,
-			tags,
+			tags: titleCaseTags,
 			ingredients: ingredientIds,
 			cookingSteps,
 		});

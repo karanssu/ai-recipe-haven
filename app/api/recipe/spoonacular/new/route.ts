@@ -1,5 +1,6 @@
 import { RawRecipe, Recipe } from "@/app/lib/definitions";
 import { connectMongoDB } from "@/app/lib/mongodb";
+import { toTitleCase } from "@/app/lib/recipeUtils";
 import { Ingredient } from "@/app/models/ingredient.model";
 import { Rating } from "@/app/models/rating.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
@@ -68,13 +69,6 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 		});
 
 		const rawIngredients = rawRecipe.extendedIngredients || [];
-
-		const toTitleCase = (str: string): string =>
-			str
-				.toLowerCase()
-				.split(" ")
-				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-				.join(" ");
 
 		const titleCasedIngredients = rawIngredients.map((ing) => ({
 			...ing,

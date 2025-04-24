@@ -1,5 +1,12 @@
 import DOMPurify from "isomorphic-dompurify";
 
+export const toTitleCase = (str: string): string =>
+	str
+		.toLowerCase()
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+
 export const parseHTMLTextToHtml = (htmlText: string) => {
 	const withoutLinks = htmlText.replace(/<a[^>]*>(.*?)<\/a>/gi, "$1");
 
