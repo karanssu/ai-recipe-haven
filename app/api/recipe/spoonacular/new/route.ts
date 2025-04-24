@@ -95,10 +95,16 @@ const saveRecipesInDB = async (rawRecipes: RawRecipe[]) => {
 					});
 				}
 
+				const rawQuantity = ingredient.measures.us.amount || 1;
+				const roundedQuantity =
+					typeof rawQuantity === "number"
+						? Math.round(rawQuantity * 100) / 100
+						: 1;
+
 				return {
 					ingredientId: ingredientDoc._id,
 					name: ingredient.name,
-					quantity: ingredient.measures.us.amount || 1,
+					quantity: roundedQuantity,
 					unit: ingredient.measures.us.unitShort || "",
 				};
 			})
