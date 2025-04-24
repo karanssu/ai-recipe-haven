@@ -5,6 +5,7 @@ import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
 
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
+import User from "@/app/models/user.model";
 
 export async function DELETE(
 	req: NextRequest,
@@ -174,7 +175,28 @@ const fetchRecipeById = async (recipeId: string) => {
 		)
 	);
 
-	recipe = { ...recipe._doc, ingredients: namedIngredients };
+	let user: {
+		_id: string;
+		name: string;
+		profileImage: string;
+	} | null = null;
+
+	const recipeDoc = recipe._doc;
+	if (recipeDoc.userId) {
+		const u = await User.findById(recipeDoc.userId).select(
+			"_id name profileImage"
+		);
+
+		if (u) {
+			user = {
+				_id: u._id.toString(),
+				name: u.name,
+				profileImage: u.profileImage,
+			};
+		}
+	}
+
+	recipe = { ...recipe._doc, ingredients: namedIngredients, user };
 
 	return recipe;
 };

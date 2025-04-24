@@ -70,7 +70,14 @@ export type SessionUser = {
 
 export type Recipe = {
 	_id?: string;
-	apiId: string;
+	apiId?: string;
+	userId?: string;
+	user?: {
+		_id: string | number;
+		name: string;
+		profileImage?: string;
+		role: string;
+	};
 	name: string;
 	imageUrl: string;
 	serving: number;
