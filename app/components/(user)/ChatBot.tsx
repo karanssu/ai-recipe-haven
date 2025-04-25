@@ -17,6 +17,8 @@ interface IMessage {
 
 const speak = (text: string) => {
 	if (typeof window !== "undefined" && window.speechSynthesis) {
+		window.speechSynthesis.cancel();
+
 		const utterance = new SpeechSynthesisUtterance(text);
 		utterance.lang = "en-US";
 		const voices = window.speechSynthesis.getVoices();
