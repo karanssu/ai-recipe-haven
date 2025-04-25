@@ -15,6 +15,24 @@ interface IMessage {
 	text: string;
 }
 
+const speak = (text: string) => {
+	if (typeof window !== "undefined" && window.speechSynthesis) {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en-US";
+		const voices = window.speechSynthesis.getVoices();
+		console.log("Available voices:", voices); // Log available voices for debugging
+		const selectedVoice = voices.find((voice) => voice.lang === "en-US");
+		if (selectedVoice) {
+			utterance.voice = selectedVoice;
+		}
+		utterance.rate = 1.3;
+		utterance.pitch = 1.6;
+		utterance.volume = 1;
+
+		window.speechSynthesis.speak(utterance);
+	}
+};
+
 const ChatBody = ({
 	messages,
 	chatBodyRef,
@@ -143,6 +161,10 @@ const ChatBot = ({
 
 			const data = await res.json();
 			const { userMessage, responseMessage } = data;
+
+			if (responseMessage.text) {
+				speak(responseMessage.text);
+			}
 
 			setMessages((prevMessages) =>
 				prevMessages.filter((msg) => msg._id !== newUserMessage._id)
