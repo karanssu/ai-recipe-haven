@@ -48,28 +48,36 @@ const Page = () => {
 
 	const generateContext = (recipes: RecipeCardDef[]): string => {
 		if (recipes.length === 0) {
-			return "Context: User is on 'My Recipes' page. User haven't created there own recipes yet. So, No recipes are currently available for user's My Recipes Page.";
+			return `
+				Context: User (${user?.name}) is on "My Recipes" but hasn't created any recipes yet. No recipes available.
+				`;
 		}
 
-		const intro = `Context: You are a friendly cooking assistant. User is on 'My Recipes' page. If User ask for recipe recommandation then use Tags, Average rating, servers, Author, prep time, cook time to come up with the recipe recommandation. After that you need to give little info about the recommended recipe and then give the url. THE URL MUST BE IN THIS FORMAT: '${process.env.NEXT_PUBLIC_APP_URL}/recipe/[recipeId]'. User's name is ${user?.name}, Here are the recipes they have created:`;
+		const intro = `
+			Context: You are a friendly cooking assistant. Use ONLY the recipes below.
+			When you recommend one, give a short blurb and then include a clickable link formatted as:
+			<a style="color:#3b82f6;text-decoration:underline;" href="${process.env.NEXT_PUBLIC_APP_URL}/recipe/RECIPE_ID">
+				RECIPE_NAME
+			</a>
+		`;
 
 		const body = recipes
 			.map((r, i) => {
-				const author = r.user?.name ?? "Unknown author";
-				const tags = r.tags?.length ? r.tags.join(", ") : "No tags";
-				return [
-					`Recipe ${i + 1}: ${r.name}`,
-					`  • Recipe Id: ${r._id}`,
-					`  • Author: ${author}`,
-					`  • Tags: ${tags}`,
-					`  • Prep time: ${r.preparationMinutes} min, Cook time: ${r.cookingMinutes} min`,
-					`  • Serves: ${r.serving}`,
-					`  • Average rating: ${calculateRecipeRating(r.ratings)}`,
-				].join("\n");
+				const url = `${process.env.NEXT_PUBLIC_APP_URL}/recipe/${r._id}`;
+				return `
+					Recipe ${i + 1}: ${r.name}
+						• ID: ${r._id}
+						• Author: ${r.user?.name ?? "Unknown"}
+						• Tags: ${r.tags?.join(", ") ?? "None"}
+						• Prep: ${r.preparationMinutes}m, Cook: ${r.cookingMinutes}m
+						• Serves: ${r.serving}
+						• Rating: ${calculateRecipeRating(r.ratings)}
+						• URL: ${url}
+				`;
 			})
-			.join("\n\n");
+			.join("\n");
 
-		return `${intro}\n\n${body}`;
+		return `${intro}\n${body}`.trim();
 	};
 
 	const fetchRecipes = async (page: number): Promise<RecipeCardDef[]> => {
