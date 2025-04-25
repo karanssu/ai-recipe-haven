@@ -20,7 +20,6 @@ const speak = (text: string) => {
 		const utterance = new SpeechSynthesisUtterance(text);
 		utterance.lang = "en-US";
 		const voices = window.speechSynthesis.getVoices();
-		console.log("Available voices:", voices); // Log available voices for debugging
 		const selectedVoice = voices.find((voice) => voice.lang === "en-US");
 		if (selectedVoice) {
 			utterance.voice = selectedVoice;
