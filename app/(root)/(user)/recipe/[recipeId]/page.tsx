@@ -1,3 +1,4 @@
+import ChatBot from "@/app/components/(user)/ChatBot";
 import RatingSection from "@/app/components/(user)/RatingSection";
 import ReviewSection from "@/app/components/(user)/ReviewSection";
 import { verifySession } from "@/app/lib/dal";
@@ -39,6 +40,53 @@ const RecipeDescription = (text: string) => {
 	);
 };
 
+const generateContext = (recipe: Recipe) => {
+	const context = `
+			You are a Recipe Assistant whose entire world is the one recipe described below.  
+			You MUST follow these rules exactly:
+				1. Use ONLY the data in this recipe. Do NOT invent or refer to any other recipes.
+				2. Never recommend or compare to outside recipes.
+				3. If asked anything unrelated to this recipe, politely say “I'm sorry, I can only help with this recipe.”
+				4. You can help with:
+					• ingredient substitutions if something's missing  
+					• cooking-step clarifications or tips  
+					• nutritional info (calories, protein, fat, carbs, fiber, sugar)  
+				5. Keep responses under 200 words and in friendly, conversational tone with cooking emojis.
+
+			<!-- RECIPE CONTEXT START -->
+				Name: ${recipe.name}
+				ID: ${recipe._id}
+				Description: ${recipe.description ?? "N/A"}
+				Author: ${recipe.user?.name ?? "Unknown"}
+				Servings: ${recipe.serving}
+				Prep Time: ${recipe.preparationMinutes} minutes
+				Cook Time: ${recipe.cookingMinutes} minutes
+				Tags: ${recipe.tags?.join(", ") ?? "None"}
+				Average Rating: ${calculateRecipeRating(recipe.ratings) ?? "N/A"}
+
+				Nutrition per recipe:
+					• Calories: ${recipe.calories ?? "N/A"} kcal  
+					• Protein: ${recipe.proteinGrams ?? "N/A"} g  
+					• Fat: ${recipe.fatGrams ?? "N/A"} g  
+					• Carbs: ${recipe.carbsGrams ?? "N/A"} g  
+					• Fiber: ${recipe.fiberGrams ?? "N/A"} g  
+					• Sugar: ${recipe.sugarGrams ?? "N/A"} g
+
+				Ingredients:
+					${recipe.ingredients
+						.map((ing) =>
+							`• ${ing.quantity ?? ""} ${ing.unit ?? ""} ${ing.name}`.trim()
+						)
+						.join("\n")}
+
+				Cooking Steps:
+					${recipe.cookingSteps.map((step) => `${step.number}. ${step.step}`).join("\n")}
+			<!-- RECIPE CONTEXT END -->
+		`.trim();
+
+	return context;
+};
+
 const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const session = await verifySession();
 	let user: SessionUser | null = null;
@@ -47,207 +95,220 @@ const Page = async ({ params }: { params: Promise<{ recipeId: string }> }) => {
 	const recipeId = (await params).recipeId;
 	const recipe = await getRecipe(recipeId);
 
+	const context = generateContext(recipe);
+
 	return (
-		<div className="max-w-7xl mx-auto px-6 py-10 space-y-12">
-			{/* Recipe Header */}
-			<div className="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden">
-				<div className="group relative w-full md:w-1/2 h-96 md:h-[450px] max-h-screen overflow-hidden">
-					<Image
-						src={
-							recipe.imageUrl && recipe.imageUrl !== ""
-								? recipe.imageUrl
-								: "/default-recipe-image.jpg"
-						}
-						alt={recipe.name}
-						priority
-						fill
-						sizes="(max-width: 767px) 100vw, 50vw"
-						className="object-center object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-					/>
-				</div>
-				<div className="w-full md:w-1/2 p-8">
-					<h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-						{recipe.name}
-					</h1>
+		<>
+			<div className="max-w-7xl mx-auto px-6 py-10 space-y-12">
+				{/* Recipe Header */}
+				<div className="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden">
+					<div className="group relative w-full md:w-1/2 h-96 md:h-[450px] max-h-screen overflow-hidden">
+						<Image
+							src={
+								recipe.imageUrl && recipe.imageUrl !== ""
+									? recipe.imageUrl
+									: "/default-recipe-image.jpg"
+							}
+							alt={recipe.name}
+							priority
+							fill
+							sizes="(max-width: 767px) 100vw, 50vw"
+							className="object-center object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+						/>
+					</div>
+					<div className="w-full md:w-1/2 p-8">
+						<h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+							{recipe.name}
+						</h1>
 
-					{(recipe?.user || recipe?.apiId) && (
-						<div className="flex mt-3">
-							<div className="flex items-center">
-								<div className="relative w-8 h-8 rounded-full overflow-hidden bg-gray-200">
-									<Image
-										src={
-											recipe.apiId
-												? "/chatbot.png"
-												: recipe.user?.profileImage || "/default-profile.svg"
-										}
-										alt="Recipe User Profile Image"
-										fill
-										priority
-										sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
-										className={`object-cover object-center ${
-											!recipe.user?.profileImage && "p-1"
-										}`}
-									/>
+						{(recipe?.user || recipe?.apiId) && (
+							<div className="flex mt-3">
+								<div className="flex items-center">
+									<div className="relative w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+										<Image
+											src={
+												recipe.apiId
+													? "/chatbot.png"
+													: recipe.user?.profileImage || "/default-profile.svg"
+											}
+											alt="Recipe User Profile Image"
+											fill
+											priority
+											sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+											className={`object-cover object-center ${
+												!recipe.user?.profileImage && "p-1"
+											}`}
+										/>
+									</div>
+
+									<span className="ml-2 text-grayText font-normal">
+										{recipe.apiId ? "AI Recipe Haven" : recipe.user?.name}
+									</span>
 								</div>
+							</div>
+						)}
 
-								<span className="ml-2 text-grayText font-normal">
-									{recipe.apiId ? "AI Recipe Haven" : recipe.user?.name}
-								</span>
+						<div className="mt-4 text-base text-gray-600">
+							{RecipeDescription(recipe.description || "")}
+						</div>
+						<div className="mt-4">
+							{user ? (
+								<RatingSection
+									recipeId={recipeId}
+									user={user}
+									recipe={recipe}
+								/>
+							) : (
+								<div className="mt-4 flex items-center space-x-4">
+									<div className="text-primaryBgHover font-semibold text-lg transition-colors duration-200">
+										Rating: {calculateRecipeRating(recipe.ratings)}
+									</div>
+									<div className="text-gray-500 text-sm">
+										({recipe.ratings?.length || 0})
+									</div>
+								</div>
+							)}
+						</div>
+						<div className="mt-4 space-y-1">
+							<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
+								<h3 className="text-lg font-bold text-gray-900 mb-3">
+									Recipe Info
+								</h3>
+								<div className="grid grid-cols-2 gap-4">
+									<div className="text-sm text-gray-700">
+										<span className="font-medium">Total Time:</span>
+										<span className="ml-1">
+											{getDisplayTimeWithUnit(
+												recipe.preparationMinutes + recipe.cookingMinutes
+											)}
+										</span>
+									</div>
+									<div className="text-sm text-gray-700">
+										<span className="font-medium">Preparation:</span>
+										<span className="ml-1">
+											{getDisplayTimeWithUnit(recipe.preparationMinutes)}
+										</span>
+									</div>
+									<div className="text-sm text-gray-700">
+										<span className="font-medium">Cooking:</span>
+										<span className="ml-1">
+											{getDisplayTimeWithUnit(recipe.cookingMinutes)}
+										</span>
+									</div>
+									<div className="text-sm text-gray-700">
+										<span className="font-medium">Serving:</span>
+										<span className="ml-1">{recipe.serving}</span>
+									</div>
+								</div>
 							</div>
 						</div>
-					)}
-
-					<div className="mt-4 text-base text-gray-600">
-						{RecipeDescription(recipe.description || "")}
-					</div>
-					<div className="mt-4">
-						{user ? (
-							<RatingSection recipeId={recipeId} user={user} recipe={recipe} />
-						) : (
-							<div className="mt-4 flex items-center space-x-4">
-								<div className="text-primaryBgHover font-semibold text-lg transition-colors duration-200">
-									Rating: {calculateRecipeRating(recipe.ratings)}
+						{[
+							recipe.calories,
+							recipe.fatGrams,
+							recipe.carbsGrams,
+							recipe.fiberGrams,
+							recipe.sugarGrams,
+							recipe.proteinGrams,
+						].some((v) => v != null) && (
+							<div className="mt-4">
+								<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
+									<h3 className="text-lg font-bold text-gray-900 mb-3">
+										Nutrition
+									</h3>
+									<div className="grid grid-cols-2 gap-4">
+										{recipe.calories != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Calories:</span>{" "}
+												{recipe.calories}
+											</div>
+										)}
+										{recipe.fatGrams != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Fat:</span>{" "}
+												{recipe.fatGrams}g
+											</div>
+										)}
+										{recipe.carbsGrams != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Carbs:</span>{" "}
+												{recipe.carbsGrams}g
+											</div>
+										)}
+										{recipe.fiberGrams != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Fiber:</span>{" "}
+												{recipe.fiberGrams}g
+											</div>
+										)}
+										{recipe.sugarGrams != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Sugar:</span>{" "}
+												{recipe.sugarGrams}g
+											</div>
+										)}
+										{recipe.proteinGrams != null && (
+											<div className="text-sm text-gray-700">
+												<span className="font-medium">Protein:</span>{" "}
+												{recipe.proteinGrams}g
+											</div>
+										)}
+									</div>
 								</div>
-								<div className="text-gray-500 text-sm">
-									({recipe.ratings?.length || 0})
+							</div>
+						)}
+						{recipe.tags && (
+							<div className="mt-8">
+								<div className="flex flex-wrap mt-1">
+									{recipe.tags.map((tag) => (
+										<span
+											key={tag}
+											className="mr-3 mb-4 px-3 py-1 bg-primaryBg text-primaryText text-sm font-menu rounded-lg font-semibold"
+										>
+											{tag}
+										</span>
+									))}
 								</div>
 							</div>
 						)}
 					</div>
-					<div className="mt-4 space-y-1">
-						<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
-							<h3 className="text-lg font-bold text-gray-900 mb-3">
-								Recipe Info
-							</h3>
-							<div className="grid grid-cols-2 gap-4">
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Total Time:</span>
-									<span className="ml-1">
-										{getDisplayTimeWithUnit(
-											recipe.preparationMinutes + recipe.cookingMinutes
-										)}
-									</span>
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Preparation:</span>
-									<span className="ml-1">
-										{getDisplayTimeWithUnit(recipe.preparationMinutes)}
-									</span>
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Cooking:</span>
-									<span className="ml-1">
-										{getDisplayTimeWithUnit(recipe.cookingMinutes)}
-									</span>
-								</div>
-								<div className="text-sm text-gray-700">
-									<span className="font-medium">Serving:</span>
-									<span className="ml-1">{recipe.serving}</span>
-								</div>
-							</div>
-						</div>
+				</div>
+
+				{/* Ingredients & Cooking Steps */}
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+					{/* Ingredients */}
+					<div className="bg-white p-8 rounded-xl shadow-xl">
+						<h2 className="text-2xl font-bold text-gray-900 mb-4">
+							Ingredients
+						</h2>
+						<ul className="list-disc list-inside text-gray-700 space-y-2">
+							{recipe.ingredients?.map((ingredient) => (
+								<li key={ingredient.name}>
+									{ingredient.name}: {ingredient.quantity} {ingredient.unit}
+								</li>
+							))}
+						</ul>
 					</div>
-					{[
-						recipe.calories,
-						recipe.fatGrams,
-						recipe.carbsGrams,
-						recipe.fiberGrams,
-						recipe.sugarGrams,
-						recipe.proteinGrams,
-					].some((v) => v != null) && (
-						<div className="mt-4">
-							<div className="mt-6 p-6 border border-gray-300 rounded-xl bg-gray-50 shadow-md">
-								<h3 className="text-lg font-bold text-gray-900 mb-3">
-									Nutrition
-								</h3>
-								<div className="grid grid-cols-2 gap-4">
-									{recipe.calories != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Calories:</span>{" "}
-											{recipe.calories}
-										</div>
-									)}
-									{recipe.fatGrams != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Fat:</span>{" "}
-											{recipe.fatGrams}g
-										</div>
-									)}
-									{recipe.carbsGrams != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Carbs:</span>{" "}
-											{recipe.carbsGrams}g
-										</div>
-									)}
-									{recipe.fiberGrams != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Fiber:</span>{" "}
-											{recipe.fiberGrams}g
-										</div>
-									)}
-									{recipe.sugarGrams != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Sugar:</span>{" "}
-											{recipe.sugarGrams}g
-										</div>
-									)}
-									{recipe.proteinGrams != null && (
-										<div className="text-sm text-gray-700">
-											<span className="font-medium">Protein:</span>{" "}
-											{recipe.proteinGrams}g
-										</div>
-									)}
-								</div>
-							</div>
-						</div>
-					)}
-					{recipe.tags && (
-						<div className="mt-8">
-							<div className="flex flex-wrap mt-1">
-								{recipe.tags.map((tag) => (
-									<span
-										key={tag}
-										className="mr-3 mb-4 px-3 py-1 bg-primaryBg text-primaryText text-sm font-menu rounded-lg font-semibold"
-									>
-										{tag}
-									</span>
-								))}
-							</div>
-						</div>
-					)}
+					{/* Cooking Steps */}
+					<div className="bg-white p-8 rounded-xl shadow-xl">
+						<h2 className="text-2xl font-bold text-gray-900 mb-4">
+							Cooking Steps
+						</h2>
+						<ol className="list-decimal list-inside text-gray-700 space-y-3">
+							{recipe.cookingSteps?.map((step) => (
+								<li key={step.number} className="list-none">
+									<span className="font-medium">{step.number}.</span>{" "}
+									{step.step}
+								</li>
+							))}
+						</ol>
+					</div>
 				</div>
+
+				<ReviewSection recipeId={recipeId} user={user} />
 			</div>
 
-			{/* Ingredients & Cooking Steps */}
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-				{/* Ingredients */}
-				<div className="bg-white p-8 rounded-xl shadow-xl">
-					<h2 className="text-2xl font-bold text-gray-900 mb-4">Ingredients</h2>
-					<ul className="list-disc list-inside text-gray-700 space-y-2">
-						{recipe.ingredients?.map((ingredient) => (
-							<li key={ingredient.name}>
-								{ingredient.name}: {ingredient.quantity} {ingredient.unit}
-							</li>
-						))}
-					</ul>
-				</div>
-				{/* Cooking Steps */}
-				<div className="bg-white p-8 rounded-xl shadow-xl">
-					<h2 className="text-2xl font-bold text-gray-900 mb-4">
-						Cooking Steps
-					</h2>
-					<ol className="list-decimal list-inside text-gray-700 space-y-3">
-						{recipe.cookingSteps?.map((step) => (
-							<li key={step.number} className="list-none">
-								<span className="font-medium">{step.number}.</span> {step.step}
-							</li>
-						))}
-					</ol>
-				</div>
-			</div>
-
-			<ReviewSection recipeId={recipeId} user={user} />
-		</div>
+			{user && <ChatBot userId={user._id} context={context} />}
+		</>
 	);
 };
 
