@@ -14,19 +14,23 @@ export async function POST(req: NextRequest) {
 	}
 
 	await connectMongoDB();
-	const { chatId, text, context } = await req.json();
+	const { chatId, prompt, context } = await req.json();
 
-	if (!chatId || !text) {
+	if (!chatId || !prompt) {
 		return NextResponse.json(
 			{ error: "Missing or invalid fields" },
 			{ status: 400 }
 		);
 	}
 
-	const userMessage = await ChatMessage.create({ chatId, text, type: "user" });
+	const userMessage = await ChatMessage.create({
+		chatId,
+		text: prompt,
+		type: "user",
+	});
 
 	// const responseMessageText = context;
-	const responseMessageText = await generateAIResponse(context, text);
+	const responseMessageText = await generateAIResponse(context, prompt);
 
 	const responseMessage = await ChatMessage.create({
 		chatId,
@@ -65,14 +69,14 @@ export async function GET(req: NextRequest) {
 
 const generateAIResponse = async (
 	context: string,
-	text: string
+	prompt: string
 ): Promise<string> => {
 	const apiKey = process.env.OPENAI_API_KEY;
 	if (!apiKey) {
 		throw new Error("OPENAI_API_KEY is not set.");
 	}
 
-	const strictInstructions =
+	const contextWithInstuctions =
 		`You are a helpful assistant. You must follow the instructions strictly. Do not deviate from them. You must not say that you are an AI model. You must not say that you are a chatbot. You must not say that you are a computer program. You must not say that you are a machine learning model. You must not say that you are an artificial intelligence model. You must not say that you are a language model. 
 
 	STRICT INSTRUCTIONS (MUST FOLLOW):
@@ -109,9 +113,9 @@ const generateAIResponse = async (
 			messages: [
 				{
 					role: "system",
-					content: strictInstructions,
+					content: contextWithInstuctions,
 				},
-				{ role: "user", content: text },
+				{ role: "user", content: prompt },
 			],
 			max_tokens: 300,
 			temperature: 0.7,
