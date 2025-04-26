@@ -15,7 +15,7 @@ export default async function Layout({
 
 	return (
 		<div className={`pt-20 ${user && "pb-20"}`}>
-			/ <Navbar user={user} />
+			<Navbar user={user} />
 			{children}
 		</div>
 	);
