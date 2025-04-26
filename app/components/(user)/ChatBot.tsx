@@ -65,7 +65,7 @@ const ChatBody = ({
 	return (
 		<div
 			ref={chatBodyRef}
-			className="flex flex-col gap-2 overflow-y-scroll mt-4 h-full"
+			className="flex flex-col gap-2 overflow-y-scroll mt-4 h-full pb-4"
 		>
 			{messages.map((msg: IMessage) => (
 				<div
@@ -223,7 +223,7 @@ const ChatBot = ({
 							<CloseIcon className="stroke-2" />
 						</button>
 						{/* Chat Header */}
-						<div className="h-[85%] px-4 pt-4 overflow-y-auto">
+						<div className="h-[85%] px-4 pt-4 overflow-hidden flex flex-col">
 							<div className="flex border-b-2 pb-2 justify-center items-center">
 								<Image
 									className="mr-2"
@@ -235,7 +235,7 @@ const ChatBot = ({
 								<h2 className="text-xl font-bold">Chat with AI</h2>
 							</div>
 							{/* Chat Body */}
-							<div className="h-full">
+							<div className="h-full overflow-hidden">
 								<ChatBody
 									messages={messages}
 									chatBodyRef={chatBodyRef}
