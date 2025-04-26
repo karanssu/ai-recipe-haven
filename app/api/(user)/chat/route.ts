@@ -89,7 +89,7 @@ const generateAIResponse = async (
 			8. NEVER break character.
 
 		<!-- CONTEXT START -->
-			${context.slice(0, 50000)}  
+			${context.slice(0, 25000)}  
 		<!-- CONTEXT END -->
 `.trim();
 
@@ -105,7 +105,7 @@ const generateAIResponse = async (
 			max_tokens: 300,
 			messages: [
 				{ role: "system", content: systemInstructions },
-				{ role: "user", content: prompt.slice(0, 12000) },
+				{ role: "user", content: prompt.slice(0, 5000) },
 			],
 		}),
 	});
