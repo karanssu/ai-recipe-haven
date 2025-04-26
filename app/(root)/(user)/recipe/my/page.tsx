@@ -55,7 +55,7 @@ const Page = () => {
 
 		const intro = `
 			Context: You are a friendly cooking assistant. Use ONLY the recipes below.
-			When you recommend one, give a short blurb and then include a clickable link formatted as:
+			When you recommend one, don't use (**) or links in the plain form but give the response in HTML format with Tags, give a short blurb and then include a clickable link formatted as:
 			<a style="color:#3b82f6;text-decoration:underline;" href="${process.env.NEXT_PUBLIC_APP_URL}/recipe/RECIPE_ID">
 				RECIPE_NAME
 			</a>
