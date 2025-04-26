@@ -364,20 +364,30 @@ export default function Page() {
 								/>
 								{activeSuggestionId === ing.id &&
 									suggestionsById[ing.id]?.length > 0 && (
-										<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-											{suggestionsById[ing.id]!.map((s) => (
-												<li
-													key={s}
-													onClick={() => {
-														handleIngredientNameChange(ing.id, s);
-														setActiveSuggestionId(null);
-													}}
-													className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-												>
-													{s}
-												</li>
-											))}
-										</ul>
+										<div className="relative">
+											{/* Close button in top-right */}
+											<button
+												onClick={() => setActiveSuggestionId(null)}
+												aria-label="Close ingredient suggestions"
+												className="absolute top-2 right-5 z-20 bg-transparent hover:bg-gray-300 text-gray-400 hover:text-gray-500 rounded"
+											>
+												<CloseIcon className="w-5 h-5" />
+											</button>
+											<ul className="absolute left-0 top-full z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+												{suggestionsById[ing.id]!.map((s) => (
+													<li
+														key={s}
+														onClick={() => {
+															handleIngredientNameChange(ing.id, s);
+															setActiveSuggestionId(null);
+														}}
+														className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+													>
+														{s}
+													</li>
+												))}
+											</ul>
+										</div>
 									)}
 							</div>
 
