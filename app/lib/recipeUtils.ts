@@ -41,6 +41,18 @@ export const parseHTMLTextToHtmlWithLinks = (htmlText: string) => {
 	});
 };
 
+export const getPlainTextFromHTML = (htmlText: string) => {
+	const cleanHtml = DOMPurify.sanitize(htmlText, { ALLOWED_TAGS: [] });
+
+	const plainText = cleanHtml
+		.replace(/(https?:\/\/[^\s]+)/g, "")
+		.replace(/(http?:\/\/[^\s]+)/g, "")
+		.replace(/(www\.[^\s]+)/g, "")
+		.trim();
+
+	return plainText;
+};
+
 export const calculateRecipeRating = (
 	ratings: { rating: number }[] | undefined
 ) => {

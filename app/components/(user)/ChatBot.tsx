@@ -6,7 +6,10 @@ import { PlayIcon as SendIcon } from "hugeicons-react";
 import { ArrowDown01Icon as CollapseIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import Image from "next/image";
-import { parseHTMLTextToHtmlWithLinks } from "@/app/lib/recipeUtils";
+import {
+	getPlainTextFromHTML,
+	parseHTMLTextToHtmlWithLinks,
+} from "@/app/lib/recipeUtils";
 
 interface IMessage {
 	_id: string;
@@ -164,7 +167,7 @@ const ChatBot = ({
 			const { userMessage, responseMessage } = data;
 
 			if (responseMessage.text) {
-				speak(responseMessage.text);
+				speak(getPlainTextFromHTML(responseMessage.text));
 			}
 
 			setMessages((prevMessages) =>
