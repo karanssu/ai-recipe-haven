@@ -103,7 +103,8 @@ const ChatBot = ({
 	const toggleIsOpen = () => setIsOpen(!isOpen);
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	const [inputMessage, setInputMessage] = useState("");
-	const chatBodyRef = useRef<HTMLDivElement>(null);
+	const chatBodyDesktopRef = useRef<HTMLDivElement>(null);
+	const chatBodyMobileRef = useRef<HTMLDivElement>(null);
 	const [isTyping, setIsTyping] = useState(false);
 
 	useEffect(() => {
@@ -123,8 +124,13 @@ const ChatBot = ({
 
 				const data = await res.json();
 				setMessages(data.messages || []);
-				if (chatBodyRef.current) {
-					chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+				if (chatBodyDesktopRef.current) {
+					chatBodyDesktopRef.current.scrollTop =
+						chatBodyDesktopRef.current.scrollHeight;
+				}
+				if (chatBodyMobileRef.current) {
+					chatBodyMobileRef.current.scrollTop =
+						chatBodyMobileRef.current.scrollHeight;
 				}
 			} catch (error) {
 				console.error("Error fetching initial messages:", error);
@@ -191,9 +197,16 @@ const ChatBot = ({
 			setIsTyping(false);
 			// Scroll the chat body to the bottom
 			setTimeout(() => {
-				if (chatBodyRef.current) {
-					chatBodyRef.current.scrollTo({
-						top: chatBodyRef.current.scrollHeight,
+				if (chatBodyDesktopRef.current) {
+					chatBodyDesktopRef.current.scrollTo({
+						top: chatBodyDesktopRef.current.scrollHeight,
+						behavior: "smooth",
+					});
+				}
+
+				if (chatBodyMobileRef.current) {
+					chatBodyMobileRef.current.scrollTo({
+						top: chatBodyMobileRef.current.scrollHeight,
 						behavior: "smooth",
 					});
 				}
@@ -238,7 +251,7 @@ const ChatBot = ({
 							<div className="h-full overflow-hidden">
 								<ChatBody
 									messages={messages}
-									chatBodyRef={chatBodyRef}
+									chatBodyRef={chatBodyMobileRef}
 									isTyping={isTyping}
 								/>
 							</div>
@@ -290,7 +303,7 @@ const ChatBot = ({
 						<div className="h-[80%]">
 							<ChatBody
 								messages={messages}
-								chatBodyRef={chatBodyRef}
+								chatBodyRef={chatBodyDesktopRef}
 								isTyping={isTyping}
 							/>
 						</div>
