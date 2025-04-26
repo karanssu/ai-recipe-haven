@@ -89,7 +89,7 @@ const generateAIResponse = async (
 			8. NEVER break character.
 
 		<!-- CONTEXT START -->
-		${context}
+			${context.slice(0, 50000)}  
 		<!-- CONTEXT END -->
 `.trim();
 
