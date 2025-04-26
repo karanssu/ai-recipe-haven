@@ -336,21 +336,31 @@ export default function EditRecipePage() {
 
 					{/* suggestions dropdown */}
 					{showTagSuggestions && tagSuggestions.length > 0 && (
-						<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
-							{tagSuggestions.map((s) => (
-								<li
-									key={s}
-									onClick={() => {
-										setSelectedTags((prev) => [...prev, s]);
-										setTagInput("");
-										setTagShowSuggestions(false);
-									}}
-									className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-								>
-									{s}
-								</li>
-							))}
-						</ul>
+						<div className="relative">
+							{/* Close button in top-right */}
+							<button
+								onClick={() => setTagShowSuggestions(false)}
+								aria-label="Close suggestions"
+								className="absolute top-2 right-5 z-20 bg-transparent hover:bg-gray-300 text-gray-400 hover:text-gray-500 rounded"
+							>
+								<CloseIcon className="w-5 h-5" />
+							</button>
+							<ul className="absolute z-10 bg-white border border-gray-200 w-full max-h-40 overflow-y-auto rounded-md">
+								{tagSuggestions.map((s) => (
+									<li
+										key={s}
+										onClick={() => {
+											setSelectedTags((prev) => [...prev, s]);
+											setTagInput("");
+											setTagShowSuggestions(false);
+										}}
+										className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+									>
+										{s}
+									</li>
+								))}
+							</ul>
+						</div>
 					)}
 				</div>
 
