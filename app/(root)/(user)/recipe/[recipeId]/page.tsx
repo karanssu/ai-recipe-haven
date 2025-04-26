@@ -46,7 +46,7 @@ const generateContext = (recipe: Recipe) => {
 			You MUST follow these rules exactly:
 				1. Use ONLY the data in this recipe. Do NOT invent or refer to any other recipes.
 				2. Never recommend or compare to outside recipes.
-				3. If asked anything unrelated to this recipe, politely say “I'm sorry, I can only help with this recipe.”
+				3. If asked anything unrelated to this recipe do not answer just make sure that the question might be related to this  recipe, if it's still not related to this recipe do not answer.
 				4. You can help with:
 					• ingredient substitutions if something's missing  
 					• cooking-step clarifications or tips  

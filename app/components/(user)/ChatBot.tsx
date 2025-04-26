@@ -37,6 +37,14 @@ const speak = (text: string) => {
 	}
 };
 
+const getLastMessagesContext = (messages: IMessage[]): string => {
+	const recent = messages.slice(-5);
+
+	return recent
+		.map((m) => `${m.type === "user" ? "User" : "Assistant"}: ${m.text}`)
+		.join("\n");
+};
+
 const ChatBody = ({
 	messages,
 	chatBodyRef,
@@ -154,6 +162,13 @@ const ChatBot = ({
 		setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 		setIsTyping(true);
 
+		const fullContext = `${context?.slice(0, 20000)}\n
+
+		<!-- LAST MESSAGES CONTEXT START -->
+			${getLastMessagesContext(messages)?.slice(0, 5000)}  
+		<!-- LAST MESSAGES CONTEXT END -->
+		`;
+
 		try {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/chat`, {
 				method: "POST",
@@ -161,7 +176,7 @@ const ChatBot = ({
 				body: JSON.stringify({
 					chatId: userId,
 					prompt: userMessageText,
-					context: context || "",
+					context: fullContext,
 				}),
 			});
 

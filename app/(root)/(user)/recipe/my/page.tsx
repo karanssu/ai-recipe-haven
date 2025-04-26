@@ -49,7 +49,8 @@ const Page = () => {
 	const generateContext = (recipes: RecipeCardDef[]): string => {
 		if (recipes.length === 0) {
 			return `
-				Context: User (${user?.name}) is on "My Recipes" but hasn't created any recipes yet. No recipes available.
+				Context: You are a friendly cooking assistant. Use ONLY the recipes below. User (${user?.name}) is on "My Recipes" but hasn't created any recipes yet. So do not suggest any recipes. Just say, paraphrase this sentence "No recipes available. Please create a recipe or go to the all recipe page for the recommendation.
+					Never recommend or generate imaginary url like "example.com/".
 				`;
 		}
 
@@ -144,6 +145,7 @@ const Page = () => {
 	// Reset recipes if search, filter, or sort options change.
 	useEffect(() => {
 		fetchUser();
+		updateContext([]);
 		setRecipes([]);
 		setPage(0);
 		setHasMore(true);

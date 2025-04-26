@@ -87,6 +87,7 @@ const generateAIResponse = async (
 			6. Keep responses under 200 words.
 			7. Use a friendly, conversational tone and feel free to sprinkle in cooking emojis.
 			8. NEVER break character.
+			9. Make the recommendation based on the context provided.
 
 		<!-- CONTEXT START -->
 			${context.slice(0, 25000)}  

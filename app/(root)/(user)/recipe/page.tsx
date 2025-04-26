@@ -44,7 +44,7 @@ const RecipeInfiniteScroll = () => {
 	const generateContext = (recipes: RecipeCardDef[]): string => {
 		if (recipes.length === 0) {
 			return `
-				Context: User (${user?.name}) is on "All Recipes" but there are no recipes yet. No recipes available.
+				Context: You are a friendly cooking assistant. Use ONLY the recipes below. User (${user?.name}) is on "My Recipes" but hasn't created any recipes yet. No recipes available. So do not suggest any recipes. just tell them to create a recipe for the recommendation because you are only allowed to recommend the recipe that is on this website.
 				`;
 		}
 
@@ -131,6 +131,7 @@ const RecipeInfiniteScroll = () => {
 	// Reset recipes if search, filter, or sort options change.
 	useEffect(() => {
 		fetchUser();
+		updateContext([]);
 		setRecipes([]);
 		setPage(0);
 		setHasMore(true);
