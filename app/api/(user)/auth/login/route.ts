@@ -15,8 +15,12 @@ export async function POST(req: Request) {
 
 	const data = await req.json();
 
-	const usernameEmail = data.usernameEmail?.toString().trim() as string;
+	let usernameEmail = data.usernameEmail?.toString().trim() as string;
 	const password = data.password as string;
+
+	if (usernameEmail.includes("@")) {
+		usernameEmail = usernameEmail.toLowerCase();
+	}
 
 	const userExists = await getUserByUsernameOrEmailDB(usernameEmail);
 
