@@ -105,7 +105,7 @@ const generateAIResponse = async (
 			max_tokens: 300,
 			messages: [
 				{ role: "system", content: systemInstructions },
-				{ role: "user", content: prompt },
+				{ role: "user", content: prompt.slice(0, 12000) },
 			],
 		}),
 	});
