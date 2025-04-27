@@ -2,11 +2,32 @@ import { connectMongoDB } from "@/app/lib/mongodb";
 import { Ingredient } from "@/app/models/ingredient.model";
 import { Recipe as RecipeModel } from "@/app/models/recipe.model";
 import { Ingredient as IngredientModel } from "@/app/models/ingredient.model";
-
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 import User from "@/app/models/user.model";
 import { toTitleCase } from "@/app/lib/recipeUtils";
+
+const s3Client = new S3Client({
+	region: process.env.NEXT_PUBLIC_AWS_REGION,
+	credentials: {
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+	},
+});
+
+function extractS3Key(url: string): string | null {
+	const domain = `${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com`;
+	try {
+		const parsed = new URL(url);
+		if (parsed.host === domain) {
+			return parsed.pathname.slice(1);
+		}
+	} catch {
+		return null;
+	}
+	return null;
+}
 
 export async function DELETE(
 	req: NextRequest,
@@ -83,6 +104,16 @@ export async function PUT(
 			return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
 		}
 
+		const oldKey = extractS3Key(recipe.imageUrl);
+		if (oldKey && imageUrl && imageUrl !== recipe.imageUrl) {
+			await s3Client.send(
+				new DeleteObjectCommand({
+					Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
+					Key: oldKey,
+				})
+			);
+		}
+
 		const titleCaseTags = Array.from(
 			new Set(
 				tags.map((tag: string) => toTitleCase(tag.trim())).filter(Boolean)
@@ -122,7 +153,7 @@ export async function PUT(
 				unit: ing.unit,
 			});
 		}
-		// Assign only the updatable fields
+
 		recipe.name = name ?? recipe.name;
 		recipe.userId = userId ?? recipe.userId;
 		recipe.imageUrl = imageUrl ?? recipe.imageUrl;
