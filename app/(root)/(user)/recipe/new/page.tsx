@@ -31,6 +31,7 @@ export default function Page() {
 
 	const [name, setName] = useState("");
 	const [file, setFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [description, setDescription] = useState("");
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
@@ -74,6 +75,14 @@ export default function Page() {
 	}, []);
 
 	useEffect(() => {
+		return () => {
+			if (previewUrl) {
+				URL.revokeObjectURL(previewUrl);
+			}
+		};
+	}, [previewUrl]);
+
+	useEffect(() => {
 		if (!tagInput) {
 			setTagSuggestions([]);
 		} else {
@@ -112,7 +121,12 @@ export default function Page() {
 	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFile(e.target.files?.[0] ?? null);
+		const selected = e.target.files?.[0] ?? null;
+		if (selected) {
+			const url = URL.createObjectURL(selected);
+			setFile(selected);
+			setPreviewUrl(url);
+		}
 	};
 
 	const uploadToS3 = async (): Promise<string> => {
@@ -251,12 +265,11 @@ export default function Page() {
 					<div>
 						<label className="block font-semibold mb-1">Preview Image</label>
 						<Image
-							src={file?.name || "/default-recipe-image.jpg"}
-							priority
-							alt={"Recipe Image"}
+							src={previewUrl || "/default-recipe-image.jpg"}
+							alt={"Recipe Preview Image"}
 							width={300}
 							height={300}
-							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+							unoptimized
 							className="object-cover object-center"
 						/>
 					</div>
