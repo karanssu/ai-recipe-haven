@@ -242,7 +242,6 @@ export default function Page() {
 						<input
 							type="file"
 							accept="image/*"
-							required
 							onChange={handleFileChange}
 							className="w-full"
 						/>

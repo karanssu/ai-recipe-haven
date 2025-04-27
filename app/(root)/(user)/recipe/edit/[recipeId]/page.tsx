@@ -269,28 +269,24 @@ export default function EditRecipePage() {
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
 						<label className="block font-semibold mb-1">Upload Image</label>
-						<div>
-							<input
-								type="file"
-								accept="image/*"
-								onChange={handleFileChange}
-								className="w-full"
-							/>
-						</div>
+						<input
+							type="file"
+							accept="image/*"
+							onChange={handleFileChange}
+							className="w-full"
+						/>
 					</div>
 					<div>
-						<div>
-							<label className="block font-semibold mb-1">Current Image</label>
-							<Image
-								src={imageUrl || "/default-recipe-image.jpg"}
-								priority
-								alt={"Recipe Image"}
-								width={300}
-								height={300}
-								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-								className="object-cover object-center"
-							/>
-						</div>
+						<label className="block font-semibold mb-1">Current Image</label>
+						<Image
+							src={imageUrl || "/default-recipe-image.jpg"}
+							priority
+							alt={"Recipe Image"}
+							width={300}
+							height={300}
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+							className="object-cover object-center"
+						/>
 					</div>
 				</div>
 

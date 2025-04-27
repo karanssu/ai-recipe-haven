@@ -6,6 +6,7 @@ import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import { verifySession } from "@/app/lib/dal";
+import Image from "next/image";
 
 interface IngredientOption {
 	id: string;
@@ -226,25 +227,37 @@ export default function Page() {
 			<h1 className="text-3xl font-bold text-center mb-6">Create New Recipe</h1>
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Name & Image */}
+				<div>
+					<label className="block font-semibold mb-1">Recipe Name</label>
+					<input
+						type="text"
+						required
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+					/>
+				</div>
+
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div>
-						<label className="block font-semibold mb-1">Recipe Name</label>
-						<input
-							type="text"
-							required
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-						/>
-					</div>
 					<div>
 						<label className="block font-semibold mb-1">Upload Image</label>
 						<input
 							type="file"
 							accept="image/*"
-							required
 							onChange={handleFileChange}
 							className="w-full"
+						/>
+					</div>
+					<div>
+						<label className="block font-semibold mb-1">Preview Image</label>
+						<Image
+							src={file?.name || "/default-recipe-image.jpg"}
+							priority
+							alt={"Recipe Image"}
+							width={300}
+							height={300}
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+							className="object-cover object-center"
 						/>
 					</div>
 				</div>
