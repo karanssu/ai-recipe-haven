@@ -288,7 +288,7 @@ export default function EditRecipePage() {
 								width={300}
 								height={300}
 								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-								className="object-cover object-center w-auto h-auto max-w-[300px] shadow-md"
+								className="object-cover object-center"
 							/>
 						</div>
 					</div>
