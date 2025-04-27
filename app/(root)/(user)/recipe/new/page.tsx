@@ -29,7 +29,7 @@ export default function Page() {
 	const router = useRouter();
 
 	const [name, setName] = useState("");
-	const [imageUrl, setImageUrl] = useState("");
+	const [file, setFile] = useState<File | null>(null);
 	const [description, setDescription] = useState("");
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
@@ -110,6 +110,37 @@ export default function Page() {
 		setActiveSuggestionId(id);
 	};
 
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFile(e.target.files?.[0] ?? null);
+	};
+
+	const uploadToS3 = async (): Promise<string> => {
+		if (!file) return "";
+
+		const fileNameWithoutExt = file.name.substring(
+			0,
+			file.name.lastIndexOf(".")
+		);
+		const fileType = file.name.substring(file.name.lastIndexOf("."));
+
+		const finalFileName = `${fileNameWithoutExt}-${Date.now()}${fileType}`;
+
+		const res = await fetch(
+			`/api/recipe/image?filename=${encodeURIComponent(
+				finalFileName
+			)}&contentType=${encodeURIComponent(file.type)}`
+		);
+		const { url, key } = await res.json();
+
+		await fetch(url, {
+			method: "PUT",
+			headers: { "Content-Type": file.type },
+			body: file,
+		});
+
+		return `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+	};
+
 	const handleTagSubmit = () => {
 		const val = getTitleCase(tagInput.trim());
 		if (val && !selectedTags.includes(val)) {
@@ -159,6 +190,8 @@ export default function Page() {
 		const session = await verifySession();
 		const userId = session?.userId;
 
+		const imageUrl = file ? await uploadToS3() : "";
+
 		const payload = {
 			name,
 			userId,
@@ -205,12 +238,13 @@ export default function Page() {
 						/>
 					</div>
 					<div>
-						<label className="block font-semibold mb-1">Image URL</label>
+						<label className="block font-semibold mb-1">Upload Image</label>
 						<input
-							type="url"
-							value={imageUrl}
-							onChange={(e) => setImageUrl(e.target.value)}
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+							type="file"
+							accept="image/*"
+							required
+							onChange={handleFileChange}
+							className="w-full"
 						/>
 					</div>
 				</div>
