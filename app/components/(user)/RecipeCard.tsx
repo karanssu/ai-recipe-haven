@@ -81,7 +81,7 @@ const RecipeCard = ({
 
 				<div className="mt-3 flex flex-wrap gap-3 text-sm justify-start items-center font-menu text-grayText font-medium">
 					{recipe.ratings && (
-						<div className="flex justify-center items-center">
+						<div className="flex justify-center items-center" title="Rating">
 							<span className="mr-2 flex justify-center items-center">
 								<RatingIcon
 									fill="true"
@@ -92,7 +92,10 @@ const RecipeCard = ({
 						</div>
 					)}
 					{recipe.serving && (
-						<div className="flex justify-center items-center">
+						<div
+							className="flex justify-center items-center"
+							title="Serving Size"
+						>
 							<span className="mr-2 flex justify-center items-center">
 								<PeopleIcon
 									fill="true"
@@ -103,7 +106,7 @@ const RecipeCard = ({
 						</div>
 					)}
 					{recipe.calories && (
-						<div className="flex justify-center items-center">
+						<div className="flex justify-center items-center" title="Calories">
 							<span className="mr-2 flex justify-center items-center">
 								<CaloriesIcon
 									fill="true"
@@ -120,7 +123,10 @@ const RecipeCard = ({
 						recipe.preparationMinutes,
 						recipe.cookingMinutes
 					).totalTime > 0 && (
-						<div className="flex justify-center items-center">
+						<div
+							className="flex justify-center items-center"
+							title="Total Cooking Time"
+						>
 							<span className="mr-2 flex justify-center items-center">
 								<CookTimeIcon className="text-primaryBg w-5 h-5 inline-block stroke-2" />
 							</span>
