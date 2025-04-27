@@ -5,7 +5,6 @@ import { useRouter, useParams } from "next/navigation";
 import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
-import { verifySession } from "@/app/lib/dal";
 import Image from "next/image";
 
 interface IngredientOption {
@@ -30,6 +29,7 @@ export default function EditRecipePage() {
 
 	// form state
 	const [name, setName] = useState("");
+	const [recipeUserId, setRecipeUserId] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
 	const [file, setFile] = useState<File | null>(null);
 	const [description, setDescription] = useState("");
@@ -78,6 +78,7 @@ export default function EditRecipePage() {
 			.then((res) => res.json())
 			.then(({ recipe }) => {
 				setName(recipe.name);
+				setRecipeUserId(recipe.userId);
 				setImageUrl(recipe.imageUrl || "");
 				setDescription(recipe.description || "");
 				setPreparationMinutes(recipe.preparationMinutes);
@@ -212,8 +213,6 @@ export default function EditRecipePage() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const session = await verifySession();
-		const userId = session?.userId;
 
 		let newImageUrl = imageUrl;
 		if (file) {
@@ -223,7 +222,7 @@ export default function EditRecipePage() {
 
 		const payload = {
 			name,
-			userId,
+			userId: recipeUserId,
 			imageUrl: newImageUrl,
 			description,
 			preparationMinutes,
