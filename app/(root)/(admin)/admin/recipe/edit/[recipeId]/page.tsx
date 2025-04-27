@@ -6,6 +6,7 @@ import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import { verifySession } from "@/app/lib/dal";
+import Image from "next/image";
 
 interface IngredientOption {
 	id: string;
@@ -30,6 +31,7 @@ export default function EditRecipePage() {
 	// form state
 	const [name, setName] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
+	const [file, setFile] = useState<File | null>(null);
 	const [description, setDescription] = useState("");
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
@@ -180,15 +182,49 @@ export default function EditRecipePage() {
 			}));
 		});
 
-	// submit update
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFile(e.target.files?.[0] ?? null);
+	};
+
+	const uploadToS3 = async (file: File): Promise<string> => {
+		if (!file) return "";
+
+		const fileBaseName = file.name.substring(0, file.name.lastIndexOf("."));
+		const fileExtension = file.name.substring(file.name.lastIndexOf("."));
+
+		const finalFileName = `${fileBaseName}-${Date.now()}${fileExtension}`;
+
+		const res = await fetch(
+			`/api/recipe/image?filename=${encodeURIComponent(
+				finalFileName
+			)}&contentType=${encodeURIComponent(file.type)}`
+		);
+		const { url, key } = await res.json();
+
+		await fetch(url, {
+			method: "PUT",
+			headers: { "Content-Type": file.type },
+			body: file,
+		});
+
+		return `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const session = await verifySession();
 		const userId = session?.userId;
+
+		let newImageUrl = imageUrl;
+		if (file) {
+			newImageUrl = await uploadToS3(file);
+			setImageUrl(newImageUrl);
+		}
+
 		const payload = {
 			name,
 			userId,
-			imageUrl,
+			imageUrl: newImageUrl,
 			description,
 			preparationMinutes,
 			cookingMinutes,
@@ -219,25 +255,42 @@ export default function EditRecipePage() {
 			<h1 className="text-3xl font-bold text-center mb-6">Edit Recipe</h1>
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Name & Image */}
+				<div>
+					<label className="block font-semibold mb-1">Recipe Name</label>
+					<input
+						type="text"
+						required
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+					/>
+				</div>
+
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<label className="block font-semibold mb-1">Recipe Name</label>
-						<input
-							type="text"
-							required
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-						/>
+						<label className="block font-semibold mb-1">Upload Image</label>
+						<div>
+							<input
+								type="file"
+								accept="image/*"
+								onChange={handleFileChange}
+								className="w-full"
+							/>
+						</div>
 					</div>
 					<div>
-						<label className="block font-semibold mb-1">Image URL</label>
-						<input
-							type="url"
-							value={imageUrl}
-							onChange={(e) => setImageUrl(e.target.value)}
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-						/>
+						<div>
+							<label className="block font-semibold mb-1">Current Image</label>
+							<Image
+								src={imageUrl || "/default-recipe-image.jpg"}
+								priority
+								alt={"Recipe Image"}
+								width={300}
+								height={300}
+								sizes="(max-width: 768px) 100vw, 50vw"
+								className="object-cover object-center"
+							/>
+						</div>
 					</div>
 				</div>
 
