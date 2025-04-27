@@ -54,6 +54,21 @@ export async function DELETE(
 		);
 	}
 
+	const recipe = await RecipeModel.findById(recipeId);
+	if (!recipe) {
+		return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
+	}
+
+	const oldKey = extractS3Key(recipe.imageUrl);
+	if (oldKey) {
+		await s3Client.send(
+			new DeleteObjectCommand({
+				Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
+				Key: oldKey,
+			})
+		);
+	}
+
 	await RecipeModel.findByIdAndDelete(recipeId);
 
 	return NextResponse.json(
