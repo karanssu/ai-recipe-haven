@@ -6,6 +6,7 @@ import { PlusSignSquareIcon as AddIcon } from "hugeicons-react";
 import { Delete01Icon as TrashIcon } from "hugeicons-react";
 import { Cancel01Icon as CloseIcon } from "hugeicons-react";
 import { verifySession } from "@/app/lib/dal";
+import Image from "next/image";
 
 interface IngredientOption {
 	id: string;
@@ -30,6 +31,7 @@ export default function Page() {
 
 	const [name, setName] = useState("");
 	const [file, setFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [description, setDescription] = useState("");
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
@@ -73,6 +75,14 @@ export default function Page() {
 	}, []);
 
 	useEffect(() => {
+		return () => {
+			if (previewUrl) {
+				URL.revokeObjectURL(previewUrl);
+			}
+		};
+	}, [previewUrl]);
+
+	useEffect(() => {
 		if (!tagInput) {
 			setTagSuggestions([]);
 		} else {
@@ -111,7 +121,12 @@ export default function Page() {
 	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFile(e.target.files?.[0] ?? null);
+		const selected = e.target.files?.[0] ?? null;
+		if (selected) {
+			const url = URL.createObjectURL(selected);
+			setFile(selected);
+			setPreviewUrl(url);
+		}
 	};
 
 	const uploadToS3 = async (): Promise<string> => {
@@ -226,17 +241,18 @@ export default function Page() {
 			<h1 className="text-3xl font-bold text-center mb-6">Create New Recipe</h1>
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Name & Image */}
+				<div>
+					<label className="block font-semibold mb-1">Recipe Name</label>
+					<input
+						type="text"
+						required
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+					/>
+				</div>
+
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div>
-						<label className="block font-semibold mb-1">Recipe Name</label>
-						<input
-							type="text"
-							required
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
-						/>
-					</div>
 					<div>
 						<label className="block font-semibold mb-1">Upload Image</label>
 						<input
@@ -246,8 +262,18 @@ export default function Page() {
 							className="w-full"
 						/>
 					</div>
+					<div>
+						<label className="block font-semibold mb-1">Preview Image</label>
+						<Image
+							src={previewUrl || "/default-recipe-image.jpg"}
+							alt={"Recipe Preview Image"}
+							width={300}
+							height={300}
+							unoptimized
+							className="object-cover object-center"
+						/>
+					</div>
 				</div>
-
 				{/* Description */}
 				<div>
 					<label className="block font-semibold mb-1">Description</label>
