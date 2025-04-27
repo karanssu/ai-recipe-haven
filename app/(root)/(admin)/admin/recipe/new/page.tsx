@@ -132,13 +132,14 @@ export default function Page() {
 	const uploadToS3 = async (): Promise<string> => {
 		if (!file) return "";
 
-		const fileNameWithoutExt = file.name.substring(
-			0,
-			file.name.lastIndexOf(".")
-		);
-		const fileType = file.name.substring(file.name.lastIndexOf("."));
+		const fileBaseName = file.name.substring(0, file.name.lastIndexOf("."));
+		const fileExtension = file.name.substring(file.name.lastIndexOf("."));
 
-		const finalFileName = `${fileNameWithoutExt}-${Date.now()}${fileType}`;
+		const sanitizedBaseNmae = fileBaseName.replaceAll
+			? fileBaseName.replaceAll(" ", "-")
+			: fileBaseName.replace(/\s+/g, "-");
+
+		const finalFileName = `${sanitizedBaseNmae}-${Date.now()}${fileExtension}`;
 
 		const res = await fetch(
 			`/api/recipe/image?filename=${encodeURIComponent(

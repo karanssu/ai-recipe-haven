@@ -192,7 +192,11 @@ export default function EditRecipePage() {
 		const fileBaseName = file.name.substring(0, file.name.lastIndexOf("."));
 		const fileExtension = file.name.substring(file.name.lastIndexOf("."));
 
-		const finalFileName = `${fileBaseName}-${Date.now()}${fileExtension}`;
+		const sanitizedBaseNmae = fileBaseName.replaceAll
+			? fileBaseName.replaceAll(" ", "-")
+			: fileBaseName.replace(/\s+/g, "-");
+
+		const finalFileName = `${sanitizedBaseNmae}-${Date.now()}${fileExtension}`;
 
 		const res = await fetch(
 			`/api/recipe/image?filename=${encodeURIComponent(
