@@ -7,7 +7,7 @@ body {
 }
 
 button {
-  @apply font-menu font-bold text-white bg-primaryBg hover:bg-primaryBgHover rounded-md;
+  @apply font-menu font-bold text-primaryText bg-primaryBg hover:bg-primaryBgHover rounded-md;
 }
 
 input {

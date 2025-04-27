@@ -1,5 +1,6 @@
 import LoginForm from "@/app/components/(user)/(auth)/LoginForm";
 import { signIn } from "@/auth";
+import { GoogleIcon } from "hugeicons-react";
 import Form from "next/form";
 import Link from "next/link";
 
@@ -24,8 +25,11 @@ const Page = () => {
 						await signIn("google");
 					}}
 				>
-					<button type="submit" className="py-2 px-4 w-full">
-						Log in with Google
+					<button type="submit" className="flex py-2 px-4 w-full">
+						<div className="flex justify-center items-center">
+							<GoogleIcon className="w-5 h-5 stroke-2" />
+						</div>
+						<div className="w-full">Log in with Google</div>
 					</button>
 				</Form>
 			</div>

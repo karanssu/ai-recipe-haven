@@ -117,7 +117,7 @@ export default function EditUserProfileForm({
 				/>
 			</div>
 			<button
-				className="py-2 px-4 w-full mt-10"
+				className="py-2 px-4 w-full mt-10 text-primaryText"
 				disabled={pending}
 				type="submit"
 			>

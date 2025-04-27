@@ -531,7 +531,7 @@ export default function Page() {
 				<div className="text-center mt-6">
 					<button
 						type="submit"
-						className="px-8 py-3 bg-green-500 text-white rounded-full font-semibold hover:bg-green-600 transition"
+						className="px-8 py-3 bg-primaryBg text-primaryText rounded-full font-semibold hover:bg-primaryBgHover transition"
 					>
 						Create Recipe
 					</button>

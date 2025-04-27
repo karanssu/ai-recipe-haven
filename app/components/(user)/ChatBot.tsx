@@ -234,7 +234,7 @@ const ChatBot = ({
 			{/* Chat Button */}
 			<div
 				onClick={() => toggleIsOpen()}
-				className="fixed bottom-8 md:bottom-8 right-8 w-14 h-14 bg-primaryBg text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition cursor-pointer flex items-center justify-center z-50"
+				className="fixed bottom-8 md:bottom-8 right-8 w-14 h-14 bg-primaryBg text-primaryText font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition cursor-pointer flex items-center justify-center z-50"
 			>
 				<ChatBotIcon className="text-primaryText w-8 h-8" />
 			</div>
@@ -282,7 +282,7 @@ const ChatBot = ({
 								className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 							/>
 							<button
-								className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
+								className="bg-primaryBg hover:bg-primaryBgHover text-primaryText rounded-full px-2 py-2"
 								onClick={handleMessageSend}
 							>
 								<SendIcon />
@@ -340,7 +340,7 @@ const ChatBot = ({
 							className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 mr-2 focus:outline-none focus:border-primaryBg font-display"
 						/>
 						<button
-							className="bg-primaryBg hover:bg-primaryBgHover text-white rounded-full px-2 py-2"
+							className="bg-primaryBg hover:bg-primaryBgHover text-primaryText rounded-full px-2 py-2"
 							onClick={handleMessageSend}
 						>
 							<SendIcon />

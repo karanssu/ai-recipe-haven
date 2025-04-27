@@ -24,7 +24,7 @@ export default function Home() {
 					</p>
 					<Link
 						href="/recipe"
-						className="px-8 py-4 w-40 bg-primaryBgHover text-white font-semibold text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition font-menu"
+						className="px-8 py-4 w-40 bg-green-500 text-white font-semibold text-lg rounded-full shadow-lg hover:bg-green-600 transition font-menu"
 					>
 						Explore
 					</Link>
@@ -134,7 +134,7 @@ export default function Home() {
 
 			<Link
 				href="/recipe"
-				className="fixed bottom-8 right-8 px-6 py-3 bg-primaryBgHover text-white font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition"
+				className="fixed bottom-8 right-8 px-6 py-3 bg-primaryBg text-primaryText font-semibold font-menu text-lg rounded-full shadow-lg hover:bg-primaryBgHover transition"
 			>
 				Explore
 			</Link>
