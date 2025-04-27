@@ -32,6 +32,7 @@ export default function EditRecipePage() {
 	const [name, setName] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
 	const [file, setFile] = useState<File | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [description, setDescription] = useState("");
 	const [preparationMinutes, setPreparationMinutes] = useState(0);
 	const [cookingMinutes, setCookingMinutes] = useState(0);
@@ -106,7 +107,6 @@ export default function EditRecipePage() {
 			.catch(console.error);
 	}, [recipeId]);
 
-	// tag suggestion
 	useEffect(() => {
 		if (!tagInput) return setTagSuggestions([]);
 		const lower = tagInput.toLowerCase();
@@ -118,6 +118,14 @@ export default function EditRecipePage() {
 				.slice(0, 10)
 		);
 	}, [tagInput, tagOptions, selectedTags]);
+
+	useEffect(() => {
+		return () => {
+			if (previewUrl) {
+				URL.revokeObjectURL(previewUrl);
+			}
+		};
+	}, [previewUrl]);
 
 	const handleIngredientNameChange = (id: string, value: string) => {
 		setIngredients((prev) =>
@@ -183,7 +191,12 @@ export default function EditRecipePage() {
 		});
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFile(e.target.files?.[0] ?? null);
+		const selected = e.target.files?.[0] ?? null;
+		if (selected) {
+			const url = URL.createObjectURL(selected);
+			setFile(selected);
+			setPreviewUrl(url);
+		}
 	};
 
 	const uploadToS3 = async (file: File): Promise<string> => {
@@ -281,11 +294,11 @@ export default function EditRecipePage() {
 						/>
 					</div>
 					<div>
-						<label className="block font-semibold mb-1">Current Image</label>
+						<label className="block font-semibold mb-1">Preview Image</label>
 						<Image
-							src={imageUrl || "/default-recipe-image.jpg"}
+							src={previewUrl || imageUrl || "/default-recipe-image.jpg"}
 							priority
-							alt={"Recipe Image"}
+							alt={"Recipe Preview Image"}
 							width={300}
 							height={300}
 							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
